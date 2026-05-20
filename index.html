@@ -3,93 +3,671 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mikko Finell - CV</title>
+  <meta
+    name="description"
+    content="Mikko Finell is a senior full-stack and backend developer focused on internal tools, AI workflow systems, integrations, and practical business software."
+  >
+  <title>Mikko Finell | Senior Full-Stack / Backend Developer</title>
   <style>
+    :root {
+      --bg: #e6ecef;
+      --paper: #f7f8f7;
+      --line: #d1dade;
+      --line-strong: #aebdc6;
+      --text: #1b2226;
+      --muted: #5e686e;
+      --accent: #5f7682;
+      --accent-soft: rgba(95, 118, 130, 0.16);
+      --shadow: 0 18px 44px rgba(26, 35, 40, 0.075);
+      --main-col: 1.52fr;
+      --side-col: 0.82fr;
+      --column-gap: 44px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
       margin: 0;
-      padding: 20px;
-      max-width: 800px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.3), transparent 24%),
+        linear-gradient(180deg, #edf2f4 0%, var(--bg) 100%);
+      color: var(--text);
+      font-family: "Aptos", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.56;
+    }
+
+    a {
+      color: inherit;
+      text-decoration-color: rgba(65, 89, 99, 0.42);
+      text-underline-offset: 0.16em;
+    }
+
+    a:hover,
+    a:focus-visible {
+      color: var(--accent);
+      text-decoration-color: rgba(65, 89, 99, 0.74);
+    }
+
+    :focus-visible {
+      outline: 2px solid rgba(65, 89, 99, 0.36);
+      outline-offset: 2px;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+      margin: 0;
+      font-family: "Aptos Display", "Aptos", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      font-weight: 560;
+      line-height: 1.06;
+      letter-spacing: -0.025em;
+    }
+
+    p,
+    ul {
+      margin: 0;
+    }
+
+    .page {
+      width: min(calc(100% - 36px), 1180px);
       margin: 0 auto;
+      padding: 28px 0 52px;
     }
-    h1, h2 {
-      color: #333;
+
+    .sheet {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
     }
-    .section {
-      margin-bottom: 20px;
+
+    .masthead {
+      padding: 40px 44px 34px;
+      border-bottom: 1px solid var(--line);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.44), rgba(255, 255, 255, 0)),
+        linear-gradient(135deg, rgba(65, 89, 99, 0.05), transparent 38%);
+    }
+
+    .masthead-grid {
+      display: grid;
+      grid-template-columns: minmax(0, var(--main-col)) minmax(270px, var(--side-col));
+      gap: var(--column-gap);
+      align-items: start;
+    }
+
+    .hero-copy {
+      min-width: 0;
+    }
+
+    .kicker {
+      margin-bottom: 14px;
+      color: var(--accent);
+      font-size: 0.82rem;
+      font-weight: 650;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: clamp(2.7rem, 5.8vw, 4.5rem);
+      font-weight: 600;
+      letter-spacing: -0.045em;
+    }
+
+    .role {
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: 1.04rem;
+      font-weight: 600;
+    }
+
+    .summary {
+      max-width: 62ch;
+      margin-top: 18px;
+      font-size: 1.04rem;
+    }
+
+    .hero-meta {
+      min-width: 0;
+      padding-left: 30px;
+      border-left: 1px solid var(--line);
+    }
+
+    .hero-block {
+      padding-top: 28px;
+      margin-top: 28px;
+      border-top: 1px solid var(--line);
+    }
+
+    .hero-block:first-child {
+      padding-top: 0;
+      margin-top: 0;
+      border-top: none;
+    }
+
+    .block-title {
+      margin-bottom: 12px;
+      color: var(--accent);
+      font-size: 0.82rem;
+      font-weight: 650;
+      letter-spacing: 0.065em;
+      text-transform: uppercase;
+    }
+
+    .hero-block p {
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    .meta-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .meta-list li {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    .meta-list li:first-child {
+      margin-top: 0;
+    }
+
+    .meta-list a {
+      color: var(--text);
+      font-weight: 580;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, var(--main-col)) minmax(270px, var(--side-col));
+      gap: var(--column-gap);
+      padding: 0 44px 40px;
+    }
+
+    .main-column,
+    .sidebar {
+      min-width: 0;
+    }
+
+    .sidebar {
+      padding-left: 32px;
+      border-left: 1px solid var(--line);
+    }
+
+    .section,
+    .side-section {
+      padding: 28px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .section:first-child,
+    .side-section:first-child {
+      border-top: none;
+    }
+
+    .section-title {
+      margin-bottom: 12px;
+      font-size: 1.28rem;
+      font-weight: 620;
+      letter-spacing: -0.03em;
+    }
+
+    .section-intro {
+      max-width: 62ch;
+      color: var(--muted);
+    }
+
+    .focus-list,
+    .plain-list,
+    .compact-list,
+    .facts-list {
+      margin: 16px 0 0;
+      padding-left: 18px;
+    }
+
+    .focus-list li,
+    .plain-list li,
+    .compact-list li,
+    .facts-list li {
+      margin-top: 8px;
+    }
+
+    .focus-list li:first-child,
+    .plain-list li:first-child,
+    .compact-list li:first-child,
+    .facts-list li:first-child {
+      margin-top: 0;
+    }
+
+    .entry {
+      padding-top: 22px;
+      margin-top: 22px;
+      border-top: 1px solid var(--line);
+    }
+
+    .entry:first-of-type {
+      padding-top: 0;
+      margin-top: 0;
+      border-top: none;
+    }
+
+    .entry-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: baseline;
+      margin-bottom: 10px;
+    }
+
+    .entry-head h3 {
+      font-size: 1.08rem;
+      font-weight: 620;
+    }
+
+    .entry-meta {
+      color: var(--muted);
+      font-size: 0.94rem;
+      white-space: nowrap;
+    }
+
+    .entry-role {
+      margin-bottom: 14px;
+      color: var(--muted);
+      font-size: 0.97rem;
+    }
+
+    .entry p {
+      margin-bottom: 12px;
+    }
+
+    .examples {
+      display: grid;
+      gap: 18px;
+      margin-top: 16px;
+    }
+
+    .example {
+      padding-left: 18px;
+      border-left: 2px solid var(--accent-soft);
+    }
+
+    .example h3 {
+      font-size: 1rem;
+      margin-bottom: 8px;
+      font-weight: 620;
+    }
+
+    .example p {
+      color: var(--muted);
+    }
+
+    .example p + p {
+      margin-top: 10px;
+    }
+
+    .relevance {
+      color: var(--text);
+      font-size: 0.95rem;
+    }
+
+    .side-title {
+      margin-bottom: 12px;
+      color: var(--accent);
+      font-size: 0.82rem;
+      font-weight: 650;
+      letter-spacing: 0.065em;
+      text-transform: uppercase;
+    }
+
+    .side-copy {
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    .stack-group {
+      margin-top: 16px;
+    }
+
+    .stack-group:first-of-type {
+      margin-top: 0;
+    }
+
+    .stack-group h4 {
+      font-size: 0.98rem;
+      margin-bottom: 6px;
+      font-weight: 620;
+    }
+
+    .stack-group p {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .footer {
+      padding: 18px 44px 22px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    @media (max-width: 960px) {
+      .masthead-grid,
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-meta,
+      .sidebar {
+        padding-left: 0;
+        border-left: none;
+      }
+
+      .hero-meta {
+        padding-top: 6px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        width: min(calc(100% - 16px), 1180px);
+        padding-top: 10px;
+      }
+
+      .masthead,
+      .layout,
+      .footer {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+      .layout {
+        gap: 0;
+        padding-bottom: 30px;
+      }
+
+      .masthead-grid {
+        gap: 22px;
+      }
+
+      .entry-head {
+        grid-template-columns: 1fr;
+      }
+
+      .entry-meta {
+        white-space: normal;
+      }
     }
   </style>
 </head>
 <body>
-<header>
-  <h1>Mikko Finell</h1>
-  <p>Software Developer, Prompt Engineer</p>
-</header>
+  <div class="page">
+    <div class="sheet">
+      <header class="masthead">
+        <div class="masthead-grid">
+          <div class="hero-copy">
+            <p class="kicker">Senior Software Developer / Contractor or Employee</p>
+            <h1>Mikko Finell</h1>
+            <p class="role">Senior Full-Stack / Backend Developer &middot; Internal Tools &middot; AI Workflow Systems</p>
+            <p class="summary">
+              I build practical business software for internal operations, reporting, integrations,
+              and AI-assisted workflows. My strongest fit is work tied to real business processes:
+              understanding how people actually work, shaping the software around that, and
+              shipping systems that remain useful beyond the first prototype.
+            </p>
+            <p class="summary">
+              I worked with Edupower from 2020 to 2026, first as an employee and later as an
+              independent contractor. During that period I built and maintained internal business
+              software, customer-facing tools, data-processing utilities, and AI-assisted systems,
+              including a long-running internal CRM used for sales, customer data, communication
+              tracking, tasks, and business-process support.
+            </p>
+            <p class="summary">Programming since 2014; paid software delivery since 2020.</p>
+          </div>
 
-  <section class="section">
-    <h2>About Me</h2>
-    <p>I build software across the full stack. My work ranges from CRM systems to machine learning projects. I'm always up for new tech challenges.</p>
-  </section>
-  
-  <section class="section">
-    <h2>Contact</h2>
-    <p>Email: mikko.finell@gmail.com</p>
-    <p>GitHub: github.com/mikko-finell</p>
-  </section>
-  
-  <section class="section">
-    <h2>Skills</h2>
-    <ul>
-      <li>Languages: Python, JavaScript, C++, C#</li>
-      <li>Frontend: Vue.js</li>
-      <li>Backend: Django, Flask, FastAPI</li>
-      <li>Databases: SQLite, PostgreSQL</li>
-      <li>Mobile: Android development</li>
-      <li>Machine Learning: Deep neural networks, anomaly detection</li>
-      <li>AI: Prompt engineering, large language model integration</li>
-      <li>Tools: Jupyter Notebooks</li>
-    </ul>
-  </section>
+          <div class="hero-meta">
+            <section class="hero-block">
+              <div class="block-title">Availability</div>
+              <p>
+                Available for remote contractor/subcontractor work, paid trials, bounded
+                implementation sprints, and selected longer-term or full-time roles where the fit
+                is strong.
+              </p>
+            </section>
 
-  <section class="section">
-    <h2>Experience</h2>
-    <h3>Freelance Software Developer</h3>
-    <p>2022 - Present</p>
-    <ul>
-      <li>Delivering full stack development services for various clients</li>
-      <li>Designing and implementing CRM systems and Lean 5S audit websites</li>
-      <li>Developing Android apps for CRM systems</li>
-      <li>Creating and maintaining databases, servers, and frontends</li>
-      <li>Implementing machine learning solutions, including anomaly detection systems</li>
-      <li>Utilizing LLMs daily for code generation and development assistance</li>
-      <li>Integrating LLM intelligence via API calls into various web and full-stack applications for tasks such as:
-        <ul>
-          <li>Information extraction and structured data parsing from unstructured text</li>
-          <li>Automated task decomposition and workflow generation</li>
-          <li>Natural language understanding and intent classification</li>
-          <li>Text summarization and key information retrieval</li>
-          <li>Semantic analysis and entity recognition</li>
-        </ul>
-      </li>
-    </ul>
+            <section class="hero-block">
+              <div class="block-title">Links</div>
+              <ul class="meta-list">
+                <li><a href="mailto:mikko.finell@gmail.com">mikko.finell@gmail.com</a></li>
+                <li><a href="https://tealab.io/" target="_blank" rel="noreferrer">Tealab</a> &middot; SaaS/workflow platform example</li>
+                <li><a href="https://github.com/mikko-finell" target="_blank" rel="noreferrer">GitHub</a> &middot; older public code / background</li>
+              </ul>
+            </section>
 
-    <h3>Engineer, Edupower</h3>
-    <p>2020 - 2022</p>
-    <ul>
-      <li>Worked on various software development projects</li>
-      <li>Gained experience in full stack development and project management</li>
-    </ul>
-  </section>
+            <section class="hero-block">
+              <div class="block-title">Work Setup</div>
+              <ul class="meta-list">
+                <li>Finnish citizen &middot; EU work eligibility</li>
+                <li>Native Swedish &middot; Professional English</li>
+                <li>Remote &middot; Nordic / EU working hours</li>
+              </ul>
+            </section>
+          </div>
+        </div>
+      </header>
 
-  <section class="section">
-    <h2>Education</h2>
-    <h3>IT Engineer</h3>
-    <p>Novia University of Applied Sciences, 2020</p>
-    <p>GPA: 4.5/5.0</p>
+      <main class="layout">
+        <div class="main-column">
+          <section class="section" aria-labelledby="help-title">
+            <h2 class="section-title" id="help-title">What I Can Help With</h2>
+            <p class="section-intro">
+              Relevant work includes internal tools, reporting systems, integrations, CRM-like
+              applications, and software that replaces manual or spreadsheet-heavy processes.
+            </p>
+            <ul class="focus-list">
+              <li>Build or extend internal tools, CRM-like systems, dashboards, and operational software.</li>
+              <li>Replace spreadsheet or manual processes with durable web applications.</li>
+              <li>Implement backend and full-stack features across APIs, databases, product UI, and operations views.</li>
+              <li>Integrate LLMs and external APIs into existing business systems.</li>
+              <li>Turn notebooks, prototypes, and reporting processes into usable software.</li>
+              <li>Build SaaS-style platform features: users, tenants, access control, usage mechanics, background jobs, and operations views.</li>
+              <li>Shape product-minded UI and workflow design for tools people actually have to use.</li>
+            </ul>
+          </section>
 
-    <h3>YA Bildartesan</h3>
-    <p>2010</p>
-  </section>
+          <section class="section" aria-labelledby="experience-title">
+            <h2 class="section-title" id="experience-title">Professional Experience</h2>
+
+            <article class="entry">
+              <div class="entry-head">
+                <h3>Edupower Oy</h3>
+                <div class="entry-meta">2020-2026</div>
+              </div>
+              <p class="entry-role">Software Developer / Project Engineer / Independent Contractor &middot; Employee 2020-2022, independent contractor 2022-2026</p>
+              <p>
+                Long-term software developer and primary technical owner for internal business
+                software, customer-facing tools, data-processing utilities, and AI-assisted business
+                tooling.
+              </p>
+              <ul class="plain-list">
+                <li>Sole developer and primary technical owner of an internal CRM application that initially replaced a large Excel-based sales and customer process and stayed in operational use for several years.</li>
+                <li>Built company and contact management, sales communication logging, sales funnel tracking, task handling, shared business data features, and long-term product improvements.</li>
+                <li>Implemented AI-assisted features for structured outputs, communication summaries, CRM relationship overviews, follow-up extraction, and drafting support for business and reporting work.</li>
+                <li>Built smaller customer-facing tools, Jupyter and data-processing tooling, and an Android app connected to the same underlying business-data system.</li>
+                <li>Mentored interns and helped colleagues adopt AI tools for practical productivity and software-related work.</li>
+              </ul>
+            </article>
+
+            <article class="entry">
+              <div class="entry-head">
+                <h3>AI-Assisted Report Writer</h3>
+                <div class="entry-meta">Late 2025 - early 2026</div>
+              </div>
+              <p>
+                Designed and implemented an AI-assisted report-generation system for expert reporting
+                work, delivered via Edupower to an external customer.
+              </p>
+              <ul class="plain-list">
+                <li>Built Python libraries and Jupyter-based tooling using the OpenAI API to generate report sections from structured inputs.</li>
+                <li>Converted an expert reporting process into a structured, human-reviewable AI-assisted system rather than a generic chatbot.</li>
+                <li>Worked across requirements, prompt and API design, implementation, testing, and delivery.</li>
+                <li>The same foundation later became the basis for Tealab's web-based report-writer interface.</li>
+              </ul>
+            </article>
+
+            <article class="entry">
+              <div class="entry-head">
+                <h3>Tealab.io</h3>
+                <div class="entry-meta">2025-present</div>
+              </div>
+              <p class="entry-role">Independent SaaS / Application Platform</p>
+              <p>
+                Independently designed and built Tealab, a SaaS platform for hosting AI-enabled
+                business tools and internal applications.
+              </p>
+              <ul class="plain-list">
+                <li>Built dashboard, health and operations views, tenant settings, user settings, access-control areas, and customer-app hosting.</li>
+                <li>Built a report-writer web UI as the first application on the platform.</li>
+                <li>Developed backend, frontend, and supporting services across Go, TypeScript, React, Python, and related tooling.</li>
+                <li>Created infrastructure for API-backed applications, operational visibility, configurable usage mechanics, and multi-tenant-style platform structure.</li>
+                <li>Tealab is available as a live example of this kind of platform work. I am equally comfortable building inside a client's existing stack.</li>
+              </ul>
+            </article>
+          </section>
+
+          <section class="section" aria-labelledby="projects-title">
+            <h2 class="section-title" id="projects-title">Selected Work</h2>
+            <div class="examples">
+              <article class="example">
+                <h3>Internal CRM Replacing Spreadsheet-Based Sales Process</h3>
+                <p>
+                  Replaced a fragile Excel-based sales and customer process with a custom web CRM
+                  used over multiple years for company and contact data, sales communications,
+                  funnel tracking, tasks, and shared business data.
+                </p>
+              </article>
+
+              <article class="example">
+                <h3>AI-Assisted Report Writer</h3>
+                <p>
+                  Built Python and OpenAI tooling for generating report sections from structured
+                  inputs for an external customer engagement, later adapted into a web-based
+                  report-writer UI in Tealab.
+                </p>
+              </article>
+
+              <article class="example">
+                <h3>Tealab Platform Infrastructure</h3>
+                <p>
+                  Built SaaS-style platform infrastructure including user and tenant areas, access
+                  control, operations views, API-backed application structure, usage mechanics, and
+                  a report-writer UI as the first application on the platform.
+                </p>
+              </article>
+            </div>
+          </section>
+        </div>
+
+        <aside class="sidebar">
+          <section class="side-section">
+            <div class="side-title">Technical Stack</div>
+
+            <div class="stack-group">
+              <h4>Backend / data</h4>
+              <p>Python, Django, FastAPI, SQL, APIs, data processing</p>
+            </div>
+
+            <div class="stack-group">
+              <h4>Frontend / product UI</h4>
+              <p>JavaScript, Vue.js, TypeScript, React, product-minded UI and workflow design</p>
+            </div>
+
+            <div class="stack-group">
+              <h4>AI-assisted systems</h4>
+              <p>OpenAI API, structured outputs, report/document workflows, Jupyter-based prototyping</p>
+            </div>
+
+            <div class="stack-group">
+              <h4>Platform / services</h4>
+              <p>Go, Python services, API-backed applications, background jobs, operational dashboards</p>
+            </div>
+
+            <div class="stack-group">
+              <h4>Systems / additional</h4>
+              <p>C++, Rust, Linux/macOS, CI/testing, C# / Xamarin</p>
+            </div>
+          </section>
+
+          <section class="side-section">
+            <div class="side-title">Working Method</div>
+            <p class="side-copy">
+              Effective in ambiguous environments where the work is not fully specified yet. I
+              clarify the real process, identify the smallest useful deliverable, and turn it into
+              working software with attention to usability, tests, review, and long-term
+              maintainability.
+            </p>
+          </section>
+
+          <section class="side-section">
+            <div class="side-title">AI-Assisted Delivery</div>
+            <p class="side-copy">
+              I use AI-assisted development workflows heavily across stacks. I define the work,
+              shape the architecture, decompose tasks, review outputs, run tests, debug failures,
+              and own delivery. The agents accelerate implementation; responsibility stays with me.
+            </p>
+          </section>
+
+          <section class="side-section">
+            <div class="side-title">Engagement Formats</div>
+            <ul class="compact-list">
+              <li>Subcontracting for software consultancies and product or dev shops</li>
+              <li>Short paid trials and bounded implementation sprints</li>
+              <li>Internal tools and automation projects</li>
+              <li>AI reporting systems and LLM integration projects</li>
+              <li>Backend and full-stack contractor engagements</li>
+              <li>Selected longer-term remote roles where the fit is strong</li>
+            </ul>
+          </section>
+
+          <section class="side-section">
+            <div class="side-title">Education</div>
+            <p class="side-copy">
+              Yrkesh&ouml;gskolan Novia - IT Engineering Studies, 2016-2020. Completed nearly all
+              coursework in a four-year engineering program on the IT track. GPA: 4.5/5. Degree not
+              completed due to remaining thesis and final course.
+            </p>
+          </section>
+
+          <section class="side-section">
+            <div class="side-title">Languages</div>
+            <ul class="facts-list">
+              <li>Swedish: native</li>
+              <li>English: full professional proficiency</li>
+              <li>Finnish: basic</li>
+            </ul>
+          </section>
+
+          <section class="side-section">
+            <div class="side-title">Work Authorization</div>
+            <ul class="facts-list">
+              <li>Finnish citizen with EU work eligibility</li>
+              <li>Available for remote Finnish, Nordic, and EU software work</li>
+              <li>Flexible with Finnish, Nordic, and EU working hours</li>
+            </ul>
+          </section>
+        </aside>
+      </main>
+
+      <footer class="footer">
+        Mikko Finell &middot; Senior software developer for internal tools, AI workflow systems,
+        integrations, and internal business software.
+      </footer>
+    </div>
+  </div>
 </body>
 </html>
