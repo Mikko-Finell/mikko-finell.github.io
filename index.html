@@ -8,6 +8,11 @@
     content="Mikko Finell is a senior full-stack and backend developer focused on internal tools, AI workflow systems, integrations, and practical business software."
   >
   <title>Mikko Finell | Senior Full-Stack / Backend Developer</title>
+  <script>
+    if (new URLSearchParams(window.location.search).has("pdf")) {
+      document.documentElement.classList.add("pdf-mode");
+    }
+  </script>
   <style>
     :root {
       --bg: #e6ecef;
@@ -286,6 +291,76 @@
       margin-bottom: 12px;
     }
 
+    .reveal {
+      --reveal-marker: 0.72rem;
+      --reveal-gap: 0.62rem;
+      margin-top: 14px;
+    }
+
+    .reveal summary {
+      display: grid;
+      grid-template-columns: var(--reveal-marker) auto;
+      align-items: baseline;
+      column-gap: var(--reveal-gap);
+      width: fit-content;
+      color: var(--text);
+      cursor: pointer;
+      font-size: 0.92rem;
+      font-weight: 600;
+      list-style: none;
+    }
+
+    .reveal summary:hover,
+    .reveal summary:focus-visible {
+      text-decoration: underline;
+      text-decoration-color: rgba(27, 34, 38, 0.28);
+      text-decoration-thickness: 0.08em;
+      text-underline-offset: 0.16em;
+    }
+
+    .reveal summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .reveal summary::before {
+      content: "";
+      width: 0.42rem;
+      height: 0.42rem;
+      margin-top: 0.42em;
+      border-right: 1.5px solid var(--muted);
+      border-bottom: 1.5px solid var(--muted);
+      transform: rotate(-45deg);
+      transform-origin: center;
+      transition: transform 140ms ease, border-color 140ms ease;
+    }
+
+    .reveal summary:hover::before,
+    .reveal summary:focus-visible::before {
+      border-color: var(--text);
+    }
+
+    .reveal[open] summary::before {
+      transform: rotate(45deg);
+    }
+
+    .reveal-body {
+      margin-top: 8px;
+      margin-left: calc(var(--reveal-marker) + var(--reveal-gap));
+    }
+
+    .reveal-body p {
+      margin-bottom: 10px;
+      font-size: 0.95rem;
+    }
+
+    .reveal-body p:last-child {
+      margin-bottom: 0;
+    }
+
+    .reveal-body strong {
+      font-weight: 600;
+    }
+
     .examples {
       display: grid;
       gap: 18px;
@@ -356,6 +431,35 @@
       font-size: 0.94rem;
     }
 
+    html.pdf-mode,
+    html.pdf-mode body {
+      background: #fff;
+    }
+
+    html.pdf-mode .page {
+      width: min(100%, 1180px);
+      margin: 0 auto;
+      padding: 0;
+    }
+
+    html.pdf-mode .sheet {
+      background: #fff;
+      border: 0;
+      box-shadow: none;
+    }
+
+    html.pdf-mode .masthead {
+      background: none;
+    }
+
+    html.pdf-mode .reveal {
+      display: none;
+    }
+
+    html.pdf-mode a {
+      text-decoration: none;
+    }
+
     @media (max-width: 960px) {
       .masthead-grid,
       .layout {
@@ -401,6 +505,54 @@
 
       .entry-meta {
         white-space: normal;
+      }
+    }
+
+    @media print {
+      @page {
+        size: A4;
+        margin: 12mm;
+      }
+
+      body {
+        background: #fff;
+      }
+
+      .page {
+        width: auto;
+        margin: 0;
+        padding: 0;
+      }
+
+      .sheet {
+        background: #fff;
+        border: 0;
+        box-shadow: none;
+      }
+
+      .masthead {
+        background: none;
+      }
+
+      .reveal {
+        display: none;
+      }
+
+      a {
+        text-decoration: none;
+      }
+
+      html,
+      body {
+        background: #fff;
+      }
+
+      .entry,
+      .example,
+      .hero-block,
+      .side-section {
+        break-inside: avoid;
+        page-break-inside: avoid;
       }
     }
   </style>
@@ -501,6 +653,26 @@
                 <li>Built smaller customer-facing tools, Jupyter and data-processing tooling, and an Android app connected to the same underlying business-data system.</li>
                 <li>Mentored interns and helped colleagues adopt AI tools for practical productivity and software-related work.</li>
               </ul>
+              <details class="reveal">
+                <summary>What the CRM included</summary>
+                <div class="reveal-body">
+                  <p>Company and contact management, sales communication logging, funnel tracking, task handling, shared business data, and long-term improvements tied to daily operational use.</p>
+                  <p>The system started from a spreadsheet-based sales/customer process, but the durable value was a maintained internal CRM used over several years.</p>
+                </div>
+              </details>
+              <details class="reveal">
+                <summary>AI-assisted features</summary>
+                <div class="reveal-body">
+                  <p>Structured outputs from business inputs, communication summaries, CRM relationship overviews, follow-up extraction, and drafting support for business/reporting material.</p>
+                </div>
+              </details>
+              <details class="reveal">
+                <summary>Other work around the same system</summary>
+                <div class="reveal-body">
+                  <p>Smaller customer-facing tools, Jupyter/data-processing utilities, and an Android app connected to the same underlying business-data system.</p>
+                  <p>Also included mentoring interns and helping colleagues adopt AI tools for practical software and productivity work.</p>
+                </div>
+              </details>
             </article>
 
             <article class="entry">
@@ -518,6 +690,13 @@
                 <li>Worked across requirements, prompt and API design, implementation, testing, and delivery.</li>
                 <li>The same foundation later became the basis for Tealab's web-based report-writer interface.</li>
               </ul>
+              <details class="reveal">
+                <summary>How the reporting system worked</summary>
+                <div class="reveal-body">
+                  <p>Structured inputs were processed through Python libraries and OpenAI-backed tooling to generate report sections for human review, rather than producing opaque chatbot output.</p>
+                  <p>The same core approach later became the basis for the report-writer UI built in Tealab.</p>
+                </div>
+              </details>
             </article>
 
             <article class="entry">
@@ -537,6 +716,19 @@
                 <li>Created infrastructure for API-backed applications, operational visibility, configurable usage mechanics, and multi-tenant-style platform structure.</li>
                 <li>Tealab is available as a live example of this kind of platform work. I am equally comfortable building inside a client's existing stack.</li>
               </ul>
+              <details class="reveal">
+                <summary>What exists on the platform</summary>
+                <div class="reveal-body">
+                  <p>Dashboard, health and operations views, tenant and user settings, access-control areas, customer-app hosting, and the report-writer UI as the first application surface.</p>
+                </div>
+              </details>
+              <details class="reveal">
+                <summary>Why Tealab is relevant</summary>
+                <div class="reveal-body">
+                  <p>It shows the ability to build SaaS-style platform foundations, application control surfaces, and AI-assisted business software end to end.</p>
+                  <p>It is a proof asset, not a requirement that client work be built on top of it.</p>
+                </div>
+              </details>
             </article>
           </section>
 
@@ -550,6 +742,14 @@
                   used over multiple years for company and contact data, sales communications,
                   funnel tracking, tasks, and shared business data.
                 </p>
+                <details class="reveal">
+                  <summary>Show more</summary>
+                  <div class="reveal-body">
+                    <p><strong>Context:</strong> Sales and customer information was originally handled through Excel-based processes that had become limiting.</p>
+                    <p><strong>Built:</strong> A long-running internal CRM for company/contact data, communications, funnel tracking, tasks, and shared business data.</p>
+                    <p><strong>Why it matters:</strong> Not a one-off migration, but a maintained operational system used over several years.</p>
+                  </div>
+                </details>
               </article>
 
               <article class="example">
@@ -559,6 +759,14 @@
                   inputs for an external customer engagement, later adapted into a web-based
                   report-writer UI in Tealab.
                 </p>
+                <details class="reveal">
+                  <summary>Show more</summary>
+                  <div class="reveal-body">
+                    <p><strong>Context:</strong> Expert reporting work needed a more structured and reviewable AI-assisted approach than a generic chatbot.</p>
+                    <p><strong>Built:</strong> Python libraries, Jupyter tooling, and OpenAI-backed report generation from structured inputs.</p>
+                    <p><strong>Why it matters:</strong> The same foundation was strong enough to become a web-based report-writer interface later on.</p>
+                  </div>
+                </details>
               </article>
 
               <article class="example">
@@ -568,6 +776,14 @@
                   control, operations views, API-backed application structure, usage mechanics, and
                   a report-writer UI as the first application on the platform.
                 </p>
+                <details class="reveal">
+                  <summary>Show more</summary>
+                  <div class="reveal-body">
+                    <p><strong>Context:</strong> A need for a reusable base for AI-enabled business applications and internal tools.</p>
+                    <p><strong>Built:</strong> User and tenant areas, access control, operations surfaces, background application infrastructure, and the first product UI on top.</p>
+                    <p><strong>Why it matters:</strong> It demonstrates end-to-end platform and application work, while still being only one possible delivery base.</p>
+                  </div>
+                </details>
               </article>
             </div>
           </section>
