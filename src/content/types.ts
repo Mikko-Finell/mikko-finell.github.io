@@ -43,12 +43,6 @@ export type Contact = {
   links: readonly Link[];
 };
 
-export type CapabilityGroup = {
-  id: string;
-  title: string;
-  items: readonly string[];
-};
-
 export type Experience = {
   id: string;
   organization: string;
@@ -71,7 +65,6 @@ export type Project = {
 
 export type Methodology = {
   delivery: LayeredContent;
-  verification: readonly string[];
   applicationDesign: LayeredContent;
 };
 
@@ -87,7 +80,6 @@ export type CvContent = {
   identity: Identity;
   contact: Contact;
   introduction: LayeredContent;
-  capabilities: readonly CapabilityGroup[];
   experience: readonly Experience[];
   projects: readonly Project[];
   methodology: Methodology;

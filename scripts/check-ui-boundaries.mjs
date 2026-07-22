@@ -13,7 +13,6 @@ const sharedComponents = [
   "Link",
   "Section",
   "Stack",
-  "Tag",
   "ThemeControls",
 ];
 const violations = [];

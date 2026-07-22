@@ -6,7 +6,7 @@ import { Stack } from "../ui/Stack";
 import { ThemeControls } from "../ui/ThemeControls";
 
 export function SiteHeader() {
-  const { identity } = cvContent;
+  const { contact, identity } = cvContent;
 
   return (
     <header className="site-header">
@@ -22,6 +22,11 @@ export function SiteHeader() {
             <p className="site-header__facts">{identity.location}</p>
             <p className="site-header__facts">{identity.workEligibility}</p>
             <p className="site-header__facts">{identity.workPreference}</p>
+            {contact.links.map((link) => (
+              <Link href={link.href} key={link.href}>
+                {link.label}
+              </Link>
+            ))}
           </Inline>
         </Inline>
         <nav aria-label="Primary" className="site-nav">
@@ -32,18 +37,8 @@ export function SiteHeader() {
               </Link>
             </li>
             <li>
-              <Link href="#capabilities" variant="navigation">
-                Capabilities
-              </Link>
-            </li>
-            <li>
               <Link href="#experience" variant="navigation">
                 Experience
-              </Link>
-            </li>
-            <li>
-              <Link href="#projects" variant="navigation">
-                Projects
               </Link>
             </li>
             <li>

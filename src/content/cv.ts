@@ -27,7 +27,6 @@ export const cvContent = {
         label: "mikko.finell@gmail.com",
         href: "mailto:mikko.finell@gmail.com",
       },
-      { label: "Tealab", href: "https://tealab.io/" },
       { label: "GitHub", href: "https://github.com/mikko-finell" },
     ],
   },
@@ -37,38 +36,6 @@ export const cvContent = {
       "Paid software delivery since 2020. Programming since 2014.",
     ],
   },
-  capabilities: [
-    {
-      id: "work",
-      title: "What I work on",
-      items: [
-        "Internal tools, CRM systems and operational business software.",
-        "Backend services and full-stack web applications.",
-        "Application UI, information architecture and workflow design.",
-        "Dense administration, reporting and operations interfaces.",
-        "SaaS and multi-tenant application platforms.",
-        "LLM integrations, structured generation systems and AI-assisted business workflows.",
-        "Data-processing and reporting systems.",
-        "External API integrations and background processing.",
-        "Replacement of spreadsheet-heavy and manual processes with maintained software.",
-        "Investigation, extension and restructuring of existing systems.",
-        "Architecture, specification, implementation planning and verification design.",
-      ],
-    },
-    {
-      id: "technology",
-      title: "Technology",
-      items: [
-        "Go",
-        "TypeScript/React",
-        "Python",
-        "Rust",
-        "SQL",
-        "Systems and delivery work includes backend services, web applications, HTTP APIs, background processing, relational data systems, CI and Dockerized Linux deployment.",
-        "Earlier Edupower systems also used Django, Vue, JavaScript, Jupyter and C#/Xamarin.",
-      ],
-    },
-  ],
   experience: [
     {
       id: "edupower",
@@ -156,7 +123,6 @@ export const cvContent = {
         "Dockerized Linux deployment.",
       ],
       technologies: ["Go", "TypeScript/React", "Python", "Docker", "Linux"],
-      links: [{ label: "Tealab", href: "https://tealab.io/" }],
     },
   ],
   projects: [
@@ -187,7 +153,6 @@ export const cvContent = {
         ],
       },
       technologies: ["Python", "Jupyter", "OpenAI API", "TypeScript/React"],
-      links: [{ label: "Tealab", href: "https://tealab.io/" }],
     },
     {
       id: "tealab-platform",
@@ -201,7 +166,6 @@ export const cvContent = {
         ],
       },
       technologies: ["Go", "TypeScript/React", "Python", "Docker", "Linux"],
-      links: [{ label: "Tealab", href: "https://tealab.io/" }],
     },
   ],
   methodology: {
@@ -220,18 +184,6 @@ export const cvContent = {
         "I have used this methodology to build substantial systems in Go, TypeScript/React, Python and Rust. It also lets me work effectively in unfamiliar technologies and existing codebases because the process is based on investigation, explicit reasoning, executable verification and repeated review rather than depending on memorized framework syntax.",
       ],
     },
-    verification: [
-      "Specification-driven implementation with detailed roadmaps and actionable task breakdowns.",
-      "Strict typing, static analysis and the strictest practical linting configuration.",
-      "Unit/integration/e2e testing selected according to the invariant being protected.",
-      "Full standard verification before a task is finalized and committed.",
-      "Compilation and production-build checks where the normal test suite does not prove that the system actually builds.",
-      "Custom architectural checks for project rules which ordinary linters and type systems cannot express.",
-      "Fresh-eyes corrective editorial review by multiple agents after implementation.",
-      "Dedicated defect investigations which begin by proving suspected bugs through regression tests.",
-      "Explicit refactoring and technical-debt work.",
-      "Repeated full verification after corrections and structural changes.",
-    ],
     applicationDesign: {
       summary: [
         "Application UI design is one of my strongest areas. I am very particular about information hierarchy, workflow structure, visual density, terminology, interaction details and whether the whole application feels logical when someone actually has to use it repeatedly. I tend to prefer compact interfaces which expose a lot of useful functionality without degenerating into clutter, but compact does not mean cramming controls together until the user has to decipher the screen.",
@@ -240,17 +192,6 @@ export const cvContent = {
       details: [
         "Current agents are often good at implementing established HTML, CSS and component patterns, but they are still not reliably capable of looking at a rendered application and deciding whether it actually looks good, whether the hierarchy is wrong, whether the page wastes half the available space, whether related controls feel disconnected, whether the interaction flow is annoying, or whether the whole thing has the visual character of a generic admin template assembled by committee. I guide that work directly through repeated visual inspection and iteration.",
         "During my time at Edupower I frequently received positive feedback specifically about the UIs I designed being logical, intuitive, compact and functional. This was not separate design work handed over to an implementation team. I worked out how the business process should map into screens and interactions and then built the systems around that.",
-        "My UI work commonly includes:",
-        "Information architecture.",
-        "Workflow design.",
-        "Dense operational interfaces.",
-        "Dashboards and administration tools.",
-        "Complex forms and configuration surfaces.",
-        "Reporting and review workflows.",
-        "Navigation between related business entities.",
-        "Visual hierarchy and use of space.",
-        "Empty, loading, error and partial-data states.",
-        "Repeated direct review of the rendered application.",
       ],
     },
   },

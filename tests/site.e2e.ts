@@ -34,11 +34,21 @@ test("primary fragment navigation reaches every declared target", async ({
   await page.goto("/");
   const navigation = page.getByRole("navigation", { name: "Primary" });
   const links = navigation.getByRole("link");
-  const linkCount = await links.count();
+  const expectedTargets = [
+    "#introduction",
+    "#experience",
+    "#methodology",
+    "#education",
+    "#contact",
+  ];
 
-  expect(linkCount).toBeGreaterThan(0);
+  await expect(links).toHaveCount(expectedTargets.length);
+  expect(await links.evaluateAll((items) => items.map((item) => item.getAttribute("href")))).toEqual(
+    expectedTargets,
+  );
+  await expect(page.locator("#capabilities, #projects")).toHaveCount(0);
 
-  for (let index = 0; index < linkCount; index += 1) {
+  for (let index = 0; index < expectedTargets.length; index += 1) {
     const link = links.nth(index);
     const href = await link.getAttribute("href");
 
@@ -101,10 +111,21 @@ test("color choices apply and persist", async ({ page }) => {
 
 test("critical contact and external links remain usable", async ({ page }) => {
   await page.goto("/");
+  const header = page.getByRole("banner");
   const links = page.locator('a[href^="mailto:"], a[href^="https://"]');
   const linkCount = await links.count();
 
   expect(linkCount).toBeGreaterThan(0);
+  await expect(
+    header.locator('a[href="mailto:mikko.finell@gmail.com"]'),
+  ).toHaveCount(1);
+  await expect(
+    header.locator('a[href="https://github.com/mikko-finell"]'),
+  ).toHaveCount(1);
+  await expect(page.locator('a[href*="tealab.io"]')).toHaveCount(0);
+  await expect(
+    page.getByRole("list", { name: /^Technologies used for / }),
+  ).toHaveCount(0);
 
   for (let index = 0; index < linkCount; index += 1) {
     const link = links.nth(index);

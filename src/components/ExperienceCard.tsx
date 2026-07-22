@@ -3,9 +3,7 @@ import { Card } from "../ui/Card";
 import { Expandable } from "../ui/Expandable";
 import { Heading } from "../ui/Heading";
 import { Inline } from "../ui/Inline";
-import { Link } from "../ui/Link";
 import { Stack } from "../ui/Stack";
-import { Tag } from "../ui/Tag";
 
 type ExperienceCardProps = {
   experience: Experience;
@@ -61,29 +59,6 @@ export function ExperienceCard({ experience }: ExperienceCardProps) {
             <li key={highlight}>{highlight}</li>
           ))}
         </ul>
-
-        {experience.technologies ? (
-          <ul
-            aria-label={`Technologies used for ${experience.organization}`}
-            className="tag-list"
-          >
-            {experience.technologies.map((technology) => (
-              <li key={technology}>
-                <Tag>{technology}</Tag>
-              </li>
-            ))}
-          </ul>
-        ) : null}
-
-        {experience.links ? (
-          <Inline gap="small">
-            {experience.links.map((link) => (
-              <Link href={link.href} key={link.href}>
-                {link.label}
-              </Link>
-            ))}
-          </Inline>
-        ) : null}
       </Stack>
     </Card>
   );

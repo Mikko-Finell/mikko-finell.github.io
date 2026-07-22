@@ -52,7 +52,6 @@ function MethodologyCard({
 
 export function MethodologySection() {
   const { methodology } = cvContent;
-  const verificationHeadingId = "methodology-verification-heading";
 
   return (
     <Section id="methodology" labelledBy={headingId}>
@@ -66,21 +65,6 @@ export function MethodologySection() {
             id="delivery"
             title="Delivery"
           />
-          <Card labelledBy={verificationHeadingId}>
-            <Stack gap="medium">
-              <Heading id={verificationHeadingId} level={3} size="subsection">
-                Verification
-              </Heading>
-              <ul
-                aria-labelledby={verificationHeadingId}
-                className="document-list"
-              >
-                {methodology.verification.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </Stack>
-          </Card>
           <MethodologyCard
             content={methodology.applicationDesign}
             id="application-design"
