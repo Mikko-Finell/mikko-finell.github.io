@@ -7,17 +7,25 @@ The project is a compact personal CV and technical portfolio implemented as a si
 The site presents:
 
 * professional experience;
-* production capabilities;
-* selected projects;
 * working methodology;
 * education and relevant background;
 * contact information and external links.
+
+Application UI and workflow design is a core capability. It should be stated clearly and supported through professional experience rather than automatically becoming a separate capability grid.
+
+Selected projects, technology inventories and deeper evidence surfaces are added only when they contribute material which is not already carried more effectively by the main CV.
 
 The site is structured as a technical document with clear navigation and distinct sections. It prioritizes useful information, scanning, readability, and factual precision.
 
 The site is built as a React application using strict TypeScript and Vite. The production build consists entirely of static HTML, CSS, JavaScript, and assets deployed through GitHub Pages.
 
 No runtime server, database, authentication system, or backend service is required.
+
+### Maintaining this document
+
+This architecture records the current project contract, not an immutable initial design. When an accepted content or implementation decision supersedes provisional guidance, amend this document as part of the bounded change rather than preserving a known contradiction.
+
+Do not use this rule to bypass the architecture silently. State the conflict, update the relevant rule deliberately and keep the remaining boundaries intact.
 
 ## 2. Core technical stack
 
@@ -70,13 +78,13 @@ The content module contains:
 * identity and profile information;
 * contact links;
 * introductory content;
-* capabilities;
 * professional experience;
-* project descriptions;
 * education;
 * working-methodology content;
 * supporting links;
 * reusable labels or factual fragments where appropriate.
+
+Capability groups, project descriptions, technology metadata and other optional structures belong in the canonical module only when an approved rendered surface or imminent evidence task uses them. Do not retain invisible duplicates of removed sections indefinitely.
 
 Content types may be defined separately:
 
@@ -171,27 +179,30 @@ Neutral interface labels such as `Experience`, `Projects`, `Education`, `Details
 
 ## 6. Information architecture
 
-The initial site is one coherent document.
+The current main CV is one coherent document.
 
-Use the following provisional section structure:
+Use the following section structure:
 
-1. site header and primary navigation;
+1. site header, primary navigation and immediately available contact details;
 2. introduction and current professional focus;
-3. production capabilities;
-4. professional experience;
-5. selected projects;
-6. working methodology;
-7. education and relevant background;
-8. contact information and external links.
+3. professional experience;
+4. working methodology;
+5. education and relevant background;
+6. availability, contact information and external links.
+
+Application UI design must be understandable during initial orientation and supported through the professional-experience evidence. It does not require a separate section if the introduction and experience already carry that job clearly.
+
+Do not restore the removed production-capabilities or selected-project sections without new material which gives them a unique purpose. Projects should return as evidence only when publishable artifacts or additional context justify them.
+
+A future How I Work surface may contain the longer procedural account. A future Evidence surface may connect claims to inspectable artifacts. Do not build either surface until its content has been deliberately allocated and, for Evidence, the available material has been inventoried.
 
 Each major section must have a stable fragment identifier.
 
 Example:
 
 ```text
-#capabilities
+#introduction
 #experience
-#projects
 #methodology
 #education
 #contact
@@ -218,23 +229,20 @@ src/
   ui/
     Button.tsx
     Card.tsx
-    DataTable.tsx
     Expandable.tsx
     Heading.tsx
     Inline.tsx
     Link.tsx
     Section.tsx
     Stack.tsx
-    Tag.tsx
+    ThemeControls.tsx
+    theme.ts
 
   components/
     SiteHeader.tsx
     IntroductionSection.tsx
-    CapabilitiesSection.tsx
     ExperienceSection.tsx
     ExperienceCard.tsx
-    ProjectsSection.tsx
-    ProjectCard.tsx
     MethodologySection.tsx
     EducationSection.tsx
     ContactSection.tsx
@@ -249,10 +257,11 @@ scripts/
   check-ui-boundaries.mjs
 
 tests/
-  site.spec.ts
+  site.e2e.ts
 
 docs/
   architecture.md
+  cv-content-allocation.md
 ```
 
 This structure is provisional. Add files only when the implementation requires them.
@@ -679,16 +688,6 @@ type Experience = {
   end: string | null;
   content: LayeredContent;
   highlights?: readonly string[];
-  technologies?: readonly string[];
-  links?: readonly Link[];
-};
-
-type Project = {
-  id: string;
-  name: string;
-  status?: string;
-  content: LayeredContent;
-  technologies?: readonly string[];
   links?: readonly Link[];
 };
 
@@ -705,15 +704,15 @@ type CvContent = {
   };
 
   introduction: LayeredContent;
-  capabilities: readonly CapabilityGroup[];
-  workflow: LayeredContent;
   experience: readonly Experience[];
-  projects: readonly Project[];
+  methodology: Methodology;
   education: readonly EducationEntry[];
 };
 ```
 
 The exact model should follow the real content rather than attempting to anticipate every future entry.
+
+Do not preserve fields for removed sections merely because an earlier model included them. Add evidence or project types when a real rendered surface requires them.
 
 Preserve explicit content ordering through arrays.
 
