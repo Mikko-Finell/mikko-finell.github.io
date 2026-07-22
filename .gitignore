@@ -6,6 +6,11 @@
 # Local macOS metadata
 .DS_Store
 
+# Node and Vite outputs
+node_modules/
+dist/
+coverage/
+
 # Supplied working documents that are not project authority
 /docs/cv_old.md
 /docs/direction_discussion.md
