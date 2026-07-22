@@ -1,6 +1,6 @@
 ---
 name: bead-authoring
-description: Create, materially update, review, close, or normalize Beads issues for this CV and portfolio repository. Use for any bead mutation that needs a clear bv-visible working brief, accurate project references, proportional acceptance criteria, or protection of canonical CV content and approved wording.
+description: Create, materially update, review, or normalize Beads issue briefs for this CV and portfolio repository. Use when changing substantive brief fields, issue-planning metadata, dependencies, or an approved decision that must be recorded before closure. Do not use for routine work selection, claiming or status transitions, implementing an adequately specified bead, closing it after implementation, or syncing Beads state.
 ---
 
 # Bead Authoring
@@ -17,6 +17,12 @@ make the description misleading.
 Keep the brief proportional. A small documentation or implementation task may
 need only a few compact sections. Use longer briefs only when the scope,
 constraints, dependencies, or decision surface genuinely require them.
+
+This skill governs bead authoring, not ordinary bead execution. Do not load it
+solely to run `br ready`, claim an adequately specified bead, implement it,
+close it after implementation, or sync Beads state. Closure requires this
+skill only when the bead itself must first be materially revised, such as
+recording the approved outcome of a design or content decision.
 
 ## Preserve project and content authority
 
@@ -193,19 +199,15 @@ verified.
 
 ## Workflow
 
-1. Start routine work selection with `br ready --json`.
-2. Use `bv --robot-*` only when graph-aware prioritization, dependency context,
-   or planning diagnostics add value. Never launch bare `bv` from an agent
-   session.
-3. Inspect a selected bead with `br show <id> --json` before changing it.
-4. Read the relevant authority and source material before authoring or
+1. Inspect the selected bead with `br show <id> --json` before changing it.
+2. Read the relevant authority and source material before authoring or
    materially updating the brief.
-5. Normalize an inadequate important bead before implementation or design
+3. Normalize an inadequate important bead before implementation or design
    work. Normalize on touch; do not mass-rewrite historical beads without an
    explicit request.
-6. After planning or dependency changes, run `br ready --json` and verify that
+4. After planning or dependency changes, run `br ready --json` and verify that
    the intended next work is actionable.
-7. Run `br sync --flush-only` after bead mutations.
+5. Run `br sync --flush-only` after bead mutations.
 
 When closing a design or content decision, record the approved outcome in the
 description before closing. When closing any bead, use a concise factual close
