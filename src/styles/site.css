@@ -378,6 +378,14 @@
   }
 
   @layer components {
+    .ui-link[href^="http"]::after {
+      content: " (" attr(href) ")";
+      font-family: var(--font-mono);
+      font-size: var(--text-sm);
+      font-weight: 400;
+      overflow-wrap: anywhere;
+    }
+
     .ui-section {
       break-inside: auto;
     }

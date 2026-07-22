@@ -40,6 +40,26 @@ export function SiteHeader() {
                 Experience
               </Link>
             </li>
+            <li>
+              <Link href="#projects" variant="navigation">
+                Projects
+              </Link>
+            </li>
+            <li>
+              <Link href="#methodology" variant="navigation">
+                Methodology
+              </Link>
+            </li>
+            <li>
+              <Link href="#education" variant="navigation">
+                Education
+              </Link>
+            </li>
+            <li>
+              <Link href="#contact" variant="navigation">
+                Contact
+              </Link>
+            </li>
           </ul>
         </nav>
       </Stack>
