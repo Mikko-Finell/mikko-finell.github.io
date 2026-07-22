@@ -36,15 +36,13 @@ function MethodologyCard({
         <Heading id={cardHeadingId} level={3} size="subsection">
           {title}
         </Heading>
+        {summary}
         {content.details ? (
           <Expandable
             details={<Paragraphs paragraphs={content.details} />}
             label={title}
-            summary={summary}
           />
-        ) : (
-          summary
-        )}
+        ) : null}
       </Stack>
     </Card>
   );
