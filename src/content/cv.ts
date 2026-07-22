@@ -32,8 +32,10 @@ export const cvContent = {
   },
   introduction: {
     summary: [
-      "I design and build internal systems, business software, application platforms, data-processing systems and AI-assisted workflows.",
-      "Paid software delivery since 2020. Programming since 2014.",
+      "I design and build internal systems, business software and application platforms, including both the underlying systems and the application UI. From 2020 to 2026 I was the primary technical owner for Edupower’s internal software, including a custom CRM which replaced its Excel-based sales process and stayed in operational use for several years. More recently I built Tealab, a Go, TypeScript/React and Python platform for hosting AI-enabled business applications.",
+      "My current workflow methodology is AI-first. I use AI at every step from planning to implementation to testing and verification. I start by deeply planning the architecture by having several frontier models adversarially duel about ideas to find the most robust and practical and radically innovative and accretive and cohesive ideas possible. We then refine those ideas over several rounds of critique and stress testing, turn the resulting specifications into roadmaps and detailed plans, and then turn those plans into concrete implementation tasks which my agents work through.",
+      "Every implementation round is followed by fresh-eyes corrective code review by multiple agents. Every invariant is covered by tests at the appropriate unit, integration or e2e level; strict typing, static analysis and linting are mechanically enforced; and project-specific architectural rules are encoded into scripts which run as part of the standard finalization procedure. I also run dedicated defect-hunting agents which search the codebase, write regression tests to prove bugs are real and then fix them.",
+      "Application UI design is one of the areas where I direct the work most closely. I work out the information hierarchy, workflows, visual density, terminology and interaction details, then repeatedly inspect and correct the rendered application until the whole thing is logical, compact and good to use. During the Edupower work I frequently received praise specifically for those qualities.",
     ],
   },
   experience: [
