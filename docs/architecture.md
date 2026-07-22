@@ -751,7 +751,10 @@ Requirements include:
 * support for reduced-motion preferences;
 * useful document structure without reliance on visual layout alone.
 
-Automated accessibility checks support implementation review but do not replace manual keyboard and visual inspection.
+Automated accessibility checks are the routine validation baseline. Focused
+manual keyboard or visual inspection is required only when a change affects
+behavior automation cannot establish, evidence suggests a defect, or an
+explicit release review requires it.
 
 ## 16. Responsive behavior
 
@@ -832,7 +835,17 @@ Do not add broad snapshot tests of the complete page.
 
 Do not impose a coverage target.
 
-Manual release review includes:
+Routine changes rely on the automated validation contract and do not require a
+duplicate manual browser pass. Do not use browser inspection merely to
+reconfirm passing automated assertions.
+
+Focused manual inspection is appropriate when a change materially affects
+visual layout or print presentation in a way automation cannot establish, or
+when evidence suggests a visual defect. Limit the inspection to the affected
+surface.
+
+A full manual release review is performed only for an explicit
+release-candidate task or when requested by the user. It includes:
 
 * desktop layout;
 * narrow mobile layout;

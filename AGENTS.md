@@ -72,6 +72,18 @@ Before reporting completion:
 6. Confirm that no self-descriptive prose was invented or rewritten.
 7. Report any check that could not be run and the reason.
 
+Do not perform broad manual or visual review for an ordinary bead. Use the
+smallest relevant automated checks during implementation and run the complete
+validation suite once after the final change. Do not use browser inspection to
+reconfirm behavior already established by passing automated tests.
+
+Focused manual inspection is appropriate only when the active change
+materially affects visual layout or print presentation in a way automation
+cannot establish, or when evidence suggests a visual defect. Perform the full
+desktop, mobile, keyboard, disclosure, external-link, print, and
+canonical-content review only for an explicit release-candidate task or when
+the user requests it.
+
 ## Canonical content
 
 All substantial CV content belongs in:
@@ -368,6 +380,10 @@ Browser tests should focus on consequential behavior:
 * basic accessibility scanning.
 
 Run the smallest relevant checks during iteration and the complete available validation suite before completion.
+
+Passing browser automation does not require a duplicate manual browser pass.
+Reserve browser control, screenshots, and generated print artifacts for the
+focused and release-candidate cases defined in the working procedure.
 
 ## Dependencies and scope
 
