@@ -512,7 +512,8 @@ git status              # Check what changed
 git add <files>         # Stage code changes
 br sync --flush-only    # Export beads changes to JSONL
 git commit -m "..."     # Commit everything
-git push                # Push to remote
 ```
+
+Never `git push` without explicitly being asked by the user.
 
 <!-- end-bv-agent-instructions -->
