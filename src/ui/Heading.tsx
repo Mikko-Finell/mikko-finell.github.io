@@ -3,8 +3,8 @@ import type { ReactNode } from "react";
 type HeadingProps = {
   children: ReactNode;
   id?: string;
-  level: 1 | 2;
-  size: "title" | "section";
+  level: 1 | 2 | 3;
+  size: "title" | "section" | "subsection";
 };
 
 export function Heading({ children, id, level, size }: HeadingProps) {

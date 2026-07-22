@@ -4,7 +4,17 @@ import process from "node:process";
 import { fileURLToPath } from "node:url";
 
 const sourceRoot = fileURLToPath(new URL("../src/", import.meta.url));
-const sharedComponents = ["Heading", "Inline", "Link", "Section", "Stack"];
+const sharedComponents = [
+  "Button",
+  "Card",
+  "Expandable",
+  "Heading",
+  "Inline",
+  "Link",
+  "Section",
+  "Stack",
+  "Tag",
+];
 const violations = [];
 
 async function collectSourceFiles(directory) {

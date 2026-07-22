@@ -30,6 +30,16 @@ export function SiteHeader() {
                 Introduction
               </Link>
             </li>
+            <li>
+              <Link href="#capabilities" variant="navigation">
+                Capabilities
+              </Link>
+            </li>
+            <li>
+              <Link href="#experience" variant="navigation">
+                Experience
+              </Link>
+            </li>
           </ul>
         </nav>
       </Stack>
