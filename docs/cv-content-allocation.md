@@ -6,6 +6,8 @@ This document maps the current canonical material to its intended editorial job.
 
 References such as `introduction.summary[0]` point to `src/content/cv.ts`. Short quoted fragments identify entries without copying their full wording.
 
+The mechanical canonical-content cleanup has been applied: language facts are rendered, and dormant project and technology fields have been removed. References to those removed fields remain below only as the decision record for that cleanup.
+
 This allocation is the basis for the next content-editing task. Any item marked `Mikko wording required` needs deliberately supplied text before implementation. Agents must not fill those slots by paraphrasing the source.
 
 ## Main-page jobs
@@ -29,7 +31,7 @@ The main page does not currently need separate capabilities, technology-inventor
 | `identity.location` | Background fact | Header | Keep. |
 | `identity.workEligibility` | Background fact | Header | Keep. |
 | `identity.workPreference` | Background fact | Header | Keep; accept its compact overlap with the fuller availability facts. |
-| `identity.languages[*]` | Background facts | Main CV | Render compactly. These canonical facts are currently absent from the page. |
+| `identity.languages[*]` | Background facts | Main CV | Render compactly. Applied in the relevant-background section. |
 | `contact.links[*]` | Background facts | Header and final contact area | Keep in the header. Repetition at the end is acceptable because it serves a closing contact function rather than a second claim. |
 | `contact.availability[0..4]` | Background facts | Final contact area | Keep pending a separate decision about whether the engagement formats can be presented more compactly. Do not merge them through invented wording. |
 | `contact.availability[5]` | Background fact | Final contact area | Keep. |
@@ -129,10 +131,10 @@ Application UI design should remain one of the four facts established during ini
 
 | Reference | Role | Allocation | Decision |
 | --- | --- | --- | --- |
-| `projects[0]` | Duplicate Edupower/CRM evidence | Future Evidence source | Remove from the active CV content model. The same system is already described in professional experience. |
-| `projects[1]` | Duplicate report-system evidence | Future Evidence source | Remove from the active CV content model. Restore only as an evidence record tied to publishable artifacts. |
-| `projects[2]` | Duplicate Tealab evidence | Future Evidence source | Remove from the active CV content model. Restore only as an evidence record tied to publishable artifacts. |
-| All `technologies` arrays | Implementation facts and decorative inventory | Contextual prose or evidence metadata | Remove from the active CV model once the approved experience wording contains the material factual context. Do not restore technology pills. |
+| Former `projects[0]` | Duplicate Edupower/CRM evidence | Future Evidence source | Removed from the active CV content model. The same system is already described in professional experience. |
+| Former `projects[1]` | Duplicate report-system evidence | Future Evidence source | Removed from the active CV content model. Restore only as an evidence record tied to publishable artifacts. |
+| Former `projects[2]` | Duplicate Tealab evidence | Future Evidence source | Removed from the active CV content model. Restore only as an evidence record tied to publishable artifacts. |
+| Former `technologies` arrays | Implementation facts and decorative inventory | Contextual prose or evidence metadata | Removed from the active CV model. Do not restore technology pills; future evidence metadata must have a real rendered use. |
 
 The raw source document already preserves this material. The canonical CV module should describe the page being rendered, not retain an invisible second version of removed sections indefinitely.
 

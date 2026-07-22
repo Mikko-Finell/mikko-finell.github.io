@@ -66,7 +66,6 @@ export const cvContent = {
         "Mentored interns.",
         "Helped colleagues use AI tools for practical software and business work.",
       ],
-      technologies: ["Django", "Vue", "JavaScript", "Jupyter", "C#/Xamarin"],
     },
     {
       id: "report-generation-system",
@@ -89,7 +88,6 @@ export const cvContent = {
         "Worked out the requirements, processing model, generation workflow, prompt structure, API behaviour, testing and delivery process.",
         "Later reused the same foundation in the web-based report writer built into Tealab.",
       ],
-      technologies: ["Python", "Jupyter", "OpenAI API"],
     },
     {
       id: "tealab",
@@ -124,50 +122,6 @@ export const cvContent = {
         "Web-based report-writer application.",
         "Dockerized Linux deployment.",
       ],
-      technologies: ["Go", "TypeScript/React", "Python", "Docker", "Linux"],
-    },
-  ],
-  projects: [
-    {
-      id: "internal-crm",
-      name: "Internal CRM",
-      content: {
-        summary: [
-          "A custom business application used for company data, contacts, communication history, sales work, tasks and shared operational information.",
-          "It replaced a spreadsheet-based process and remained in use for several years. I was its sole developer and primary technical owner.",
-        ],
-        details: [
-          "The original Excel process did not provide a useful application structure which could simply be copied into a web UI, so I had to work out how the information related, what belonged together, which actions needed to be immediately available, how users moved between companies, contacts, communications and sales work, and how to expose all of that without turning every screen into a bloated enterprise form.",
-        ],
-      },
-      technologies: ["Django", "Vue", "JavaScript", "SQL"],
-    },
-    {
-      id: "report-writer",
-      name: "Report writer",
-      content: {
-        summary: [
-          "A structured AI-assisted reporting system which turns defined business inputs into report sections for human review.",
-          "The first version used Python and Jupyter. The later version added a full web interface and platform integration through Tealab.",
-        ],
-        details: [
-          "The system is built around an actual reporting process rather than a chat window. Inputs, generation stages, generated sections and human review are represented as explicit parts of the application workflow.",
-        ],
-      },
-      technologies: ["Python", "Jupyter", "OpenAI API", "TypeScript/React"],
-    },
-    {
-      id: "tealab-platform",
-      name: "Tealab platform",
-      content: {
-        summary: [
-          "A general application platform with backend services, a React frontend, user and tenant management, access-control surfaces, operational tooling and hosted application support.",
-        ],
-        details: [
-          "The report writer is the first full application built on the platform, but the underlying system was designed to support multiple separately configured applications rather than becoming a report-writer codebase with some generic platform language added around it afterward.",
-        ],
-      },
-      technologies: ["Go", "TypeScript/React", "Python", "Docker", "Linux"],
     },
   ],
   methodology: {

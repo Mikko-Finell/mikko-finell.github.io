@@ -51,15 +51,6 @@ export type Experience = {
   dates: DateRange;
   content: LayeredContent;
   highlights: readonly string[];
-  technologies?: readonly string[];
-  links?: readonly Link[];
-};
-
-export type Project = {
-  id: string;
-  name: string;
-  content: LayeredContent;
-  technologies?: readonly string[];
   links?: readonly Link[];
 };
 
@@ -81,7 +72,6 @@ export type CvContent = {
   contact: Contact;
   introduction: LayeredContent;
   experience: readonly Experience[];
-  projects: readonly Project[];
   methodology: Methodology;
   education: readonly EducationEntry[];
 };

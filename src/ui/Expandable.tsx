@@ -15,9 +15,6 @@ export function Expandable({ details, label, summary }: ExpandableProps) {
   return (
     <Stack gap="medium">
       {summary}
-      <div className="ui-expandable__details" hidden={!expanded} id={detailsId}>
-        {details}
-      </div>
       <div className="ui-expandable__control">
         <Button
           controls={detailsId}
@@ -26,6 +23,9 @@ export function Expandable({ details, label, summary }: ExpandableProps) {
         >
           {expanded ? `Hide details for ${label}` : `Show details for ${label}`}
         </Button>
+      </div>
+      <div className="ui-expandable__details" hidden={!expanded} id={detailsId}>
+        {details}
       </div>
     </Stack>
   );

@@ -7,6 +7,7 @@ import { Section } from "../ui/Section";
 import { Stack } from "../ui/Stack";
 
 const headingId = "education-heading";
+const languagesHeadingId = "languages-heading";
 
 function Paragraphs({ paragraphs }: { paragraphs: readonly string[] }) {
   return (
@@ -73,6 +74,23 @@ export function EducationSection() {
               </Card>
             );
           })}
+          <Card labelledBy={languagesHeadingId}>
+            <Stack gap="medium">
+              <Heading id={languagesHeadingId} level={3} size="subsection">
+                Languages
+              </Heading>
+              <ul
+                aria-labelledby={languagesHeadingId}
+                className="document-list"
+              >
+                {cvContent.identity.languages.map((language) => (
+                  <li key={language.name}>
+                    {language.name}: {language.proficiency}
+                  </li>
+                ))}
+              </ul>
+            </Stack>
+          </Card>
         </Stack>
       </Stack>
     </Section>

@@ -658,6 +658,8 @@ Do not build independent expand-and-collapse controls inside experience, project
 
 Expandable content must remain understandable in its collapsed state.
 
+Keep the disclosure control adjacent to the summary when details are expanded. Do not place the control after potentially long details where opening the region can move the collapse action several screens away.
+
 Printed output should render the content level selected by the print design. It may show summaries only or include expanded details where this remains readable.
 
 ## 14. Content types

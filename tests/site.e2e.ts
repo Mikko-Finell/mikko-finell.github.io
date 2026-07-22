@@ -63,7 +63,7 @@ test("primary fragment navigation reaches every declared target", async ({
   }
 });
 
-test("shared disclosures expose and update accessible state", async ({
+test("shared disclosures expose accessible state and keep their controls reachable", async ({
   page,
 }) => {
   await page.goto("/");
@@ -83,11 +83,22 @@ test("shared disclosures expose and update accessible state", async ({
     }
 
     const details = page.locator(`[id=${JSON.stringify(controlledId)}]`);
+    const controlTopBeforeExpansion = await disclosure.evaluate(
+      (element) => element.getBoundingClientRect().top + window.scrollY,
+    );
+
     await expect(details).toBeHidden();
     await disclosure.press("Enter");
     await expect(disclosure).toHaveAttribute("aria-expanded", "true");
     await expect(disclosure).toHaveAccessibleName(/^Hide details for /);
     await expect(details).toBeVisible();
+
+    const controlTopAfterExpansion = await disclosure.evaluate(
+      (element) => element.getBoundingClientRect().top + window.scrollY,
+    );
+    expect(
+      Math.abs(controlTopAfterExpansion - controlTopBeforeExpansion),
+    ).toBeLessThan(1);
   }
 });
 
