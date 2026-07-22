@@ -49,7 +49,17 @@ export function EducationSection() {
                     </Stack>
                   </header>
 
-                  {summary}
+                  {entry.content.details ? (
+                    <Expandable
+                      details={
+                        <Paragraphs paragraphs={entry.content.details} />
+                      }
+                      label={entry.institution}
+                      summary={summary}
+                    />
+                  ) : (
+                    summary
+                  )}
 
                   <ul
                     aria-label={`Education facts for ${entry.institution}`}
@@ -59,15 +69,6 @@ export function EducationSection() {
                       <li key={fact}>{fact}</li>
                     ))}
                   </ul>
-
-                  {entry.content.details ? (
-                    <Expandable
-                      details={
-                        <Paragraphs paragraphs={entry.content.details} />
-                      }
-                      label={entry.institution}
-                    />
-                  ) : null}
                 </Stack>
               </Card>
             );

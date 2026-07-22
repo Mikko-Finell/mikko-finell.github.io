@@ -32,7 +32,15 @@ export function ProjectCard({ project }: ProjectCardProps) {
           {project.name}
         </Heading>
 
-        {summary}
+        {project.content.details ? (
+          <Expandable
+            details={<Paragraphs paragraphs={project.content.details} />}
+            label={project.name}
+            summary={summary}
+          />
+        ) : (
+          summary
+        )}
 
         {project.technologies ? (
           <ul
@@ -55,13 +63,6 @@ export function ProjectCard({ project }: ProjectCardProps) {
               </Link>
             ))}
           </Inline>
-        ) : null}
-
-        {project.content.details ? (
-          <Expandable
-            details={<Paragraphs paragraphs={project.content.details} />}
-            label={project.name}
-          />
         ) : null}
       </Stack>
     </Card>

@@ -43,7 +43,15 @@ export function ExperienceCard({ experience }: ExperienceCardProps) {
           </Stack>
         </header>
 
-        {summary}
+        {experience.content.details ? (
+          <Expandable
+            details={<Paragraphs paragraphs={experience.content.details} />}
+            label={experience.organization}
+            summary={summary}
+          />
+        ) : (
+          summary
+        )}
 
         <ul
           aria-label={`Highlights for ${experience.organization}`}
@@ -75,13 +83,6 @@ export function ExperienceCard({ experience }: ExperienceCardProps) {
               </Link>
             ))}
           </Inline>
-        ) : null}
-
-        {experience.content.details ? (
-          <Expandable
-            details={<Paragraphs paragraphs={experience.content.details} />}
-            label={experience.organization}
-          />
         ) : null}
       </Stack>
     </Card>
