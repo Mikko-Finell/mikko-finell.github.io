@@ -348,6 +348,10 @@ Add unit tests only for genuine logic such as:
 * derived navigation;
 * layered-content transformations.
 
+Tests must cover durable invariants and observable behavior, not implementation choreography. Assert public outcomes and accessibility semantics rather than component trees, internal helper calls, incidental DOM nesting, class names, source substrings, or intermediate steps unless that detail is itself an explicit contract.
+
+Dedicated architectural policy checks may inspect source boundaries when source enforcement is their stated purpose.
+
 Do not add tests that merely assert that fixed text renders.
 
 Do not add full-page snapshot tests.
