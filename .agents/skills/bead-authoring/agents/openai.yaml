@@ -1,0 +1,4 @@
+interface:
+  display_name: "Bead Authoring"
+  short_description: "Write clear, durable Beads working briefs"
+  default_prompt: "Use $bead-authoring to create or revise a clear, self-contained project bead."

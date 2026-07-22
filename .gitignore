@@ -1,0 +1,11 @@
+# bv (beads viewer) local config and caches
+.bv/
+# br doctor per-run artifacts
+.doctor/
+
+# Local macOS metadata
+.DS_Store
+
+# Supplied working documents that are not project authority
+/docs/cv_old.md
+/docs/direction_discussion.md
