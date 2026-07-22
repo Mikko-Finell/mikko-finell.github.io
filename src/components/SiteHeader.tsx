@@ -3,6 +3,7 @@ import { Heading } from "../ui/Heading";
 import { Inline } from "../ui/Inline";
 import { Link } from "../ui/Link";
 import { Stack } from "../ui/Stack";
+import { ThemeControls } from "../ui/ThemeControls";
 
 export function SiteHeader() {
   const { identity } = cvContent;
@@ -62,6 +63,7 @@ export function SiteHeader() {
             </li>
           </ul>
         </nav>
+        <ThemeControls />
       </Stack>
     </header>
   );

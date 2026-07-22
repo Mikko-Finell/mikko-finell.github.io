@@ -81,6 +81,24 @@ test("shared disclosures expose and update accessible state", async ({
   }
 });
 
+test("color choices apply and persist", async ({ page }) => {
+  await page.goto("/");
+
+  const dark = page.getByRole("button", { name: "Dark" });
+
+  await expect(dark).toHaveAttribute("aria-pressed", "false");
+  await dark.click();
+  await expect(dark).toHaveAttribute("aria-pressed", "true");
+  await expect(page.locator("html")).toHaveAttribute("data-mode", "dark");
+
+  await page.reload();
+  await expect(page.locator("html")).toHaveAttribute("data-mode", "dark");
+  await expect(page.getByRole("button", { name: "Dark" })).toHaveAttribute(
+    "aria-pressed",
+    "true",
+  );
+});
+
 test("critical contact and external links remain usable", async ({ page }) => {
   await page.goto("/");
   const links = page.locator('a[href^="mailto:"], a[href^="https://"]');

@@ -13,7 +13,7 @@ type ProjectCardProps = {
 
 function Paragraphs({ paragraphs }: { paragraphs: readonly string[] }) {
   return (
-    <Stack gap="small">
+    <Stack gap="paragraph">
       {paragraphs.map((paragraph) => (
         <p key={paragraph}>{paragraph}</p>
       ))}
