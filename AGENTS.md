@@ -398,6 +398,32 @@ unless the project architecture is explicitly revised to require them.
 
 ## Commit messages
 
+### Default commit policy
+
+For implementation tasks, agents should normally create a commit after the requested work is complete and all required validation passes.
+
+Before committing:
+
+1. Inspect the final diff.
+2. Sync Beads state when applicable with `br sync --flush-only`.
+3. Stage only files belonging to the completed task.
+4. Do not include unrelated or pre-existing user changes.
+5. Inspect the staged diff and use the repository's commit-message rules.
+
+Do not commit when:
+
+* the user explicitly asks not to commit;
+* required validation is failing;
+* the task is incomplete or blocked;
+* separating the task from unrelated working-tree changes cannot be done safely;
+* the request is only to inspect, diagnose, review, explain, or propose changes.
+
+If a commit cannot be created, leave the changes unstaged and explain why in the completion report.
+
+Creating a commit does not authorize pushing it. Never push unless the user explicitly requests it.
+
+### Message format
+
 When a commit implements a bead, start the subject with its exact ID:
 
 ```text
@@ -508,10 +534,12 @@ br sync --flush-only  # Export DB to JSONL
 ### Session Protocol
 
 ```bash
-git status              # Check what changed
-git add <files>         # Stage code changes
-br sync --flush-only    # Export beads changes to JSONL
-git commit -m "..."     # Commit everything
+git status                       # Check what changed
+br sync --flush-only             # Export beads changes to JSONL
+git diff --check                 # Check the working diff
+git add <task-specific-files>    # Stage only the completed task
+git diff --cached                # Inspect the staged diff
+git commit -m "<message>"         # Follow the commit-message rules
 ```
 
 Never `git push` without explicitly being asked by the user.
