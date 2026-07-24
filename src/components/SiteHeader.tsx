@@ -1,21 +1,38 @@
 import { cvContent } from "../content/cv";
+import {
+  primaryNavigation,
+  siteRoutes,
+  type SiteRouteId,
+} from "../site/routes";
+import { Button } from "../ui/Button";
 import { Heading } from "../ui/Heading";
 import { Inline } from "../ui/Inline";
 import { Link } from "../ui/Link";
 import { Stack } from "../ui/Stack";
 import { ThemeControls } from "../ui/ThemeControls";
 
-export function SiteHeader() {
+type SiteHeaderProps = {
+  currentPage: SiteRouteId;
+};
+
+export function SiteHeader({ currentPage }: SiteHeaderProps) {
   const { contact, identity } = cvContent;
+  const isCv = currentPage === "cv";
 
   return (
     <header className="site-header">
       <Stack gap="large">
         <Inline gap="medium">
           <Stack gap="small">
-            <Heading level={1} size="title">
-              {identity.name}
-            </Heading>
+            {isCv ? (
+              <Heading level={1} size="title">
+                {identity.name}
+              </Heading>
+            ) : (
+              <Link href={siteRoutes.cv.href} variant="identity">
+                {identity.name}
+              </Link>
+            )}
             <p>{identity.title}</p>
           </Stack>
           <Inline gap="small">
@@ -29,36 +46,33 @@ export function SiteHeader() {
             ))}
           </Inline>
         </Inline>
-        <nav aria-label="Primary" className="site-nav">
+        <nav aria-label="Primary" className="site-nav" data-print-hidden>
           <ul className="site-nav__list">
-            <li>
-              <Link href="#introduction" variant="navigation">
-                Introduction
-              </Link>
-            </li>
-            <li>
-              <Link href="#experience" variant="navigation">
-                Experience
-              </Link>
-            </li>
-            <li>
-              <Link href="#methodology" variant="navigation">
-                Methodology
-              </Link>
-            </li>
-            <li>
-              <Link href="#education" variant="navigation">
-                Education
-              </Link>
-            </li>
-            <li>
-              <Link href="#contact" variant="navigation">
-                Contact
-              </Link>
-            </li>
+            {primaryNavigation.map((routeId) => {
+              const route = siteRoutes[routeId];
+
+              return (
+                <li key={routeId}>
+                  <Link
+                    aria-current={routeId === currentPage ? "page" : undefined}
+                    href={route.href}
+                    variant="navigation"
+                  >
+                    {route.label}
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </nav>
-        <ThemeControls />
+        <div className="site-header__controls" data-print-hidden>
+          <ThemeControls />
+          {isCv ? (
+            <Button data-print-hidden onClick={() => window.print()}>
+              Print / Save as PDF
+            </Button>
+          ) : null}
+        </div>
       </Stack>
     </header>
   );

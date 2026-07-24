@@ -2,7 +2,7 @@
 
 ## 1. Project definition
 
-The project is a compact personal CV and technical portfolio implemented as a single-page static website.
+The project is a compact personal CV and technical portfolio implemented as a small static multi-page website.
 
 The site presents:
 
@@ -45,9 +45,9 @@ Do not use Next.js.
 
 Do not use Tailwind initially. Styling must remain centrally controlled through the shared component system and the main stylesheet.
 
-Do not add a client-side router unless the site later contains multiple independently useful pages. Use normal document sections and fragment links for the initial site.
+Do not add a client-side router. Vite HTML entry points provide the site's direct page URLs, and ordinary anchors perform complete document navigation.
 
-Do not add a global state-management library. Static content is not application state. Use local state only for actual interface behavior such as expandable sections.
+Do not add a global state-management library. Static content is not application state. Use local state only for actual interface behavior such as theme controls.
 
 ### Dependency version policy
 
@@ -67,22 +67,24 @@ The seven-day gate applies to production, development, direct, and transitive de
 
 ## 3. Content authority
 
-All substantial CV content must be concentrated in one canonical content module:
+Substantial site content must be centralized by subject and page, not duplicated across components. The current canonical content modules are:
 
 ```text
 src/content/cv.ts
+src/content/methodology.ts
 ```
 
-The content module contains:
+The CV content module contains:
 
 * identity and profile information;
 * contact links;
 * introductory content;
 * professional experience;
 * education;
-* working-methodology content;
 * supporting links;
 * reusable labels or factual fragments where appropriate.
+
+The methodology content module contains the compact statement rendered by the CV and the complete methodology rendered on its dedicated page. Future approved article content may use `src/content/edupower.ts` and `src/content/tealab.ts`, but those files must not be created until publishable content exists.
 
 Capability groups, project descriptions, technology metadata and other optional structures belong in the canonical module only when an approved rendered surface or imminent evidence task uses them. Do not retain invisible duplicates of removed sections indefinitely.
 
@@ -92,35 +94,35 @@ Content types may be defined separately:
 src/content/types.ts
 ```
 
-Components must import and render content from the canonical content module. Career facts, project facts, dates, links, claims, and substantial prose must not be duplicated inline across components.
+Components must import and render content from the appropriate canonical content module. Career facts, project facts, dates, links, claims, and substantial prose must not be duplicated inline across components.
 
 When the same text or factual value appears in multiple places, those locations must reference the same canonical field.
 
 Content should remain grouped by subject rather than being decomposed into a global dictionary of individual sentences. Shared fragments should be extracted only when they are genuinely reused.
 
-The content module is the authority for wording and factual data. Components control presentation, layout, and interaction. Components do not reinterpret or rewrite the supplied material.
+The content modules are the authority for wording and factual data. Components control presentation, layout, and interaction. Components do not reinterpret or rewrite the supplied material.
 
-## 4. Layered content
+## 4. Content allocation
 
-Content may provide multiple levels of detail for the same subject.
+Content structures must match their actual rendered jobs. The main CV uses compact document content, while the methodology module keeps an explicit short form for the CV and complete paragraph arrays for its dedicated page.
 
 Use additive layers such as:
 
 ```ts
-type LayeredContent = {
+type MethodologyTopic = {
   short?: string;
   summary: readonly string[];
-  details?: readonly string[];
+  details: readonly string[];
 };
 ```
 
-The layers serve different presentation contexts:
+These fields serve different presentation contexts:
 
 * `short` provides a compact description for metadata, overview text, or highly constrained layouts;
-* `summary` provides the normal visible description;
-* `details` provides additional material shown when the reader expands the section.
+* `summary` provides the opening account on the methodology page;
+* `details` provides the remainder of the visible methodology account.
 
-Expanded content consists of the summary followed by the additional details. Do not maintain a separate full version that duplicates the summary.
+The full methodology consists of the summary followed by the details in normal document flow. Do not maintain a separate full version that duplicates the summary.
 
 Example:
 
@@ -140,18 +142,9 @@ workflow: {
 }
 ```
 
-The interface may render this as:
-
-```tsx
-<ExpandableContent
-  summary={cvContent.workflow.summary}
-  details={cvContent.workflow.details}
-/>
-```
-
 Do not generate compressed summaries automatically at runtime. Each content level must contain deliberately written and approved text.
 
-Not every section requires every level. A small factual entry may contain only a summary. A substantial workflow or project description may contain short, summary, and detailed forms.
+Ordinary CV entries should use direct fields that correspond to their visible structure rather than a universal layered-content abstraction.
 
 ## 5. Self-descriptive writing policy
 
@@ -179,7 +172,16 @@ Neutral interface labels such as `Experience`, `Projects`, `Education`, `Details
 
 ## 6. Information architecture
 
-The current main CV is one coherent document.
+The main CV remains one coherent document within a four-page site:
+
+```text
+/
+/methodology/
+/work/edupower/
+/work/tealab/
+```
+
+The work routes use a shared neutral placeholder page until their approved article content is ready.
 
 Use the following section structure:
 
@@ -194,9 +196,9 @@ Application UI design must be understandable during initial orientation and supp
 
 Do not restore the removed production-capabilities or selected-project sections without new material which gives them a unique purpose. Projects should return as evidence only when publishable artifacts or additional context justify them.
 
-A future How I Work surface may contain the longer procedural account. A future Evidence surface may connect claims to inspectable artifacts. Do not build either surface until its content has been deliberately allocated and, for Evidence, the available material has been inventoried.
+The methodology page contains the complete currently approved procedural account. The work pages may later connect claims to inspectable artifacts after their content has been deliberately allocated and the available material inventoried.
 
-Each major section must have a stable fragment identifier.
+Each main-CV section must retain a stable identifier for document semantics and possible direct references.
 
 Example:
 
@@ -208,11 +210,9 @@ Example:
 #contact
 ```
 
-Primary navigation links directly to these sections.
+Primary navigation links to the four pages from the canonical route configuration. The current page is indicated with `aria-current="page"`.
 
 Important information must remain available without modals, carousels, hover-only interactions, or mandatory progressive disclosure.
-
-Expandable sections may be used for additional depth, but their collapsed state must retain a meaningful summary.
 
 The initial viewport must contain actual identifying and professional information. It must not be occupied primarily by decorative layout, atmospheric text, or a large empty hero treatment.
 
@@ -222,14 +222,31 @@ Use the following provisional source layout:
 
 ```text
 src/
+  app/
+    mountPage.tsx
+
+  entries/
+    cv.tsx
+    methodology.tsx
+    edupower.tsx
+    tealab.tsx
+
+  pages/
+    CvPage.tsx
+    MethodologyPage.tsx
+    WorkPlaceholderPage.tsx
+
+  site/
+    routes.ts
+
   content/
     cv.ts
+    methodology.ts
     types.ts
 
   ui/
     Button.tsx
     Card.tsx
-    Expandable.tsx
     Heading.tsx
     Inline.tsx
     Link.tsx
@@ -239,19 +256,19 @@ src/
     theme.ts
 
   components/
+    SiteShell.tsx
     SiteHeader.tsx
+    Paragraphs.tsx
     IntroductionSection.tsx
     ExperienceSection.tsx
     ExperienceCard.tsx
+    MethodologySummarySection.tsx
     MethodologySection.tsx
     EducationSection.tsx
     ContactSection.tsx
 
   styles/
     site.css
-
-  App.tsx
-  main.tsx
 
 scripts/
   check-ui-boundaries.mjs
@@ -262,6 +279,11 @@ tests/
 docs/
   architecture.md
   cv-content-allocation.md
+
+index.html
+methodology/index.html
+work/edupower/index.html
+work/tealab/index.html
 ```
 
 This structure is provisional. Add files only when the implementation requires them.
@@ -269,6 +291,10 @@ This structure is provisional. Add files only when the implementation requires t
 The responsibilities are:
 
 * `content/` contains canonical content and its types;
+* `site/` contains canonical route identifiers, labels, order, and paths;
+* `app/` centralizes React mounting, theme initialization, and the CSS import;
+* `entries/` mount exactly one page each;
+* `pages/` are thin compositions of document components;
 * `ui/` contains standardized reusable interface primitives;
 * `components/` contains CV-specific document sections and assemblies;
 * `styles/site.css` contains the central visual system;
@@ -288,7 +314,6 @@ Examples include:
 * tags;
 * tables;
 * section containers;
-* expandable regions;
 * vertical and horizontal layout groups.
 
 A UI component owns its standard:
@@ -617,9 +642,10 @@ The check should reject clear violations such as:
 
 * inline `style={{ ... }}` attributes;
 * arbitrary `className` overrides passed to shared UI components;
-* direct imports of `site.css` outside the application entry point;
+* direct imports of `site.css` outside `src/app/mountPage.tsx`;
 * raw `<button>` elements outside the shared button component;
-* independent disclosure controls outside the shared expandable component;
+* raw React anchors outside the shared link component;
+* raw primary headings outside the shared heading component;
 * repeated local implementations of standardized controls.
 
 The check may use straightforward source scanning. It does not require a custom compiler, complex AST framework, or dedicated lint plugin unless simple scanning proves inadequate.
@@ -628,39 +654,15 @@ Run this check as part of the standard validation command.
 
 The purpose of this check is to preserve centralized styling and behavior as agents modify the site.
 
-## 13. Expandable content
+## 13. Page composition and mounting
 
-Use a shared expandable component for optional detail.
+Each HTML entry document loads one trivial TypeScript entry file. Every entry calls `mountPage`, which imports the central stylesheet, applies the stored theme, validates the root element, and creates one React root under `StrictMode`.
 
-The component owns:
+`SiteShell` and `SiteHeader` own shared page chrome. The full identity, professional facts, contact links, navigation, and theme controls remain present on every page for visual and informational continuity. On the CV, the name is the document `h1`; on supporting pages it is a normal link to the CV so the page title remains the single `h1`. The print action remains CV-only.
 
-* the disclosure button;
-* expanded and collapsed labels;
-* `aria-expanded`;
-* keyboard behavior;
-* focus behavior;
-* icon treatment;
-* spacing;
-* animation;
-* reduced-motion behavior.
+Page components choose major sections and their order without duplicating navigation, mount behavior, content-rendering logic, or shared controls.
 
-Example usage:
-
-```tsx
-<Expandable
-  summary={<RichText paragraphs={entry.summary} />}
->
-  <RichText paragraphs={entry.details} />
-</Expandable>
-```
-
-Do not build independent expand-and-collapse controls inside experience, project, or methodology sections.
-
-Expandable content must remain understandable in its collapsed state.
-
-Keep the disclosure control adjacent to the summary when details are expanded. Do not place the control after potentially long details where opening the region can move the collapse action several screens away.
-
-Printed output should render the content level selected by the print design. It may show summaries only or include expanded details where this remains readable.
+All approved prose is visible in normal document flow. The site does not use expandable content, accordions, tabs, or another disclosure replacement.
 
 ## 14. Content types
 
@@ -671,13 +673,7 @@ A provisional model may include:
 ```ts
 type TextBlock = readonly string[];
 
-type LayeredContent = {
-  short?: string;
-  summary: TextBlock;
-  details?: TextBlock;
-};
-
-type Link = {
+type ContentLink = {
   label: string;
   href: string;
 };
@@ -688,9 +684,9 @@ type Experience = {
   role: string;
   start: string;
   end: string | null;
-  content: LayeredContent;
-  highlights?: readonly string[];
-  links?: readonly Link[];
+  summary: TextBlock;
+  highlights: readonly string[];
+  links?: readonly ContentLink[];
 };
 
 type CvContent = {
@@ -702,12 +698,11 @@ type CvContent = {
 
   contact: {
     email?: string;
-    links: readonly Link[];
+    links: readonly ContentLink[];
   };
 
-  introduction: LayeredContent;
+  introduction: TextBlock;
   experience: readonly Experience[];
-  methodology: Methodology;
   education: readonly EducationEntry[];
 };
 ```
@@ -748,7 +743,6 @@ Requirements include:
 * sufficient contrast;
 * no information communicated only through color;
 * correct accessible names for controls;
-* correct expanded and collapsed states;
 * support for reduced-motion preferences;
 * useful document structure without reliance on visual layout alone.
 
@@ -813,7 +807,8 @@ Required automated validation includes:
 * successful Vite production build;
 * UI boundary enforcement;
 * page-load smoke test;
-* primary navigation checks;
+* primary navigation and current-page checks on every page;
+* successful direct navigation and reload for every production path;
 * absence of unexpected browser console errors;
 * automated accessibility scan.
 
@@ -851,7 +846,6 @@ release-candidate task or when requested by the user. It includes:
 * desktop layout;
 * narrow mobile layout;
 * keyboard navigation;
-* expandable controls;
 * external links;
 * print output;
 * comparison against the approved canonical content.
@@ -878,13 +872,12 @@ Do not store secrets, private credentials, or confidential information in fronte
 
 ## 20. Completion boundary
 
-The initial implementation is complete when:
+The multi-page implementation is complete when:
 
-* all approved content is represented through the canonical content module;
+* all approved content is represented through the appropriate canonical content module;
 * no substantial content is duplicated inline across components;
 * the page structure is complete;
-* primary navigation works;
-* expandable sections work consistently;
+* every direct page route and primary navigation link works;
 * shared visual elements use the standardized component system;
 * global style changes can be made through central tokens or shared component definitions;
 * desktop, mobile, and print layouts are usable;

@@ -1,4 +1,5 @@
 import type { CvContent } from "./types";
+import { siteRoutes } from "../site/routes";
 
 export const cvContent = {
   identity: {
@@ -30,14 +31,9 @@ export const cvContent = {
       { label: "GitHub", href: "https://github.com/mikko-finell" },
     ],
   },
-  introduction: {
-    summary: [
-      "I design and build internal systems, business software and application platforms, including both the underlying systems and the application UI. From 2020 to 2026 I was the primary technical owner for Edupower’s internal software, including a custom CRM which replaced its Excel-based sales process and stayed in operational use for several years. More recently I built Tealab, a Go, TypeScript/React and Python platform for hosting AI-enabled business applications.",
-      "My current workflow methodology is AI-first. I use AI at every step from planning to implementation to testing and verification. I start by deeply planning the architecture by having several frontier models adversarially duel about ideas to find the most robust and practical and radically innovative and accretive and cohesive ideas possible. We then refine those ideas over several rounds of critique and stress testing, turn the resulting specifications into roadmaps and detailed plans, and then turn those plans into concrete implementation tasks which my agents work through.",
-      "Every implementation round is followed by fresh-eyes corrective code review by multiple agents. Every invariant is covered by tests at the appropriate unit, integration or e2e level; strict typing, static analysis and linting are mechanically enforced; and project-specific architectural rules are encoded into scripts which run as part of the standard finalization procedure. I also run dedicated defect-hunting agents which search the codebase, write regression tests to prove bugs are real and then fix them.",
-      "Application UI design is one of the areas where I direct the work most closely. I work out the information hierarchy, workflows, visual density, terminology and interaction details, then repeatedly inspect and correct the rendered application until the whole thing is logical, compact and good to use. During the Edupower work I frequently received praise specifically for those qualities.",
-    ],
-  },
+  introduction: [
+    "I design and build internal systems, business software and application platforms, including both the underlying systems and the application UI. From 2020 to 2026 I was the primary technical owner for Edupower’s internal software, including a custom CRM which replaced its Excel-based sales process and stayed in operational use for several years. More recently I built Tealab, a Go, TypeScript/React and Python platform for hosting AI-enabled business applications.",
+  ],
   experience: [
     {
       id: "edupower",
@@ -49,11 +45,9 @@ export const cvContent = {
         end: { year: 2026, precision: "year" },
         label: "2020–2026",
       },
-      content: {
-        summary: [
-          "Long-term developer and primary technical owner for internal business software, customer-facing tools, data-processing utilities and AI-assisted systems.",
-        ],
-      },
+      summary: [
+        "Long-term developer and primary technical owner for internal business software, customer-facing tools, data-processing utilities and AI-assisted systems.",
+      ],
       highlights: [
         "Built and maintained an internal Django/Vue CRM which replaced a large Excel-based sales and customer-management process and remained in operational use for several years.",
         "Designed the CRM UI and workflows around the company’s actual daily work. The interfaces were frequently praised for being logical, intuitive and compact while still exposing substantial functionality.",
@@ -66,6 +60,12 @@ export const cvContent = {
         "Mentored interns.",
         "Helped colleagues use AI tools for practical software and business work.",
       ],
+      links: [
+        {
+          label: "Read the full Edupower account →",
+          href: siteRoutes.edupower.href,
+        },
+      ],
     },
     {
       id: "report-generation-system",
@@ -76,17 +76,21 @@ export const cvContent = {
         end: { year: 2026, precision: "early-year" },
         label: "Late 2025 – early 2026",
       },
-      content: {
-        summary: [
-          "Designed and built a system for producing expert report sections from structured inputs.",
-        ],
-      },
+      summary: [
+        "Designed and built a system for producing expert report sections from structured inputs.",
+      ],
       highlights: [
         "Converted an existing expert reporting process into explicit inputs, processing stages and reviewable generated outputs.",
         "Built Python libraries and Jupyter tooling using the OpenAI API.",
         "Used structured generation instead of treating the problem as a general chatbot interface.",
         "Worked out the requirements, processing model, generation workflow, prompt structure, API behaviour, testing and delivery process.",
         "Later reused the same foundation in the web-based report writer built into Tealab.",
+      ],
+      links: [
+        {
+          label: "Read about this work in the Edupower account →",
+          href: siteRoutes.edupower.href,
+        },
       ],
     },
     {
@@ -99,15 +103,9 @@ export const cvContent = {
         // biome-ignore lint/security/noSecrets: This is a human-readable date label.
         label: "2025–present",
       },
-      content: {
-        summary: [
-          "Designed and built a platform for hosting AI-enabled business applications and internal tools.",
-        ],
-        details: [
-          "I designed the Tealab UI across the ordinary application surfaces and the less visible operational parts of the platform, including dashboards, tenant and user settings, access control, system health, application management and the report-writing workflow.",
-          "Tealab is a working example of the systems I build, the interfaces I design and the AI-first development process described above.",
-        ],
-      },
+      summary: [
+        "Designed and built a platform for hosting AI-enabled business applications and internal tools.",
+      ],
       highlights: [
         "Go backend.",
         "TypeScript/React frontend.",
@@ -122,35 +120,14 @@ export const cvContent = {
         "Web-based report-writer application.",
         "Dockerized Linux deployment.",
       ],
+      links: [
+        {
+          label: "Read the Tealab case study →",
+          href: siteRoutes.tealab.href,
+        },
+      ],
     },
   ],
-  methodology: {
-    delivery: {
-      short:
-        "My workflow methodology is AI-first. I use AI at every step from planning to implementation to testing and verification.",
-      summary: [
-        "My workflow methodology is AI-first. I use AI at every step from planning to implementation to testing and verification. I start by deeply planning the codebase architecture by having several frontier models adversarially duel about ideas to find the best, most robust and practical and radically innovative and accretive and cohesive ideas possible. We then iteratively refine those ideas over several rounds of critique and stress testing. The specifications which emerge from this process are then turned into roadmaps and plans which explain in detail how to convert the ideas into reality. We then turn those plans into concretely actionable implementation tasks which my agents start to work through.",
-      ],
-      details: [
-        "Every round of implementation is followed by fresh-eyes corrective editorial code review by multiple agents. These reviews are not just there to check whether the task technically passed its tests, they look at whether the implementation actually fits the architecture, whether it introduced unnecessary complexity, whether it misunderstood the purpose of the feature, whether there are missing cases, whether the structure will remain usable as the system grows, and whether the agent solved the literal task in a way that damages the larger project.",
-        "Testing policy is equally rigorous. Every invariant is covered by tests at the appropriate level whether that is unit tests, integration tests or e2e, and implementation is not considered complete because one narrow test file happens to pass. The standard finalization procedure runs the full relevant verification stack, including strict type checking, static analysis, linting, compilation where applicable, architectural checks and the test suites which can expose interactions outside the immediately changed component.",
-        "My projects always use the strictest practical linting rules and every warning is mechanically treated as a hard error that must be fixed while finalizing a task before committing. On top of that we enforce architectural rules which are difficult to capture through standard linting by encoding them into scripts that are part of the same finalization procedure.",
-        "I also run agents whose sole task is searching the codebase for defects. They investigate the implementation without being constrained to the feature currently under development, identify behaviour which appears wrong or structurally dangerous, write regression tests to prove the bug is real, and then fix it. Refactoring and technical-debt work is handled as explicit work rather than something we vaguely intend to return to later, and agents are regularly sent through the system to find duplicated logic, weak abstractions, obsolete compatibility layers, accidental complexity and places where the implementation has drifted away from the architecture.",
-        "This is the process through which I produce software. I decide what we are trying to build, what properties it needs to have, which ideas are worth keeping, how the project should be structured, how much complexity is justified, what quality bar applies, and whether the result is actually done. The agents do most of the direct implementation, testing, investigation, review and correction work inside that process.",
-        "I have used this methodology to build substantial systems in Go, TypeScript/React, Python and Rust. It also lets me work effectively in unfamiliar technologies and existing codebases because the process is based on investigation, explicit reasoning, executable verification and repeated review rather than depending on memorized framework syntax.",
-      ],
-    },
-    applicationDesign: {
-      summary: [
-        "Application UI design is one of my strongest areas. I am very particular about information hierarchy, workflow structure, visual density, terminology, interaction details and whether the whole application feels logical when someone actually has to use it repeatedly. I tend to prefer compact interfaces which expose a lot of useful functionality without degenerating into clutter, but compact does not mean cramming controls together until the user has to decipher the screen.",
-        "I design application UIs and operational workflows, particularly systems where the user needs access to a lot of connected information and functionality without the interface becoming confusing or physically enormous.",
-      ],
-      details: [
-        "Current agents are often good at implementing established HTML, CSS and component patterns, but they are still not reliably capable of looking at a rendered application and deciding whether it actually looks good, whether the hierarchy is wrong, whether the page wastes half the available space, whether related controls feel disconnected, whether the interaction flow is annoying, or whether the whole thing has the visual character of a generic admin template assembled by committee. I guide that work directly through repeated visual inspection and iteration.",
-        "During my time at Edupower I frequently received positive feedback specifically about the UIs I designed being logical, intuitive, compact and functional. This was not separate design work handed over to an implementation team. I worked out how the business process should map into screens and interactions and then built the systems around that.",
-      ],
-    },
-  },
   education: [
     {
       institution: "Yrkeshögskolan Novia",
@@ -160,14 +137,12 @@ export const cvContent = {
         end: { year: 2020, precision: "year" },
         label: "2016–2020",
       },
-      content: {
-        summary: [
-          "Completed nearly all coursework in a four-year engineering programme on the IT track.",
-        ],
-        details: [
-          "The degree remains incomplete because of one final course and the thesis.",
-        ],
-      },
+      summary: [
+        "Completed nearly all coursework in a four-year engineering programme on the IT track.",
+      ],
+      details: [
+        "The degree remains incomplete because of one final course and the thesis.",
+      ],
       facts: ["GPA: 4.5 / 5"],
     },
   ],

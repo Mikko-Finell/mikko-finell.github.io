@@ -1,15 +1,9 @@
-import type { ReactNode } from "react";
+import type { ComponentPropsWithoutRef } from "react";
 
-type LinkProps = {
-  children: ReactNode;
-  href: string;
-  variant?: "standard" | "navigation";
+type LinkProps = Omit<ComponentPropsWithoutRef<"a">, "className" | "style"> & {
+  variant?: "standard" | "navigation" | "identity";
 };
 
-export function Link({ children, href, variant = "standard" }: LinkProps) {
-  return (
-    <a className="ui-link" data-variant={variant} href={href}>
-      {children}
-    </a>
-  );
+export function Link({ variant = "standard", ...props }: LinkProps) {
+  return <a className="ui-link" data-variant={variant} {...props} />;
 }

@@ -32,7 +32,7 @@ export function ThemeControls() {
             <Button
               key={option}
               onClick={() => selectMode(option)}
-              pressed={mode === option}
+              aria-pressed={mode === option}
               variant="choice"
             >
               {modeLabels[option]}

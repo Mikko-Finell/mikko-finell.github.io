@@ -7,7 +7,6 @@ const sourceRoot = fileURLToPath(new URL("../src/", import.meta.url));
 const sharedComponents = [
   "Button",
   "Card",
-  "Expandable",
   "Heading",
   "Inline",
   "Link",
@@ -44,8 +43,11 @@ for (const file of await collectSourceFiles(sourceRoot)) {
     report(file, "inline style attributes are forbidden");
   }
 
-  if (/import\s+["'][^"']*site\.css["']/.test(source) && !file.endsWith("/src/main.tsx")) {
-    report(file, "site.css may only be imported by src/main.tsx");
+  if (
+    /import\s+["'][^"']*site\.css["']/.test(source) &&
+    !file.endsWith("/src/app/mountPage.tsx")
+  ) {
+    report(file, "site.css may only be imported by src/app/mountPage.tsx");
   }
 
   if (file.includes("/src/ui/") && /\b(?:className|style)\??\s*:/.test(source)) {
@@ -63,8 +65,12 @@ for (const file of await collectSourceFiles(sourceRoot)) {
     report(file, "raw button elements must be implemented by the shared Button component");
   }
 
-  if (!file.endsWith("/src/ui/Expandable.tsx") && /<(?:details|summary)\b/.test(source)) {
-    report(file, "disclosure controls must be implemented by the shared Expandable component");
+  if (!file.endsWith("/src/ui/Link.tsx") && /<a\b/.test(source)) {
+    report(file, "raw anchor elements must be implemented by the shared Link component");
+  }
+
+  if (!file.endsWith("/src/ui/Heading.tsx") && /<h[1-3]\b/.test(source)) {
+    report(file, "raw primary headings must be implemented by the shared Heading component");
   }
 }
 

@@ -1,77 +1,50 @@
-import { cvContent } from "../content/cv";
-import type { LayeredContent } from "../content/types";
-import { Card } from "../ui/Card";
-import { Expandable } from "../ui/Expandable";
+import { methodologyContent } from "../content/methodology";
+import type { MethodologyTopic as MethodologyTopicContent } from "../content/types";
 import { Heading } from "../ui/Heading";
 import { Section } from "../ui/Section";
 import { Stack } from "../ui/Stack";
+import { Paragraphs } from "./Paragraphs";
 
-const headingId = "methodology-heading";
-
-function Paragraphs({ paragraphs }: { paragraphs: readonly string[] }) {
-  return (
-    <Stack gap="paragraph">
-      {paragraphs.map((paragraph) => (
-        <p key={paragraph}>{paragraph}</p>
-      ))}
-    </Stack>
-  );
-}
-
-function MethodologyCard({
+function MethodologyTopic({
   content,
   id,
   title,
 }: {
-  content: LayeredContent;
+  content: MethodologyTopicContent;
   id: string;
   title: string;
 }) {
-  const cardHeadingId = `methodology-${id}-heading`;
-  const summary = <Paragraphs paragraphs={content.summary} />;
+  const headingId = `${id}-heading`;
 
   return (
-    <Card labelledBy={cardHeadingId}>
+    <Section id={id} labelledBy={headingId}>
       <Stack gap="medium">
-        <Heading id={cardHeadingId} level={3} size="subsection">
+        <Heading id={headingId} level={2} size="section">
           {title}
         </Heading>
-        {content.details ? (
-          <Expandable
-            details={<Paragraphs paragraphs={content.details} />}
-            label={title}
-            summary={summary}
-          />
-        ) : (
-          summary
-        )}
+        <Paragraphs paragraphs={content.summary} />
+        <Paragraphs paragraphs={content.details} />
       </Stack>
-    </Card>
+    </Section>
   );
 }
 
 export function MethodologySection() {
-  const { methodology } = cvContent;
-
   return (
-    <Section id="methodology" labelledBy={headingId}>
-      <Stack gap="large">
-        <Heading id={headingId} level={2} size="section">
-          Working methodology
-        </Heading>
-        <Stack gap="large">
-          <MethodologyCard
-            content={methodology.delivery}
-            id="delivery"
-            title="Delivery"
-          />
-          <MethodologyCard
-            content={methodology.applicationDesign}
-            id="application-design"
-            title="Application UI design"
-          />
-        </Stack>
-      </Stack>
-    </Section>
+    <Stack gap="large">
+      <Heading level={1} size="title">
+        Working methodology
+      </Heading>
+      <MethodologyTopic
+        content={methodologyContent.delivery}
+        id="delivery"
+        title="Delivery"
+      />
+      <MethodologyTopic
+        content={methodologyContent.applicationDesign}
+        id="application-design"
+        title="Application UI design"
+      />
+    </Stack>
   );
 }

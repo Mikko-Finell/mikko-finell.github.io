@@ -1,23 +1,13 @@
 import { cvContent } from "../content/cv";
 import { Card } from "../ui/Card";
-import { Expandable } from "../ui/Expandable";
 import { Heading } from "../ui/Heading";
 import { Inline } from "../ui/Inline";
 import { Section } from "../ui/Section";
 import { Stack } from "../ui/Stack";
+import { Paragraphs } from "./Paragraphs";
 
 const headingId = "education-heading";
 const languagesHeadingId = "languages-heading";
-
-function Paragraphs({ paragraphs }: { paragraphs: readonly string[] }) {
-  return (
-    <Stack gap="paragraph">
-      {paragraphs.map((paragraph) => (
-        <p key={paragraph}>{paragraph}</p>
-      ))}
-    </Stack>
-  );
-}
 
 export function EducationSection() {
   return (
@@ -29,8 +19,6 @@ export function EducationSection() {
         <Stack gap="large">
           {cvContent.education.map((entry) => {
             const entryHeadingId = `education-${entry.dates.start.year}-heading`;
-            const summary = <Paragraphs paragraphs={entry.content.summary} />;
-
             return (
               <Card key={entry.institution} labelledBy={entryHeadingId}>
                 <Stack gap="medium">
@@ -50,17 +38,10 @@ export function EducationSection() {
                     </Stack>
                   </header>
 
-                  {entry.content.details ? (
-                    <Expandable
-                      details={
-                        <Paragraphs paragraphs={entry.content.details} />
-                      }
-                      label={entry.institution}
-                      summary={summary}
-                    />
-                  ) : (
-                    summary
-                  )}
+                  <Paragraphs paragraphs={entry.summary} />
+                  {entry.details ? (
+                    <Paragraphs paragraphs={entry.details} />
+                  ) : null}
 
                   <ul
                     aria-label={`Education facts for ${entry.institution}`}

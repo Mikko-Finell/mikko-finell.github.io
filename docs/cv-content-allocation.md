@@ -2,13 +2,35 @@
 
 ## Status and purpose
 
-This document maps the current canonical material to its intended editorial job. It does not approve replacement prose and does not itself become a second content source.
+This document records the editorial allocation behind the compact CV and supporting pages. It does not approve replacement prose and does not itself become a second content source.
 
-References such as `introduction.summary[0]` point to `src/content/cv.ts`. Short quoted fragments identify entries without copying their full wording.
+The current canonical modules are `src/content/cv.ts` for the CV and `src/content/methodology.ts` for the complete working-methodology page. References below to the former combined content shape are retained as decision history; short quoted fragments identify source material without making this document authoritative for wording.
 
 The mechanical canonical-content cleanup has been applied: language facts are rendered, and dormant project and technology fields have been removed. References to those removed fields remain below only as the decision record for that cleanup.
 
-This allocation is the basis for the next content-editing task. Any item marked `Mikko wording required` needs deliberately supplied text before implementation. Agents must not fill those slots by paraphrasing the source.
+The multi-page work-in-progress applies the structural allocation without filling any item marked `Mikko wording required`. Agents must not fill those slots by paraphrasing the source.
+
+## Current multi-page allocation
+
+The local work-in-progress uses these surfaces:
+
+```text
+/
+  Compact CV
+
+/methodology/
+  Complete approved methodology content
+
+/work/edupower/
+  Neutral placeholder pending the finished article
+
+/work/tealab/
+  Neutral placeholder pending the finished article
+```
+
+The placeholder pages contain no article material and exist to make the intended navigation and page structure testable before publication. The CV renders the existing compact methodology sentence and links to the complete methodology page. The longer introduction methodology and UI paragraphs have been removed rather than rewritten. The retained introduction paragraph and experience evidence continue to carry the current application-UI orientation.
+
+The complete shared identity panel remains visible on every page: name, professional title, location, work eligibility, work preference, email, GitHub, navigation, and theme controls. Supporting pages render the name as a link to the CV rather than as a second page heading. The print action remains specific to the CV.
 
 ## Main-page jobs
 
@@ -17,7 +39,7 @@ The main CV has five content jobs:
 1. The header identifies Mikko and keeps contact and essential working facts immediately available.
 2. The introduction establishes what Mikko builds, that the production method is AI-first throughout, that substantial commercial software has been delivered, and that application UI design is a major capability.
 3. Professional experience supplies evidence for those claims without attempting to restate the complete methodology.
-4. Working methodology supplies enough concrete mechanism to distinguish the process from conventional AI-assisted coding. The complete procedural account belongs on a future `How I Work` surface.
+4. Working methodology supplies a compact statement and links to the complete procedural account on `/methodology/`.
 5. Education, languages, availability and links supply compact background facts.
 
 The main page does not currently need separate capabilities, technology-inventory or selected-project sections. Projects return only when they add publishable evidence or context beyond professional experience.
@@ -96,7 +118,7 @@ The introduction should establish the four central facts, not narrate the comple
 
 | Reference | Role | Allocation | Decision |
 | --- | --- | --- | --- |
-| `methodology.delivery.short` | Core claim | Main CV | Preserve as the minimum statement of scope. It is not sufficient by itself because it does not explain how the process differs from ordinary AI assistance. |
+| `methodology.delivery.short` | Core claim | Main CV | Preserve as the current compact work-in-progress statement and link it to the complete methodology page. Revisit its sufficiency during later editorial review. |
 | `methodology.delivery.summary[0]` | Core claim plus planning sequence | Main CV and future How I Work | Replace on the main page with an approved compressed account that includes adversarial planning, refinement into specifications and bounded implementation tasks. Keep the full sequence for How I Work. `Mikko wording required`. |
 | `methodology.delivery.details[0]` | Corrective review mechanism | Future How I Work; selected mechanism on main CV | Preserve. The main CV should retain the independence and editorial purpose of review, not reduce it to “code review.” `Mikko wording required` for compression. |
 | `methodology.delivery.details[1]` | Invariant-based verification mechanism | Future How I Work; selected mechanism on main CV | Preserve. The main CV may state the invariant-led selection of verification layers without listing every check. `Mikko wording required`. |
@@ -160,8 +182,8 @@ No other new self-descriptive prose is required for the next implementation slic
 
 The following work remains explicitly deferred:
 
-- building a complete How I Work page;
-- building Evidence pages or project routes;
+- replacing the Edupower and Tealab placeholders with approved articles;
+- deciding whether the compact CV methodology statement needs deliberately supplied replacement wording;
 - selecting repository metrics;
 - publishing an unavailable Tealab deployment link;
 - creating technology inventories, badges or pills;

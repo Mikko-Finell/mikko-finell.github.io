@@ -1,27 +1,17 @@
 import type { Experience } from "../content/types";
 import { Card } from "../ui/Card";
-import { Expandable } from "../ui/Expandable";
 import { Heading } from "../ui/Heading";
 import { Inline } from "../ui/Inline";
+import { Link } from "../ui/Link";
 import { Stack } from "../ui/Stack";
+import { Paragraphs } from "./Paragraphs";
 
 type ExperienceCardProps = {
   experience: Experience;
 };
 
-function Paragraphs({ paragraphs }: { paragraphs: readonly string[] }) {
-  return (
-    <Stack gap="paragraph">
-      {paragraphs.map((paragraph) => (
-        <p key={paragraph}>{paragraph}</p>
-      ))}
-    </Stack>
-  );
-}
-
 export function ExperienceCard({ experience }: ExperienceCardProps) {
   const headingId = `experience-${experience.id}-heading`;
-  const summary = <Paragraphs paragraphs={experience.content.summary} />;
 
   return (
     <Card labelledBy={headingId}>
@@ -41,15 +31,7 @@ export function ExperienceCard({ experience }: ExperienceCardProps) {
           </Stack>
         </header>
 
-        {experience.content.details ? (
-          <Expandable
-            details={<Paragraphs paragraphs={experience.content.details} />}
-            label={experience.organization}
-            summary={summary}
-          />
-        ) : (
-          summary
-        )}
+        <Paragraphs paragraphs={experience.summary} />
 
         <ul
           aria-label={`Highlights for ${experience.organization}`}
@@ -59,6 +41,15 @@ export function ExperienceCard({ experience }: ExperienceCardProps) {
             <li key={highlight}>{highlight}</li>
           ))}
         </ul>
+        {experience.links ? (
+          <ul className="document-links" data-print-hidden>
+            {experience.links.map((link) => (
+              <li key={link.href}>
+                <Link href={link.href}>{link.label}</Link>
+              </li>
+            ))}
+          </ul>
+        ) : null}
       </Stack>
     </Card>
   );

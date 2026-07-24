@@ -1,5 +1,12 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, type Page, test } from "@playwright/test";
+import {
+  primaryNavigation,
+  siteRoutes,
+  type SiteRouteId,
+} from "../src/site/routes";
+
+const pages = primaryNavigation.map((id) => ({ id, ...siteRoutes[id] }));
 
 function collectUnexpectedBrowserErrors(page: Page) {
   const errors: string[] = [];
@@ -16,102 +23,83 @@ function collectUnexpectedBrowserErrors(page: Page) {
   return errors;
 }
 
-test("loads the production build without unexpected browser errors", async ({
-  page,
-}) => {
-  const errors = collectUnexpectedBrowserErrors(page);
-  const response = await page.goto("/");
+for (const sitePage of pages) {
+  test(`${sitePage.href} loads directly with valid document semantics`, async ({
+    page,
+  }) => {
+    const errors = collectUnexpectedBrowserErrors(page);
+    const response = await page.goto(sitePage.href);
 
-  expect(response?.ok()).toBe(true);
-  await expect(page.getByRole("main")).toBeVisible();
-  await expect(page.getByRole("heading", { level: 1 })).toHaveCount(1);
-  expect(errors).toEqual([]);
-});
+    expect(response?.ok()).toBe(true);
+    await expect(page.getByRole("main")).toBeVisible();
+    await expect(page.getByRole("heading", { level: 1 })).toHaveCount(1);
+    const header = page.getByRole("banner");
+    await expect(
+      header.getByText("AI-First Software Architect / Full-Stack Developer", {
+        exact: true,
+      }),
+    ).toBeVisible();
+    await expect(header.getByText("Finland", { exact: true })).toBeVisible();
+    await expect(
+      header.getByRole("link", { name: "mikko.finell@gmail.com" }),
+    ).toBeVisible();
+    expect(errors).toEqual([]);
 
-test("primary fragment navigation reaches every declared target", async ({
-  page,
-}) => {
-  await page.goto("/");
-  const navigation = page.getByRole("navigation", { name: "Primary" });
-  const links = navigation.getByRole("link");
-  const expectedTargets = [
-    "#introduction",
-    "#experience",
-    "#methodology",
-    "#education",
-    "#contact",
-  ];
-
-  await expect(links).toHaveCount(expectedTargets.length);
-  expect(await links.evaluateAll((items) => items.map((item) => item.getAttribute("href")))).toEqual(
-    expectedTargets,
-  );
-  await expect(page.locator("#capabilities, #projects")).toHaveCount(0);
-
-  for (let index = 0; index < expectedTargets.length; index += 1) {
-    const link = links.nth(index);
-    const href = await link.getAttribute("href");
-
-    expect(href).toMatch(/^#[a-z][a-z-]*$/);
-    if (!href) {
-      throw new Error("Primary navigation link is missing its target");
-    }
-
-    await link.click();
-    await expect(page).toHaveURL(new RegExp(`${href}$`));
-    await expect(page.locator(href)).toBeInViewport();
-  }
-});
-
-test("shared disclosures expose accessible state and keep their controls reachable", async ({
-  page,
-}) => {
-  await page.goto("/");
-  const disclosures = page.locator("button[aria-expanded][aria-controls]");
-  const disclosureCount = await disclosures.count();
-
-  expect(disclosureCount).toBeGreaterThan(0);
-
-  for (let index = 0; index < disclosureCount; index += 1) {
-    const disclosure = disclosures.nth(index);
-    const controlledId = await disclosure.getAttribute("aria-controls");
-
-    await expect(disclosure).toHaveAttribute("aria-expanded", "false");
-    expect(controlledId).toBeTruthy();
-    if (!controlledId) {
-      throw new Error("Disclosure is missing aria-controls");
-    }
-
-    const details = page.locator(`[id=${JSON.stringify(controlledId)}]`);
-    const controlTopBeforeExpansion = await disclosure.evaluate(
-      (element) => element.getBoundingClientRect().top + window.scrollY,
+    const results = await new AxeBuilder({ page }).analyze();
+    const unresolved = results.violations.filter(
+      (violation) =>
+        violation.impact === "serious" || violation.impact === "critical",
     );
 
-    await expect(details).toBeHidden();
-    await disclosure.press("Enter");
-    await expect(disclosure).toHaveAttribute("aria-expanded", "true");
-    await expect(disclosure).toHaveAccessibleName(/^Hide details for /);
-    await expect(details).toBeVisible();
-
-    const controlTopAfterExpansion = await disclosure.evaluate(
-      (element) => element.getBoundingClientRect().top + window.scrollY,
-    );
     expect(
-      Math.abs(controlTopAfterExpansion - controlTopBeforeExpansion),
-    ).toBeLessThan(1);
-  }
-});
+      unresolved,
+      unresolved
+        .map(
+          (violation) =>
+            `${violation.id}: ${violation.help} (${violation.nodes.length} node(s))`,
+        )
+        .join("\n"),
+    ).toEqual([]);
+  });
 
-test("color choices apply and persist", async ({ page }) => {
-  await page.goto("/");
+  test(`${sitePage.href} exposes canonical global navigation`, async ({
+    page,
+  }) => {
+    await page.goto(sitePage.href);
+    const links = page.getByRole("navigation", { name: "Primary" }).getByRole("link");
 
-  const dark = page.getByRole("button", { name: "Dark" });
+    await expect(links).toHaveCount(primaryNavigation.length);
+    expect(await links.evaluateAll((items) => items.map((item) => item.getAttribute("href")))).toEqual(
+      primaryNavigation.map((id) => siteRoutes[id].href),
+    );
 
-  await expect(dark).toHaveAttribute("aria-pressed", "false");
-  await dark.click();
-  await expect(dark).toHaveAttribute("aria-pressed", "true");
+    for (const routeId of primaryNavigation) {
+      const link = links.filter({ hasText: siteRoutes[routeId].label });
+
+      if (routeId === sitePage.id) {
+        await expect(link).toHaveAttribute("aria-current", "page");
+      } else {
+        await expect(link).not.toHaveAttribute("aria-current", "page");
+      }
+    }
+
+    const destination = sitePage.id === "cv" ? "methodology" : "cv";
+    await links.filter({ hasText: siteRoutes[destination].label }).click();
+    await expect(page).toHaveURL(new RegExp(`${siteRoutes[destination].href}$`));
+  });
+}
+
+test("theme preference persists across page navigation and reload", async ({
+  page,
+}) => {
+  await page.goto(siteRoutes.cv.href);
+  await page.getByRole("button", { name: "Dark" }).click();
+  await page
+    .getByRole("navigation", { name: "Primary" })
+    .getByRole("link", { name: siteRoutes.methodology.label })
+    .click();
+
   await expect(page.locator("html")).toHaveAttribute("data-mode", "dark");
-
   await page.reload();
   await expect(page.locator("html")).toHaveAttribute("data-mode", "dark");
   await expect(page.getByRole("button", { name: "Dark" })).toHaveAttribute(
@@ -120,50 +108,58 @@ test("color choices apply and persist", async ({ page }) => {
   );
 });
 
-test("critical contact and external links remain usable", async ({ page }) => {
-  await page.goto("/");
-  const header = page.getByRole("banner");
-  const links = page.locator('a[href^="mailto:"], a[href^="https://"]');
-  const linkCount = await links.count();
-
-  expect(linkCount).toBeGreaterThan(0);
-  await expect(
-    header.locator('a[href="mailto:mikko.finell@gmail.com"]'),
-  ).toHaveCount(1);
-  await expect(
-    header.locator('a[href="https://github.com/mikko-finell"]'),
-  ).toHaveCount(1);
-  await expect(page.locator('a[href*="tealab.io"]')).toHaveCount(0);
-  await expect(
-    page.getByRole("list", { name: /^Technologies used for / }),
-  ).toHaveCount(0);
-
-  for (let index = 0; index < linkCount; index += 1) {
-    const link = links.nth(index);
-    const href = await link.getAttribute("href");
-
-    await expect(link).toHaveAccessibleName(/\S/);
-    expect(href).toMatch(/^(mailto:|https:\/\/).+/);
-  }
-});
-
-test("has no serious or critical automated accessibility violations", async ({
+test("CV exposes compact content and supporting-page links without disclosures", async ({
   page,
 }) => {
-  await page.goto("/");
-  const results = await new AxeBuilder({ page }).analyze();
-  const unresolved = results.violations.filter(
-    (violation) =>
-      violation.impact === "serious" || violation.impact === "critical",
-  );
+  await page.goto(siteRoutes.cv.href);
 
-  expect(
-    unresolved,
-    unresolved
-      .map(
-        (violation) =>
-          `${violation.id}: ${violation.help} (${violation.nodes.length} node(s))`,
-      )
-      .join("\n"),
-  ).toEqual([]);
+  await expect(page.locator("details, summary, [aria-expanded]")).toHaveCount(0);
+  await expect(page.getByRole("heading", { name: "Working methodology" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Delivery" })).toHaveCount(0);
+  await expect(page.getByText("The degree remains incomplete", { exact: false })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Print / Save as PDF" })).toHaveCount(1);
+  await expect(page.getByRole("link", { name: /Edupower account/ })).toHaveCount(2);
+  await expect(page.getByRole("link", { name: /Tealab case study/ })).toHaveAttribute(
+    "href",
+    siteRoutes.tealab.href,
+  );
+});
+
+test("methodology page presents the complete topics without disclosures", async ({
+  page,
+}) => {
+  await page.goto(siteRoutes.methodology.href);
+
+  await expect(page.getByRole("heading", { level: 1, name: "Working methodology" })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 2, name: "Delivery" })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 2, name: "Application UI design" })).toBeVisible();
+  await expect(page.locator("details, summary, [aria-expanded]")).toHaveCount(0);
+});
+
+for (const routeId of ["edupower", "tealab"] as const satisfies readonly SiteRouteId[]) {
+  test(`${siteRoutes[routeId].href} is a safe work placeholder`, async ({ page }) => {
+    await page.goto(siteRoutes[routeId].href);
+
+    await expect(page.getByRole("heading", { level: 1, name: siteRoutes[routeId].label })).toBeVisible();
+    await expect(page.getByText("Case study in preparation.", { exact: true })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Professional experience" })).toHaveCount(0);
+    await expect(page.getByRole("heading", { name: "Working methodology" })).toHaveCount(0);
+  });
+}
+
+test("print media keeps CV content and hides website controls", async ({ page }) => {
+  await page.goto(siteRoutes.cv.href);
+  await page.emulateMedia({ media: "print" });
+
+  await expect(page.getByRole("navigation", { name: "Primary" })).toBeHidden();
+  await expect(page.getByRole("group", { name: "Mode" })).toBeHidden();
+  await expect(page.getByRole("button", { name: "Print / Save as PDF" })).toBeHidden();
+  await expect(page.getByRole("link", { name: /Edupower account/ }).first()).toBeHidden();
+  await expect(page.getByRole("heading", { level: 1, name: "Mikko Finell" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Professional experience" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Working methodology" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Education and relevant background" })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Contact", exact: true }),
+  ).toBeVisible();
 });

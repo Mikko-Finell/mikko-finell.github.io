@@ -1,12 +1,6 @@
 export type TextBlock = readonly string[];
 
-export type LayeredContent = {
-  short?: string;
-  summary: TextBlock;
-  details?: TextBlock;
-};
-
-export type Link = {
+export type ContentLink = {
   label: string;
   href: string;
 };
@@ -40,7 +34,7 @@ export type Identity = {
 
 export type Contact = {
   availability: readonly string[];
-  links: readonly Link[];
+  links: readonly ContentLink[];
 };
 
 export type Experience = {
@@ -49,29 +43,35 @@ export type Experience = {
   role?: string;
   context?: string;
   dates: DateRange;
-  content: LayeredContent;
+  summary: TextBlock;
   highlights: readonly string[];
-  links?: readonly Link[];
+  links?: readonly ContentLink[];
+};
+
+export type MethodologyTopic = {
+  short?: string;
+  summary: TextBlock;
+  details: TextBlock;
 };
 
 export type Methodology = {
-  delivery: LayeredContent;
-  applicationDesign: LayeredContent;
+  delivery: MethodologyTopic;
+  applicationDesign: MethodologyTopic;
 };
 
 export type EducationEntry = {
   institution: string;
   program: string;
   dates: DateRange;
-  content: LayeredContent;
+  summary: TextBlock;
+  details?: TextBlock;
   facts: readonly string[];
 };
 
 export type CvContent = {
   identity: Identity;
   contact: Contact;
-  introduction: LayeredContent;
+  introduction: TextBlock;
   experience: readonly Experience[];
-  methodology: Methodology;
   education: readonly EducationEntry[];
 };

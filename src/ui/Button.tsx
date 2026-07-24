@@ -1,33 +1,23 @@
-import type { MouseEventHandler, ReactNode } from "react";
+import type { ComponentPropsWithoutRef } from "react";
 
-type ButtonProps = {
-  children: ReactNode;
-  controls?: string;
-  expanded?: boolean;
-  onClick: MouseEventHandler<HTMLButtonElement>;
-  pressed?: boolean;
+type ButtonProps = Omit<
+  ComponentPropsWithoutRef<"button">,
+  "className" | "style"
+> & {
   variant?: "standard" | "choice";
 };
 
 export function Button({
-  children,
-  controls,
-  expanded,
-  onClick,
-  pressed,
+  type = "button",
   variant = "standard",
+  ...props
 }: ButtonProps) {
   return (
     <button
-      aria-controls={controls}
-      aria-expanded={expanded}
-      aria-pressed={pressed}
       className="ui-button"
       data-variant={variant}
-      onClick={onClick}
-      type="button"
-    >
-      {children}
-    </button>
+      type={type}
+      {...props}
+    />
   );
 }
