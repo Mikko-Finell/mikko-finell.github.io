@@ -71,7 +71,7 @@ Substantial site content must be centralized by subject and page, not duplicated
 
 ```text
 src/content/cv.ts
-src/content/methodology.ts
+src/content/methodology.md
 ```
 
 The CV content module contains:
@@ -84,7 +84,7 @@ The CV content module contains:
 * supporting links;
 * reusable labels or factual fragments where appropriate.
 
-The methodology content module contains the compact statement rendered by the CV and the complete methodology rendered on its dedicated page. Future approved article content may use `src/content/edupower.ts` and `src/content/tealab.ts`, but those files must not be created until publishable content exists.
+The methodology Markdown document contains both the summary rendered by the CV and the complete methodology rendered on its dedicated page. Future approved articles should use the same Markdown document model, but their canonical files must not be created until publishable content exists.
 
 Capability groups, project descriptions, technology metadata and other optional structures belong in the canonical module only when an approved rendered surface or imminent evidence task uses them. Do not retain invisible duplicates of removed sections indefinitely.
 
@@ -104,45 +104,19 @@ The content modules are the authority for wording and factual data. Components c
 
 ## 4. Content allocation
 
-Content structures must match their actual rendered jobs. The main CV uses compact document content, while the methodology module keeps an explicit short form for the CV and complete paragraph arrays for its dedicated page.
+Content structures must match their actual rendered jobs. TypeScript remains appropriate for CV records and factual fields. Long-form articles use ordinary Markdown so their prose can be edited as documents rather than as TypeScript object literals.
 
-Use additive layers such as:
+An article Markdown document follows three structural conventions:
 
-```ts
-type MethodologyTopic = {
-  short?: string;
-  summary: readonly string[];
-  details: readonly string[];
-};
-```
+* it begins with exactly one level-one heading, which supplies the page title;
+* its first paragraph is the deliberately written summary reused by compact surfaces such as the CV;
+* its level-two headings define the article sections and generate the page's section navigation.
 
-These fields serve different presentation contexts:
+The summary is part of the complete article and is not duplicated in metadata. Build-time Markdown processing extracts the title, first paragraph and level-two heading labels and identifiers as typed metadata. Components consume that generated metadata; they do not scan the rendered DOM or maintain a parallel hand-authored table of contents.
 
-* `short` provides a compact description for metadata, overview text, or highly constrained layouts;
-* `summary` provides the opening account on the methodology page;
-* `details` provides the remainder of the visible methodology account.
+Article source remains plain Markdown. Do not require frontmatter, custom delimiters, embedded JSX, exports or a homegrown metadata syntax for ordinary article structure. GitHub-Flavored Markdown is supported. Build validation must reject documents that do not satisfy the title, summary and section conventions.
 
-The full methodology consists of the summary followed by the details in normal document flow. Do not maintain a separate full version that duplicates the summary.
-
-Example:
-
-```ts
-workflow: {
-  short: "A concise approved description.",
-
-  summary: [
-    "The normal visible explanation.",
-    "A second summary paragraph."
-  ],
-
-  details: [
-    "Additional procedural detail.",
-    "Further information for technical readers."
-  ]
-}
-```
-
-Do not generate compressed summaries automatically at runtime. Each content level must contain deliberately written and approved text.
+Do not generate or compress the summary from later prose. The first paragraph is itself the approved summary.
 
 Ordinary CV entries should use direct fields that correspond to their visible structure rather than a universal layered-content abstraction.
 
@@ -237,11 +211,12 @@ src/
     WorkPlaceholderPage.tsx
 
   site/
+    markdown.ts
     routes.ts
 
   content/
     cv.ts
-    methodology.ts
+    methodology.md
     types.ts
 
   ui/
@@ -256,6 +231,7 @@ src/
     theme.ts
 
   components/
+    MarkdownDocument.tsx
     SiteShell.tsx
     SiteHeader.tsx
     Paragraphs.tsx
@@ -272,6 +248,8 @@ src/
 
 scripts/
   check-ui-boundaries.mjs
+  markdown-document.mjs
+  markdown-document.d.mts
 
 tests/
   site.e2e.ts
@@ -423,7 +401,7 @@ Document components may define section-specific structure. They must still rely 
 
 Typography must be determined by the semantic type of content, not by whichever container happens to surround it. `Paragraphs` owns the standard prose measure, line height, and paragraph rhythm through `.document-prose`. Standard document lists own their list measure and rhythm through `.document-list`. `Card` owns only its surface, border, card spacing, and print-breaking behavior; it must not style descendant paragraphs or otherwise infer prose typography from containment.
 
-Normal body-text arrays must render through `Paragraphs` whether they appear in the introduction, experience, methodology summary, full methodology, education, or future articles. Do not introduce a prose variant until a demonstrated recurring difference requires one.
+Normal body-text arrays must render through `Paragraphs` whether they appear in the introduction, experience, methodology summary or education. Authored Markdown must render through `MarkdownDocument`, which maps document headings, links and lists to the shared UI primitives and applies the same `.document-prose` boundary. Do not introduce a prose variant until a demonstrated recurring difference requires one.
 
 Components should correspond to meaningful concepts. Do not create abstraction layers consisting primarily of generic wrappers such as:
 

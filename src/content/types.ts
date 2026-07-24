@@ -48,17 +48,6 @@ export type Experience = {
   links?: readonly ContentLink[];
 };
 
-export type MethodologyTopic = {
-  short?: string;
-  summary: TextBlock;
-  details: TextBlock;
-};
-
-export type Methodology = {
-  delivery: MethodologyTopic;
-  applicationDesign: MethodologyTopic;
-};
-
 export type EducationEntry = {
   institution: string;
   program: string;

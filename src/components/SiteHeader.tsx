@@ -1,4 +1,5 @@
 import { cvContent } from "../content/cv";
+import type { PageSection } from "../site/markdown";
 import {
   primaryNavigation,
   siteRoutes,
@@ -13,9 +14,10 @@ import { ThemeControls } from "../ui/ThemeControls";
 
 type SiteHeaderProps = {
   currentPage: SiteRouteId;
+  pageSections?: readonly PageSection[] | undefined;
 };
 
-export function SiteHeader({ currentPage }: SiteHeaderProps) {
+export function SiteHeader({ currentPage, pageSections }: SiteHeaderProps) {
   const { contact, identity } = cvContent;
   const isCv = currentPage === "cv";
 
@@ -55,11 +57,33 @@ export function SiteHeader({ currentPage }: SiteHeaderProps) {
                 <li key={routeId}>
                   <Link
                     aria-current={routeId === currentPage ? "page" : undefined}
+                    data-site-route
                     href={route.href}
                     variant="navigation"
                   >
                     {route.label}
                   </Link>
+                  {routeId === currentPage && pageSections?.length ? (
+                    <ul
+                      aria-label={`${route.label} sections`}
+                      className="site-nav__sections"
+                    >
+                      {pageSections.map((section, index) => (
+                        <li key={section.id}>
+                          <Link
+                            data-page-section
+                            href={`#${section.id}`}
+                            variant="section-navigation"
+                          >
+                            <span aria-hidden="true" className="site-nav__tree">
+                              {index === pageSections.length - 1 ? "└─" : "├─"}
+                            </span>
+                            <span>{section.label}</span>
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : null}
                 </li>
               );
             })}

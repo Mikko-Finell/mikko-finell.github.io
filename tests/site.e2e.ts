@@ -66,7 +66,8 @@ for (const sitePage of pages) {
     page,
   }) => {
     await page.goto(sitePage.href);
-    const links = page.getByRole("navigation", { name: "Primary" }).getByRole("link");
+    const navigation = page.getByRole("navigation", { name: "Primary" });
+    const links = navigation.locator("a[data-site-route]");
 
     await expect(links).toHaveCount(primaryNavigation.length);
     expect(await links.evaluateAll((items) => items.map((item) => item.getAttribute("href")))).toEqual(
@@ -82,6 +83,10 @@ for (const sitePage of pages) {
         await expect(link).not.toHaveAttribute("aria-current", "page");
       }
     }
+
+    await expect(navigation.locator("a[data-page-section]")).toHaveCount(
+      sitePage.id === "methodology" ? 2 : 0,
+    );
 
     const destination = sitePage.id === "cv" ? "methodology" : "cv";
     await links.filter({ hasText: siteRoutes[destination].label }).click();
@@ -108,7 +113,7 @@ test("theme preference persists across page navigation and reload", async ({
   );
 });
 
-test("CV exposes compact content and supporting-page links without disclosures", async ({
+test("CV exposes summary content and supporting-page links without disclosures", async ({
   page,
 }) => {
   await page.goto(siteRoutes.cv.href);
@@ -133,6 +138,23 @@ test("methodology page presents the complete topics without disclosures", async 
   await expect(page.getByRole("heading", { level: 1, name: "Working methodology" })).toBeVisible();
   await expect(page.getByRole("heading", { level: 2, name: "Delivery" })).toBeVisible();
   await expect(page.getByRole("heading", { level: 2, name: "Application UI design" })).toBeVisible();
+  const sections = page.getByRole("list", { name: "Methodology sections" });
+  const deliveryLink = sections.getByRole("link", { name: "Delivery" });
+  const applicationLink = sections.getByRole("link", {
+    name: "Application UI design",
+  });
+
+  await expect(sections.getByRole("link")).toHaveCount(2);
+  await expect(deliveryLink).toHaveAttribute("href", "#delivery");
+  await expect(applicationLink).toHaveAttribute(
+    "href",
+    "#application-ui-design",
+  );
+  await applicationLink.click();
+  await expect(page).toHaveURL(/#application-ui-design$/);
+  await expect(
+    page.getByRole("heading", { level: 2, name: "Application UI design" }),
+  ).toBeInViewport();
   await expect(page.locator("details, summary, [aria-expanded]")).toHaveCount(0);
 });
 

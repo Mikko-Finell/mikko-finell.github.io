@@ -1,4 +1,4 @@
-import { methodologyContent } from "../content/methodology";
+import { documentMetadata } from "../content/methodology.md";
 import { siteRoutes } from "../site/routes";
 import { Heading } from "../ui/Heading";
 import { Link } from "../ui/Link";
@@ -15,7 +15,7 @@ export function MethodologySummarySection() {
         <Heading id={headingId} level={2} size="section">
           Working methodology
         </Heading>
-        <Paragraphs paragraphs={[methodologyContent.delivery.short]} />
+        <Paragraphs paragraphs={[documentMetadata.summary]} />
         <div data-print-hidden>
           <Link href={siteRoutes.methodology.href}>
             Read the full methodology →
