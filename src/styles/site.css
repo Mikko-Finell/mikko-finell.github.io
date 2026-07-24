@@ -59,6 +59,7 @@
     --space-12: 3rem;
     --space-16: 4rem;
     --space-24: 6rem;
+    --paragraph-gap: var(--space-4);
     --page-width: 88rem;
     --text-width: 52rem;
     --reading-width: 43rem;
@@ -288,10 +289,6 @@
     break-inside: avoid;
   }
 
-  .ui-card p {
-    max-width: var(--reading-width);
-  }
-
   .ui-link[data-variant="navigation"] {
     display: block;
     padding-block: var(--space-1);
@@ -352,10 +349,6 @@
     gap: var(--space-8);
   }
 
-  .ui-stack[data-gap="paragraph"] {
-    gap: var(--space-4);
-  }
-
   .ui-inline {
     display: flex;
     flex-wrap: wrap;
@@ -385,7 +378,15 @@
   .document-list {
     display: grid;
     gap: var(--space-2);
+    max-width: var(--reading-width);
     padding-inline-start: var(--space-5);
+  }
+
+  .document-prose {
+    display: grid;
+    gap: var(--paragraph-gap);
+    max-width: var(--reading-width);
+    line-height: var(--leading-body);
   }
 
   .document-links {

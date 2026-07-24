@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 
 type StackProps = {
   children: ReactNode;
-  gap?: "small" | "medium" | "large" | "paragraph";
+  gap?: "small" | "medium" | "large";
 };
 
 export function Stack({ children, gap = "medium" }: StackProps) {

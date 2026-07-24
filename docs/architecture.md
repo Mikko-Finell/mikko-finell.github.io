@@ -421,6 +421,10 @@ MethodologySection
 
 Document components may define section-specific structure. They must still rely on shared primitives for recurring controls and visual surfaces.
 
+Typography must be determined by the semantic type of content, not by whichever container happens to surround it. `Paragraphs` owns the standard prose measure, line height, and paragraph rhythm through `.document-prose`. Standard document lists own their list measure and rhythm through `.document-list`. `Card` owns only its surface, border, card spacing, and print-breaking behavior; it must not style descendant paragraphs or otherwise infer prose typography from containment.
+
+Normal body-text arrays must render through `Paragraphs` whether they appear in the introduction, experience, methodology summary, full methodology, education, or future articles. Do not introduce a prose variant until a demonstrated recurring difference requires one.
+
 Components should correspond to meaningful concepts. Do not create abstraction layers consisting primarily of generic wrappers such as:
 
 ```text

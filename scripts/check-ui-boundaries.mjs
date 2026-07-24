@@ -4,6 +4,7 @@ import process from "node:process";
 import { fileURLToPath } from "node:url";
 
 const sourceRoot = fileURLToPath(new URL("../src/", import.meta.url));
+const stylesheetPath = fileURLToPath(new URL("../src/styles/site.css", import.meta.url));
 const sharedComponents = [
   "Button",
   "Card",
@@ -72,6 +73,12 @@ for (const file of await collectSourceFiles(sourceRoot)) {
   if (!file.endsWith("/src/ui/Heading.tsx") && /<h[1-3]\b/.test(source)) {
     report(file, "raw primary headings must be implemented by the shared Heading component");
   }
+}
+
+const stylesheet = await readFile(stylesheetPath, "utf8");
+
+if (/\.ui-card(?:\s+|\s*>\s*)[^,{]*\bp\b[^,{]*\{/.test(stylesheet)) {
+  report(stylesheetPath, "Card must not determine descendant paragraph typography");
 }
 
 if (violations.length > 0) {
