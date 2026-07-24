@@ -43,6 +43,10 @@ for (const sitePage of pages) {
     await expect(
       header.getByRole("link", { name: "mikko.finell@gmail.com" }),
     ).toBeVisible();
+    await expect(header.getByRole("link", { name: "LinkedIn" })).toHaveAttribute(
+      "href",
+      "https://www.linkedin.com/in/mikko-finell",
+    );
     expect(errors).toEqual([]);
 
     const results = await new AxeBuilder({ page }).analyze();
