@@ -158,6 +158,36 @@ test("methodology page presents the complete topics without disclosures", async 
   await expect(page.locator("details, summary, [aria-expanded]")).toHaveCount(0);
 });
 
+test("shared page content aligns consistently with the sidebar", async ({
+  page,
+}) => {
+  await page.goto(siteRoutes.methodology.href);
+  const methodologyTitle = await page
+    .getByRole("heading", { level: 1, name: "Working methodology" })
+    .boundingBox();
+  const sidebarIdentity = await page
+    .getByRole("banner")
+    .getByRole("link", { name: "Mikko Finell" })
+    .boundingBox();
+
+  expect(methodologyTitle).not.toBeNull();
+  expect(sidebarIdentity).not.toBeNull();
+  expect(methodologyTitle?.y).toBeCloseTo(sidebarIdentity?.y ?? 0, 0);
+
+  await page.goto(siteRoutes.cv.href);
+  const introduction = await page
+    .getByRole("heading", { level: 2, name: "Introduction" })
+    .boundingBox();
+  const cvIdentity = await page
+    .getByRole("heading", { level: 1, name: "Mikko Finell" })
+    .boundingBox();
+
+  expect(introduction).not.toBeNull();
+  expect(cvIdentity).not.toBeNull();
+  expect(introduction?.x).toBeCloseTo(methodologyTitle?.x ?? 0, 0);
+  expect(introduction?.y).toBeCloseTo(cvIdentity?.y ?? 0, 0);
+});
+
 for (const routeId of ["edupower", "tealab"] as const satisfies readonly SiteRouteId[]) {
   test(`${siteRoutes[routeId].href} is a safe work placeholder`, async ({ page }) => {
     await page.goto(siteRoutes[routeId].href);

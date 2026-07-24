@@ -17,7 +17,9 @@ export function SiteShell({
   return (
     <>
       <SiteHeader currentPage={currentPage} pageSections={pageSections} />
-      <main>{children}</main>
+      <main>
+        <div className="site-main__content">{children}</div>
+      </main>
     </>
   );
 }

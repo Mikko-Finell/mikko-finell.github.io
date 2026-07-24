@@ -60,6 +60,7 @@
     --space-16: 4rem;
     --space-24: 6rem;
     --paragraph-gap: var(--space-4);
+    --page-block-start: var(--space-10);
     --page-width: 88rem;
     --text-width: 52rem;
     --reading-width: 43rem;
@@ -145,16 +146,17 @@
     align-self: start;
     height: 100vh;
     overflow-y: auto;
-    padding: var(--space-10) var(--space-6) var(--space-8) var(--page-gutter);
+    padding: var(--page-block-start) var(--space-6) var(--space-8)
+      var(--page-gutter);
     border-right: var(--border-width) solid var(--color-border);
   }
 
   main {
     min-width: 0;
-    padding: var(--space-16) var(--page-gutter) var(--space-24);
+    padding: var(--page-block-start) var(--page-gutter) var(--space-24);
   }
 
-  main > :where(.ui-stack) {
+  .site-main__content {
     width: min(100%, var(--text-width));
     margin-inline: auto;
   }
@@ -453,6 +455,12 @@
 }
 
 @media (max-width: 52rem) {
+  @layer tokens {
+    :root {
+      --page-block-start: var(--space-8);
+    }
+  }
+
   @layer layout {
     #root {
       display: block;
@@ -463,7 +471,7 @@
       width: auto;
       height: auto;
       overflow-y: visible;
-      padding: var(--space-8) var(--page-gutter);
+      padding: var(--page-block-start) var(--page-gutter);
       border-right: 0;
       border-bottom: var(--border-width) solid var(--color-border);
     }
@@ -486,21 +494,19 @@
       grid-template-columns: 1fr 1fr;
       margin-top: 0;
     }
-
-    main {
-      padding-top: var(--space-10);
-    }
   }
 }
 
 @media (max-width: 38rem) {
-  @layer layout {
-    .site-header {
-      padding-block: var(--space-6);
+  @layer tokens {
+    :root {
+      --page-block-start: var(--space-6);
     }
+  }
 
+  @layer layout {
     main {
-      padding-block: var(--space-8) var(--space-16);
+      padding-bottom: var(--space-16);
     }
 
     .site-header__controls {

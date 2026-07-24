@@ -644,6 +644,8 @@ Each HTML entry document loads one trivial TypeScript entry file. Every entry ca
 
 Page components choose major sections and their order without duplicating navigation, mount behavior, content-rendering logic, or shared controls.
 
+`SiteShell` owns one explicit main-content boundary. That boundary determines the shared page width and horizontal centering for every page; its behavior must not depend on whether the page's first child happens to be a `Stack`, `MarkdownDocument` or another document component. The sidebar and main content use the same responsive block-start spacing token so their first content aligns when presented as columns. `Stack` owns only arrangement and gaps between its children.
+
 All approved prose is visible in normal document flow. The site does not use expandable content, accordions, tabs, or another disclosure replacement.
 
 ## 14. Content types
