@@ -16,6 +16,16 @@
       } catch {}
     </script>
     <link rel="stylesheet" href="/src/styles/site.css" />
+    <script type="speculationrules">
+      {
+        "prerender": [
+          {
+            "urls": ["/", "/work/edupower/", "/work/tealab/"],
+            "eagerness": "immediate"
+          }
+        ]
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
