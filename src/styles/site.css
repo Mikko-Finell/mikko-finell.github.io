@@ -490,6 +490,10 @@
       gap: var(--space-1) var(--space-4);
     }
 
+    .site-nav__sections {
+      display: none;
+    }
+
     .site-header__controls {
       grid-template-columns: 1fr 1fr;
       margin-top: 0;
@@ -505,6 +509,10 @@
   }
 
   @layer layout {
+    .site-header :where(.ui-inline) {
+      flex-direction: column;
+    }
+
     main {
       padding-bottom: var(--space-16);
     }
@@ -548,6 +556,14 @@
     height: auto;
     padding: 0 0 var(--space-6);
     border-right: 0;
+  }
+
+  .site-header__contact-links {
+    flex-basis: 100%;
+  }
+
+  .site-header__contact-links :where(.ui-inline) {
+    flex-direction: row;
   }
 
   [data-print-hidden] {

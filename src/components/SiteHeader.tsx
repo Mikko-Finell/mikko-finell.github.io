@@ -41,11 +41,15 @@ export function SiteHeader({ currentPage, pageSections }: SiteHeaderProps) {
             <p className="site-header__facts">{identity.location}</p>
             <p className="site-header__facts">{identity.workEligibility}</p>
             <p className="site-header__facts">{identity.workPreference}</p>
-            {contact.links.map((link) => (
-              <Link href={link.href} key={link.href}>
-                {link.label}
-              </Link>
-            ))}
+            <div className="site-header__contact-links">
+              <Inline gap="small">
+                {contact.links.map((link) => (
+                  <Link href={link.href} key={link.href}>
+                    {link.label}
+                  </Link>
+                ))}
+              </Inline>
+            </div>
           </Inline>
         </Inline>
         <nav aria-label="Primary" className="site-nav" data-print-hidden>

@@ -72,6 +72,8 @@ Substantial site content must be centralized by subject and page, not duplicated
 ```text
 src/content/cv.ts
 src/content/methodology.md
+src/content/edupower.md
+src/content/tealab.md
 ```
 
 The CV content module contains:
@@ -84,7 +86,7 @@ The CV content module contains:
 * supporting links;
 * reusable labels or factual fragments where appropriate.
 
-The methodology Markdown document contains both the summary rendered by the CV and the complete methodology rendered on its dedicated page. Future approved articles should use the same Markdown document model, but their canonical files must not be created until publishable content exists.
+The methodology, Edupower and TeaLab Markdown documents contain the complete long-form content rendered on their dedicated pages. Their first paragraphs are reusable summaries. Future approved articles should use the same Markdown document model, but their canonical files must not be created until publishable content exists.
 
 Capability groups, project descriptions, technology metadata and other optional structures belong in the canonical module only when an approved rendered surface or imminent evidence task uses them. Do not retain invisible duplicates of removed sections indefinitely.
 
@@ -155,7 +157,7 @@ The main CV remains one coherent document within a four-page site:
 /work/tealab/
 ```
 
-The work routes use a shared neutral placeholder page until their approved article content is ready.
+The methodology and work routes render their canonical Markdown documents with generated section navigation.
 
 Use the following section structure:
 
@@ -206,9 +208,9 @@ src/
     tealab.tsx
 
   pages/
+    ArticlePage.tsx
     CvPage.tsx
     MethodologyPage.tsx
-    WorkPlaceholderPage.tsx
 
   site/
     markdown.ts
@@ -216,7 +218,9 @@ src/
 
   content/
     cv.ts
+    edupower.md
     methodology.md
+    tealab.md
     types.ts
 
   ui/

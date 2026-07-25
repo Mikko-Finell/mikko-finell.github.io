@@ -88,9 +88,15 @@ for (const sitePage of pages) {
       }
     }
 
-    await expect(navigation.locator("a[data-page-section]")).toHaveCount(
-      sitePage.id === "methodology" ? 2 : 0,
-    );
+    const sectionLinkCount = await navigation
+      .locator("a[data-page-section]")
+      .count();
+
+    if (sitePage.id === "cv") {
+      expect(sectionLinkCount).toBe(0);
+    } else {
+      expect(sectionLinkCount).toBeGreaterThan(0);
+    }
 
     const destination = sitePage.id === "cv" ? "methodology" : "cv";
     await links.filter({ hasText: siteRoutes[destination].label }).click();
@@ -115,6 +121,51 @@ test("theme preference persists across page navigation and reload", async ({
     "aria-pressed",
     "true",
   );
+});
+
+test("narrow navigation shows page links without article section links", async ({
+  page,
+}) => {
+  await page.setViewportSize({ height: 800, width: 600 });
+  await page.goto(siteRoutes.methodology.href);
+  const navigation = page.getByRole("navigation", { name: "Primary" });
+
+  await expect(navigation.locator("a[data-site-route]")).toHaveCount(
+    primaryNavigation.length,
+  );
+  for (const routeId of primaryNavigation) {
+    await expect(
+      navigation.getByRole("link", {
+        exact: true,
+        name: siteRoutes[routeId].label,
+      }),
+    ).toBeVisible();
+  }
+  await expect(navigation.locator("a[data-page-section]").first()).toBeHidden();
+});
+
+test("small-screen contact links follow the professional facts", async ({
+  page,
+}) => {
+  await page.setViewportSize({ height: 800, width: 375 });
+  await page.goto(siteRoutes.cv.href);
+  const header = page.getByRole("banner");
+  const workPreference = await header
+    .getByText("Remote contractor or employee", { exact: true })
+    .boundingBox();
+  const contactLinks = await Promise.all(
+    ["mikko.finell@gmail.com", "GitHub", "LinkedIn"].map((name) =>
+      header.getByRole("link", { exact: true, name }).boundingBox(),
+    ),
+  );
+
+  expect(workPreference).not.toBeNull();
+  for (const link of contactLinks) {
+    expect(link).not.toBeNull();
+    expect(link?.y ?? 0).toBeGreaterThanOrEqual(
+      (workPreference?.y ?? 0) + (workPreference?.height ?? 0),
+    );
+  }
 });
 
 test("CV exposes summary content and supporting-page links without disclosures", async ({
@@ -192,14 +243,65 @@ test("shared page content aligns consistently with the sidebar", async ({
   expect(introduction?.y).toBeCloseTo(cvIdentity?.y ?? 0, 0);
 });
 
-for (const routeId of ["edupower", "tealab"] as const satisfies readonly SiteRouteId[]) {
-  test(`${siteRoutes[routeId].href} is a safe work placeholder`, async ({ page }) => {
-    await page.goto(siteRoutes[routeId].href);
+const articles = [
+  {
+    firstSection: "Company context",
+    lastSection: "Summary of the engagement",
+    routeId: "edupower",
+    title: "Edupower Oy",
+  },
+  {
+    firstSection: "Origin",
+    lastSection: "Scope and limitations",
+    routeId: "tealab",
+    title: "Tealab",
+  },
+] as const satisfies readonly {
+  firstSection: string;
+  lastSection: string;
+  routeId: Extract<SiteRouteId, "edupower" | "tealab">;
+  title: string;
+}[];
 
-    await expect(page.getByRole("heading", { level: 1, name: siteRoutes[routeId].label })).toBeVisible();
-    await expect(page.getByText("Case study in preparation.", { exact: true })).toBeVisible();
-    await expect(page.getByRole("heading", { name: "Professional experience" })).toHaveCount(0);
-    await expect(page.getByRole("heading", { name: "Working methodology" })).toHaveCount(0);
+for (const article of articles) {
+  test(`${siteRoutes[article.routeId].href} renders its complete article and section navigation`, async ({
+    page,
+  }) => {
+    await page.goto(siteRoutes[article.routeId].href);
+
+    await expect(
+      page.getByRole("heading", {
+        exact: true,
+        level: 1,
+        name: article.title,
+      }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("heading", {
+        exact: true,
+        level: 2,
+        name: article.firstSection,
+      }),
+    ).toBeVisible();
+    const lastSectionLink = page
+      .getByRole("navigation", { name: "Primary" })
+      .getByRole("link", { exact: true, name: article.lastSection });
+
+    await expect(lastSectionLink).toHaveAttribute(
+      "href",
+      `#${article.lastSection.toLowerCase().replaceAll(" ", "-")}`,
+    );
+    await lastSectionLink.click();
+    await expect(page).toHaveURL(
+      new RegExp(`#${article.lastSection.toLowerCase().replaceAll(" ", "-")}$`),
+    );
+    await expect(
+      page.getByRole("heading", {
+        exact: true,
+        level: 2,
+        name: article.lastSection,
+      }),
+    ).toBeInViewport();
   });
 }
 
@@ -211,6 +313,24 @@ test("print media keeps CV content and hides website controls", async ({ page })
   await expect(page.getByRole("group", { name: "Mode" })).toBeHidden();
   await expect(page.getByRole("button", { name: "Print / Save as PDF" })).toBeHidden();
   await expect(page.getByRole("link", { name: /Edupower account/ }).first()).toBeHidden();
+  const header = page.getByRole("banner");
+  const workPreference = await header
+    .getByText("Remote contractor or employee", { exact: true })
+    .boundingBox();
+  const email = await header
+    .getByRole("link", { exact: true, name: "mikko.finell@gmail.com" })
+    .boundingBox();
+  const github = await header
+    .getByRole("link", { exact: true, name: "GitHub" })
+    .boundingBox();
+
+  expect(workPreference).not.toBeNull();
+  expect(email).not.toBeNull();
+  expect(github).not.toBeNull();
+  expect(email?.y ?? 0).toBeGreaterThanOrEqual(
+    (workPreference?.y ?? 0) + (workPreference?.height ?? 0),
+  );
+  expect(github?.y).toBeCloseTo(email?.y ?? 0, 0);
   await expect(page.getByRole("heading", { level: 1, name: "Mikko Finell" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Professional experience" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Working methodology" })).toBeVisible();

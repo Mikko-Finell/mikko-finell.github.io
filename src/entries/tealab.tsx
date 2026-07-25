@@ -1,4 +1,11 @@
 import { mountPage } from "../app/mountPage";
-import { WorkPlaceholderPage } from "../pages/WorkPlaceholderPage";
+import TealabContent, { documentMetadata } from "../content/tealab.md";
+import { ArticlePage } from "../pages/ArticlePage";
 
-mountPage(<WorkPlaceholderPage currentPage="tealab" title="Tealab" />);
+mountPage(
+  <ArticlePage
+    content={TealabContent}
+    currentPage="tealab"
+    metadata={documentMetadata}
+  />,
+);
