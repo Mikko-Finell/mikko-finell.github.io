@@ -339,6 +339,13 @@
     color: var(--color-accent);
   }
 
+  .ui-image {
+    display: block;
+    max-inline-size: 100%;
+    block-size: auto;
+    border: var(--border-width) solid var(--color-border);
+  }
+
   .ui-link[data-variant="navigation"]:hover {
     color: var(--color-accent);
   }

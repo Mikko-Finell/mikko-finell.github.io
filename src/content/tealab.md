@@ -134,6 +134,8 @@ To generate a report, the user selects a corpus, template, and model, then start
 
 The report view shows the report while it is being produced. Each section appears as it moves through drafting, fact-checking, revision, and cohesion stages. Progress indicators show the remaining work for the pipeline and its individual stages.
 
+![Report workspace showing an in-progress report with drafting and critique complete, and revision in progress.](/images/articles/tealab/report-generation-progress.light.png)
+
 After generation, each section can be edited manually or rewritten by the model using additional instructions from the user.
 
 The application retains the intermediate versions produced during the pipeline. For each section, the user can inspect the original draft, fact-checking changes, later revisions, and the template section that produced it.

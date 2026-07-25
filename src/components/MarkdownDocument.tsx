@@ -1,6 +1,7 @@
 import type { MDXComponents, MDXProps } from "mdx/types.js";
 import type { ComponentType, ReactNode } from "react";
 import { Heading } from "../ui/Heading";
+import { Image } from "../ui/Image";
 import { Link } from "../ui/Link";
 
 function MarkdownRoot({ children }: { children?: ReactNode }) {
@@ -25,6 +26,7 @@ const markdownComponents: MDXComponents = {
     </Heading>
   ),
   a: ({ children, href }) => <Link href={href}>{children}</Link>,
+  img: ({ alt, ...props }) => <Image alt={alt ?? ""} {...props} />,
   ol: ({ children }) => <ol className="document-list">{children}</ol>,
   ul: ({ children }) => <ul className="document-list">{children}</ul>,
 };

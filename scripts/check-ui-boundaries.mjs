@@ -9,6 +9,7 @@ const sharedComponents = [
   "Button",
   "Card",
   "Heading",
+  "Image",
   "Inline",
   "Link",
   "Section",

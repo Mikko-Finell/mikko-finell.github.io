@@ -123,6 +123,28 @@ test("theme preference persists across page navigation and reload", async ({
   );
 });
 
+test("themed article images follow the selected color mode", async ({ page }) => {
+  await page.goto(siteRoutes.tealab.href);
+  const image = page.getByRole("img", {
+    name: "Report workspace showing an in-progress report with drafting and critique complete, and revision in progress.",
+  });
+
+  await expect(image).toHaveAttribute(
+    "src",
+    "/images/articles/tealab/report-generation-progress.light.png",
+  );
+  await page.getByRole("button", { name: "Dark" }).click();
+  await expect(image).toHaveAttribute(
+    "src",
+    "/images/articles/tealab/report-generation-progress.dark.png",
+  );
+  await page.getByRole("button", { name: "Light" }).click();
+  await expect(image).toHaveAttribute(
+    "src",
+    "/images/articles/tealab/report-generation-progress.light.png",
+  );
+});
+
 test("narrow navigation shows page links without article section links", async ({
   page,
 }) => {
