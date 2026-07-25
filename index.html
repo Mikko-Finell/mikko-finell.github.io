@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-mode="system">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,6 +8,17 @@
       content="Mikko Finell — CV"
     />
     <title>Mikko Finell — CV</title>
+    <script>
+      try {
+        const mode = localStorage.getItem("cv-color-mode");
+        if (mode === "light" || mode === "dark" || mode === "system") {
+          document.documentElement.dataset.mode = mode;
+          document.documentElement.style.colorScheme =
+            mode === "system" ? "light dark" : mode;
+        }
+      } catch {}
+    </script>
+    <link rel="stylesheet" href="/src/styles/site.css" />
   </head>
   <body>
     <div id="root"></div>

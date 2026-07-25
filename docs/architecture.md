@@ -642,7 +642,7 @@ The purpose of this check is to preserve centralized styling and behavior as age
 
 ## 13. Page composition and mounting
 
-Each HTML entry document loads one trivial TypeScript entry file. Every entry calls `mountPage`, which imports the central stylesheet, applies the stored theme, validates the root element, and creates one React root under `StrictMode`.
+Each HTML entry document links the central stylesheet in its head, so the page background and layout are available before the React module loads. A small inline bootstrap script applies the saved theme preference before that stylesheet can paint. Every entry then loads one trivial TypeScript entry file, which calls `mountPage` to reconcile the theme preference, validate the root element, and create one React root under `StrictMode`.
 
 `SiteShell` and `SiteHeader` own shared page chrome. The full identity, professional facts, contact links, navigation, and theme controls remain present on every page for visual and informational continuity. On the CV, the name is the document `h1`; on supporting pages it is a normal link to the CV so the page title remains the single `h1`. The print action remains CV-only.
 

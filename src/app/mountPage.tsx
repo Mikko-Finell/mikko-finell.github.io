@@ -1,6 +1,5 @@
 import { StrictMode, type ReactNode } from "react";
 import { createRoot } from "react-dom/client";
-import "../styles/site.css";
 import { applyThemePreference, readThemePreference } from "../ui/theme";
 
 export function mountPage(page: ReactNode): void {
