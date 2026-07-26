@@ -55,6 +55,19 @@ context. Do not treat this as a completeness inventory.
 | --- | --- | --- | --- |
 | Python | search | Operational software development |  |
 | JavaScript | search | Operational software development |  |
+| FastAPI | search | Operational software development |  |
+| Rust | search | Operational software development |  |
+| Backend web and API development | search | Operational software development |  |
+| Relational databases and data modelling | search | Operational software development |  |
+| Internal business applications, CRM, and workflow systems | search | Operational software development |  |
+| Frontend web applications and UI/interaction design | search | Operational software development |  |
+| Third-party integrations and data migration | search | Operational software development |  |
+| Authentication, roles and permissions, tenancy, and administration | search | Multi-tenant SaaS platform |  |
+| Asynchronous jobs, background workers, and operational tooling | search | Multi-tenant SaaS platform |  |
+| Containerized deployment and production support | search | Operational software development |  |
+| AI/LLM features embedded in applications | search | AI/LLM integration in operational applications |  |
+| Structured document and report-generation workflows | search | AI/LLM integration in operational applications |  |
+| Technical leadership and architecture responsibility | search | Operational software development |  |
 | Django, Vue | context | Operational software development | Used while maintaining and extending Edulog. |
 | Go, React, TypeScript, PostgreSQL, Docker Compose | search | Multi-tenant SaaS platform | Tealab technical stack. |
 
