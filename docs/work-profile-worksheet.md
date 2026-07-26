@@ -106,4 +106,4 @@ matching agent, and add any approval conditions for them.
 | Swedish | yes | native |
 | English | yes | full professional proficiency |
 | Finnish | yes | basic |
-| other language or geography |  |  |
+| other language or geography | no | No additional detail. |
