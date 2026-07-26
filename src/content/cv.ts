@@ -51,9 +51,7 @@ export const cvContent = {
         end: { year: 2026, precision: "year" },
         label: "2020–2026",
       },
-      summary: [
-        "Long-term developer and primary technical owner for internal business software, customer-facing tools, data-processing utilities and AI-assisted systems.",
-      ],
+      summary: [edupowerDocumentMetadata.summary],
       highlights: edupowerDocumentMetadata.openingHighlights,
       links: [
         {
@@ -72,9 +70,7 @@ export const cvContent = {
         // biome-ignore lint/security/noSecrets: This is a human-readable date label.
         label: "2025–present",
       },
-      summary: [
-        "Designed and built a platform for hosting AI-enabled business applications and internal tools.",
-      ],
+      summary: [tealabDocumentMetadata.summary],
       highlights: tealabDocumentMetadata.openingHighlights,
       links: [
         {
