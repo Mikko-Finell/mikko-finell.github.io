@@ -65,3 +65,42 @@ export type CvContent = {
   experience: readonly Experience[];
   education: readonly EducationEntry[];
 };
+
+export type WorkProfileContent = {
+  schema: "work-profile/v1";
+  profileRevision: number;
+  provenance: {
+    canonicalContent: readonly string[];
+  };
+  identity: {
+    name: string;
+    title: string;
+    location: string;
+    workEligibility: string;
+    languages: readonly Language[];
+  };
+  targetRoles: {
+    primary: string;
+    secondary: readonly string[];
+    excluded: readonly string[];
+  };
+  capabilities: {
+    primary: readonly string[];
+    supporting: readonly string[];
+  };
+  technologySignals: {
+    search: readonly string[];
+    context: readonly string[];
+  };
+  workPreferences: {
+    remoteOnly: boolean;
+    workingHourRegions: readonly string[];
+    engagementTypes: "unrestricted";
+    commitmentDuration: "unrestricted";
+    compensation: "not-disclosed";
+  };
+  evidenceReferences: readonly {
+    label: string;
+    href: string;
+  }[];
+};

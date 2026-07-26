@@ -107,7 +107,7 @@ The content modules are the authority for wording and factual data. Components c
 
 Static page metadata belongs in `src/site/metadata.ts`. It derives page titles, descriptions, canonical URLs, structured profile data, and social-preview values from the canonical CV and Markdown metadata. Public metadata assets are limited to `public/favicon.svg` and the generated `public/social-preview.png`, whose source is `public/social-preview.svg`.
 
-The non-rendered Work Profile source belongs in `src/content/work-profile.ts`. It reuses existing CV facts and contains only approved compatibility fields. Its empty `primaryCapabilities` and `engagementConstraints` arrays deliberately indicate that no profile-specific values have been supplied; do not infer entries from the CV title, experience, or technology mentions.
+The non-rendered Work Profile source belongs in `src/content/work-profile.ts`. It reuses existing CV facts and contains only approved profile-specific fields for role targeting, capability tiers, technology signals, work preferences, and exclusions. Do not infer those values from the CV title, experience, or technology mentions; new profile-specific inputs require explicit approval.
 
 ## 4. Content allocation
 

@@ -31,7 +31,10 @@ if (profile) {
     "profileRevision",
     "provenance",
     "identity",
-    "compatibility",
+    "targetRoles",
+    "capabilities",
+    "technologySignals",
+    "workPreferences",
     "evidenceReferences",
     "artifactUrl",
     "contentDigest",
@@ -61,17 +64,75 @@ if (profile) {
   }
 
   if (
-    !Array.isArray(profile.compatibility?.primaryCapabilities) ||
-    !Array.isArray(profile.compatibility?.preferredWork) ||
-    !Array.isArray(profile.compatibility?.engagementConstraints) ||
-    !Array.isArray(profile.compatibility?.availability) ||
+    !Array.isArray(profile.identity?.languages) ||
+    typeof profile.targetRoles?.primary !== "string" ||
+    !Array.isArray(profile.targetRoles?.secondary) ||
+    !Array.isArray(profile.targetRoles?.excluded) ||
+    !Array.isArray(profile.capabilities?.primary) ||
+    !Array.isArray(profile.capabilities?.supporting) ||
+    !Array.isArray(profile.technologySignals?.search) ||
+    !Array.isArray(profile.technologySignals?.context) ||
+    typeof profile.workPreferences?.remoteOnly !== "boolean" ||
+    !Array.isArray(profile.workPreferences?.workingHourRegions) ||
+    profile.workPreferences?.engagementTypes !== "unrestricted" ||
+    profile.workPreferences?.commitmentDuration !== "unrestricted" ||
+    profile.workPreferences?.compensation !== "not-disclosed" ||
     !Array.isArray(profile.evidenceReferences)
   ) {
-    violations.push("Work Profile artifact has an invalid compatibility shape");
+    violations.push("Work Profile artifact has an invalid profile shape");
+  }
+
+  const requiredStrings = [
+    profile.identity?.name,
+    profile.identity?.title,
+    profile.identity?.location,
+    profile.identity?.workEligibility,
+    profile.targetRoles?.primary,
+  ];
+  const requiredStringArrays = [
+    profile.targetRoles?.secondary,
+    profile.targetRoles?.excluded,
+    profile.capabilities?.primary,
+    profile.capabilities?.supporting,
+    profile.technologySignals?.search,
+    profile.technologySignals?.context,
+    profile.workPreferences?.workingHourRegions,
+  ];
+
+  if (
+    requiredStrings.some(
+      (value) => typeof value !== "string" || value.trim().length === 0,
+    ) ||
+    requiredStringArrays.some(
+      (values) =>
+        !Array.isArray(values) ||
+        values.length === 0 ||
+        values.some(
+          (value) => typeof value !== "string" || value.trim().length === 0,
+        ),
+    ) ||
+    !Array.isArray(profile.identity?.languages) ||
+    profile.identity.languages.some(
+      (language) =>
+        typeof language?.name !== "string" ||
+        language.name.trim().length === 0 ||
+        typeof language?.proficiency !== "string" ||
+        language.proficiency.trim().length === 0,
+    ) ||
+    !Array.isArray(profile.evidenceReferences) ||
+    profile.evidenceReferences.some(
+      (reference) =>
+        typeof reference?.label !== "string" ||
+        reference.label.trim().length === 0 ||
+        typeof reference?.href !== "string" ||
+        reference.href.trim().length === 0,
+    )
+  ) {
+    violations.push("Work Profile artifact has incomplete profile values");
   }
 
   if (
-    ["email", "languages", "introduction", "experience", "education"].some(
+    ["email", "introduction", "experience", "education"].some(
       (field) => field in profile,
     )
   ) {
