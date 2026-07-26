@@ -70,7 +70,7 @@ only after approval.
 | --- | --- | --- |
 | location and remote work | Hard requirement: remote only. |  |
 | working hours or time zone | Hard requirement: Finnish, Nordic and EU working hours. |  |
-| engagement or employment type |  | yes / no |
+| engagement or employment type | No limitations. |  |
 | minimum or maximum commitment |  | yes / no |
 | compensation, if public in the artifact |  | yes / no |
 | other |  | yes / no |
@@ -79,11 +79,7 @@ only after approval.
 
 | Preference | Strength (strong/moderate) | Notes |
 | --- | --- | --- |
-| Remote contractor and subcontractor work. |  | Current CV availability statement. |
-| Paid implementation trials. |  | Current CV availability statement. |
-| Bounded development projects. |  | Current CV availability statement. |
-| Longer-term development engagements. |  | Current CV availability statement. |
-| Selected full-time remote positions. |  | Current CV availability statement. |
+| Full-time, part-time, project-scoped contractor work, and other arrangements. |  | No limitation on engagement or employment type. |
 
 ## 5. Languages and geography
 
