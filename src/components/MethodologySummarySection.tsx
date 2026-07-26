@@ -1,4 +1,4 @@
-import { documentMetadata } from "../content/methodology.md";
+import documentMetadata from "../content/methodology.md?metadata";
 import { siteRoutes } from "../site/routes";
 import { Heading } from "../ui/Heading";
 import { Link } from "../ui/Link";

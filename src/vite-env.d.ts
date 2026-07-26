@@ -10,3 +10,10 @@ declare module "*.md" {
   const MarkdownContent: ComponentType<MDXProps>;
   export default MarkdownContent;
 }
+
+declare module "*.md?metadata" {
+  import type { MarkdownDocumentMetadata } from "./site/markdown";
+
+  const documentMetadata: MarkdownDocumentMetadata;
+  export default documentMetadata;
+}

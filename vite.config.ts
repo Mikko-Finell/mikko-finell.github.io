@@ -4,6 +4,7 @@ import react from "@vitejs/plugin-react";
 import rehypeSlug from "rehype-slug";
 import remarkGfm from "remark-gfm";
 import {
+  createDocumentMetadataPlugin,
   recmaExportDocumentMetadata,
   rehypeDocumentMetadata,
 } from "./scripts/markdown-document.mjs";
@@ -23,6 +24,7 @@ export default defineConfig({
     },
   },
   plugins: [
+    createDocumentMetadataPlugin(),
     {
       enforce: "pre",
       ...mdx({

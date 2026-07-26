@@ -1,5 +1,5 @@
-import { documentMetadata as edupowerDocumentMetadata } from "./edupower.md";
-import { documentMetadata as tealabDocumentMetadata } from "./tealab.md";
+import edupowerDocumentMetadata from "./edupower.md?metadata";
+import tealabDocumentMetadata from "./tealab.md?metadata";
 import type { CvContent } from "./types";
 import { siteRoutes } from "../site/routes";
 

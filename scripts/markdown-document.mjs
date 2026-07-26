@@ -1,8 +1,22 @@
+import { createProcessor } from "@mdx-js/mdx";
+import { readFile } from "node:fs/promises";
+import { dirname, resolve } from "node:path";
 import { valueToEstree } from "estree-util-value-to-estree";
 import { toText } from "hast-util-to-text";
+import rehypeSlug from "rehype-slug";
+import remarkGfm from "remark-gfm";
 import { visit } from "unist-util-visit";
 
 const metadataExportName = "documentMetadata";
+const metadataQuery = "?metadata";
+const virtualMetadataModulePrefix = "\0document-metadata:";
+
+function documentMdxOptions() {
+  return {
+    rehypePlugins: [rehypeSlug, rehypeDocumentMetadata],
+    remarkPlugins: [remarkGfm],
+  };
+}
 
 export function rehypeDocumentMetadata() {
   return (tree, file) => {
@@ -96,5 +110,39 @@ export function recmaExportDocumentMetadata() {
       specifiers: [],
       source: null,
     });
+  };
+}
+
+export function createDocumentMetadataPlugin() {
+  return {
+    name: "document-metadata",
+    enforce: "pre",
+    resolveId(source, importer) {
+      if (!source.endsWith(metadataQuery) || !importer) {
+        return null;
+      }
+
+      const sourcePath = source.slice(0, -metadataQuery.length);
+      return `${virtualMetadataModulePrefix}${resolve(dirname(importer), sourcePath)}`;
+    },
+    async load(id) {
+      if (!id.startsWith(virtualMetadataModulePrefix)) {
+        return null;
+      }
+
+      const sourcePath = id.slice(virtualMetadataModulePrefix.length);
+      const source = await readFile(sourcePath, "utf8");
+      const file = await createProcessor(documentMdxOptions()).process({
+        path: sourcePath,
+        value: source,
+      });
+      const metadata = file.data.documentMetadata;
+
+      if (!metadata) {
+        throw new Error("Markdown document metadata was not generated");
+      }
+
+      return `export default ${JSON.stringify(metadata)};`;
+    },
   };
 }

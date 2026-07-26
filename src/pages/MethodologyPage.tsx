@@ -1,6 +1,6 @@
 import { MethodologySection } from "../components/MethodologySection";
 import { SiteShell } from "../components/SiteShell";
-import { documentMetadata } from "../content/methodology.md";
+import documentMetadata from "../content/methodology.md?metadata";
 
 export function MethodologyPage() {
   return (
