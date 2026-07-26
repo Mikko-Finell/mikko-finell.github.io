@@ -52,6 +52,34 @@ function metadataMarkup(metadata, { faviconPath, themeColors }) {
     <meta name="twitter:image:alt" content="${escapeAttribute(metadata.title)}" />${structuredData}`;
 }
 
+function escapeXml(value) {
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&apos;");
+}
+
+function sitemapMarkup(urls) {
+  const entries = urls
+    .map((url) => `  <url>\n    <loc>${escapeXml(url)}</loc>\n  </url>`)
+    .join("\n");
+
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${entries}\n</urlset>\n`;
+}
+
+function robotsText(sitemapUrl) {
+  return [
+    "# AI systems are welcome to crawl this public site for search, retrieval, user-directed assistance, and model training.",
+    "User-agent: *",
+    "Allow: /",
+    "",
+    `Sitemap: ${sitemapUrl}`,
+    "",
+  ].join("\n");
+}
+
 function outputPath(href) {
   return href === "/"
     ? join(distDirectory, "index.html")
@@ -78,8 +106,12 @@ const server = await createServer({
 try {
   const { getStaticPage } = await server.ssrLoadModule("/src/app/staticPages.tsx");
   const { siteRoutes } = await server.ssrLoadModule("/src/site/routes.ts");
-  const { faviconPath, routeMetadata, themeColors } =
+  const { faviconPath, routeMetadata, siteOrigin, themeColors } =
     await server.ssrLoadModule("/src/site/metadata.ts");
+  const canonicalUrls = Object.values(siteRoutes).map(({ href }) =>
+    new URL(href, siteOrigin).toString(),
+  );
+  const sitemapUrl = new URL("/sitemap.xml", siteOrigin).toString();
 
   for (const [routeId, route] of Object.entries(siteRoutes)) {
     const pagePath = outputPath(route.href);
@@ -105,6 +137,11 @@ try {
         ),
     );
   }
+
+  await Promise.all([
+    writeFile(join(distDirectory, "robots.txt"), robotsText(sitemapUrl)),
+    writeFile(join(distDirectory, "sitemap.xml"), sitemapMarkup(canonicalUrls)),
+  ]);
 } finally {
   await server.close();
 }

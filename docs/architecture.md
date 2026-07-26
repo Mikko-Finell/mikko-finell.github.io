@@ -257,6 +257,7 @@ src/
     site.css
 
 scripts/
+  check-discovery-output.mjs
   check-metadata-output.mjs
   check-ui-boundaries.mjs
   check-pdf-output.mjs
@@ -653,7 +654,7 @@ The purpose of this check is to preserve centralized styling and behavior as age
 
 ## 13. Page composition and mounting
 
-Each HTML entry document links the central stylesheet in its head, so the page background and layout are available before the React module loads. A small inline bootstrap script applies the saved theme preference before that stylesheet can paint. Each entry also supplies browser-native prerender rules for the other three canonical routes. Prerendering is a progressive performance enhancement: the browser may decline it to preserve device resources or data, and unsupported browsers retain ordinary document navigation. After Vite writes the production entries, the static-render script loads the existing page compositions through Vite's SSR pipeline and writes their semantic output into each root element. Every entry then loads one trivial TypeScript entry file, which calls `mountPage` to reconcile the theme preference, validate the root element, and hydrate the static markup under `StrictMode`. Development entries retain an empty root and use client rendering.
+Each HTML entry document links the central stylesheet in its head, so the page background and layout are available before the React module loads. A small inline bootstrap script applies the saved theme preference before that stylesheet can paint. Each entry also supplies browser-native prerender rules for the other three canonical routes. Prerendering is a progressive performance enhancement: the browser may decline it to preserve device resources or data, and unsupported browsers retain ordinary document navigation. After Vite writes the production entries, the static-render script loads the existing page compositions through Vite's SSR pipeline, writes their semantic output into each root element, and generates root `robots.txt` and `sitemap.xml` from the canonical route configuration. Every entry then loads one trivial TypeScript entry file, which calls `mountPage` to reconcile the theme preference, validate the root element, and hydrate the static markup under `StrictMode`. Development entries retain an empty root and use client rendering.
 
 `SiteShell` and `SiteHeader` own shared page chrome. The full identity, professional facts, contact links, navigation, and theme controls remain present on every page for visual and informational continuity. On the CV, the name is the document `h1`; on supporting pages it is a normal link to the CV so the page title remains the single `h1`. The print action remains CV-only.
 
@@ -867,6 +868,8 @@ The production pipeline must:
 Deploy only from a passing build on the designated production branch.
 
 The deployed artifact contains static files only.
+
+The root `robots.txt` permits every crawler through `User-agent: *` and `Allow: /`, and includes the absolute sitemap URL. Its comment records that AI systems are welcome to crawl the public site for search, retrieval, user-directed assistance, and model training; the wildcard allow directive remains the operative protocol instruction. The root XML sitemap is generated from the canonical routes and lists only their absolute canonical URLs. It omits `lastmod`, `changefreq`, and `priority` because no reliable significant-content timestamp is available and the latter fields add no useful signal.
 
 Repository configuration must account for the GitHub Pages base path used by the site. The user site at `mikko-finell.github.io` uses the root path.
 

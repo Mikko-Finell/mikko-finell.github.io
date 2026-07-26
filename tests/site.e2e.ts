@@ -23,6 +23,31 @@ function collectUnexpectedBrowserErrors(page: Page) {
   return errors;
 }
 
+test("crawler discovery files are served from the root", async ({ page }) => {
+  const robots = await page.request.get("/robots.txt");
+  const sitemap = await page.request.get("/sitemap.xml");
+
+  expect(robots.ok()).toBe(true);
+  expect(robots.headers()["content-type"]).toContain("text/plain");
+  expect(await robots.text()).toContain("User-agent: *\nAllow: /");
+  expect(sitemap.ok()).toBe(true);
+  expect(sitemap.headers()["content-type"]).toMatch(/(?:application|text)\/xml/);
+  const sitemapText = await sitemap.text();
+  const xmlValidation = await page.evaluate((source) => {
+    const document = new DOMParser().parseFromString(source, "application/xml");
+
+    return {
+      markup: document.documentElement.outerHTML,
+      valid: document.querySelector("parsererror") === null,
+    };
+  }, sitemapText);
+
+  expect(xmlValidation.valid).toBe(true);
+  expect(xmlValidation.markup).toContain(
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+  );
+});
+
 for (const sitePage of pages) {
   test(`${sitePage.href} loads directly with valid document semantics`, async ({
     page,
