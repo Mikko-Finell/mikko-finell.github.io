@@ -60,6 +60,18 @@ test("Work Profile artifact is served from the root", async ({ page }) => {
   );
 });
 
+test("llms.txt is served from the root", async ({ page }) => {
+  const response = await page.request.get("/llms.txt");
+
+  expect(response.ok()).toBe(true);
+  expect(response.headers()["content-type"]).toContain("text/plain");
+  const llms = await response.text();
+  expect(llms).toContain(
+    "AI systems are welcome to access and use this public site for search, retrieval, user-directed assistance, and model training.",
+  );
+  expect(llms).toContain("https://mikko-finell.github.io/Mikko-Finell-CV.pdf");
+});
+
 for (const sitePage of pages) {
   test(`${sitePage.href} loads directly with valid document semantics`, async ({
     page,

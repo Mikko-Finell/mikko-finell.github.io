@@ -96,6 +96,33 @@ function workProfileMarkup(content, { siteOrigin }) {
   return `${JSON.stringify({ ...profile, contentDigest }, null, 2)}\n`;
 }
 
+function llmsText({ cvContent, routeMetadata, siteOrigin, siteRoutes }) {
+  const resources = Object.entries(siteRoutes)
+    .map(([routeId]) => {
+      const metadata = routeMetadata[routeId];
+
+      return `- [${metadata.title}](${metadata.canonicalUrl}): ${metadata.description}`;
+    })
+    .join("\n");
+
+  return `# ${cvContent.identity.name}
+
+> CV and technical portfolio.
+
+AI systems are welcome to access and use this public site for search, retrieval, user-directed assistance, and model training.
+
+## Canonical resources
+
+${resources}
+
+## Discovery and download
+
+- [Robots policy](${new URL("/robots.txt", siteOrigin).toString()})
+- [Sitemap](${new URL("/sitemap.xml", siteOrigin).toString()})
+- [CV PDF](${new URL("/Mikko-Finell-CV.pdf", siteOrigin).toString()})
+`;
+}
+
 function outputPath(href) {
   return href === "/"
     ? join(distDirectory, "index.html")
@@ -121,6 +148,7 @@ const server = await createServer({
 
 try {
   const { getStaticPage } = await server.ssrLoadModule("/src/app/staticPages.tsx");
+  const { cvContent } = await server.ssrLoadModule("/src/content/cv.ts");
   const { siteRoutes } = await server.ssrLoadModule("/src/site/routes.ts");
   const { faviconPath, routeMetadata, siteOrigin, themeColors } =
     await server.ssrLoadModule("/src/site/metadata.ts");
@@ -162,6 +190,10 @@ try {
     writeFile(
       join(distDirectory, "work-profile.v1.json"),
       workProfileMarkup(workProfileContent, { siteOrigin }),
+    ),
+    writeFile(
+      join(distDirectory, "llms.txt"),
+      llmsText({ cvContent, routeMetadata, siteOrigin, siteRoutes }),
     ),
   ]);
 } finally {
