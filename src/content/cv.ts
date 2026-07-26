@@ -38,7 +38,9 @@ export const cvContent = {
     ],
   },
   introduction: [
-    "I design and build internal systems, business software and application platforms, including both the underlying systems and the application UI. From 2020 to 2026 I was the primary technical owner for Edupower’s internal software, including a custom CRM which replaced its Excel-based sales process and stayed in operational use for several years. More recently I built Tealab, a Go, TypeScript/React and Python platform for hosting AI-enabled business applications.",
+    "I develop operational software from business requirements through design, implementation, deployment, and support. My work has included a daily-use CRM, internal business tools, customer applications, an AI-assisted due-diligence report writer, and a multi-tenant SaaS platform.",
+    "I worked with Edupower Oy from 2020 to 2026, first as an employee and then as an independent contractor. For most of the engagement, I worked independently as the company’s only software developer.",
+    "My current development process is AI-first. I use AI throughout planning, architecture, implementation, testing, and review. I define what the product or feature needs to accomplish and direct models through design proposals, critique, refinement, and task decomposition. Coding agents implement, test, investigate, review, and correct the work. I evaluate the resulting plans, designs, applications, and completed results.",
   ],
   experience: [
     {
