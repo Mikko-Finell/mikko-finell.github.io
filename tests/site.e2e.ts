@@ -264,15 +264,31 @@ test("themed article images follow the selected color mode", async ({ page }) =>
     "src",
     "/images/articles/tealab/report-generation-progress.light.png",
   );
+  await expect(image).toHaveAttribute("height", "1390");
+  await expect(image).toHaveAttribute("loading", "lazy");
+  await expect(image).toHaveAttribute("width", "2628");
+  const responsiveSource = image.locator("xpath=..").locator("source");
+  await expect(responsiveSource).toHaveAttribute(
+    "srcset",
+    "/images/articles/tealab/report-generation-progress.light.768.webp 768w, /images/articles/tealab/report-generation-progress.light.1536.webp 1536w",
+  );
   await page.getByRole("button", { name: "Dark" }).click();
   await expect(image).toHaveAttribute(
     "src",
     "/images/articles/tealab/report-generation-progress.dark.png",
   );
+  await expect(responsiveSource).toHaveAttribute(
+    "srcset",
+    "/images/articles/tealab/report-generation-progress.dark.768.webp 768w, /images/articles/tealab/report-generation-progress.dark.1536.webp 1536w",
+  );
   await page.getByRole("button", { name: "Light" }).click();
   await expect(image).toHaveAttribute(
     "src",
     "/images/articles/tealab/report-generation-progress.light.png",
+  );
+  await expect(responsiveSource).toHaveAttribute(
+    "srcset",
+    "/images/articles/tealab/report-generation-progress.light.768.webp 768w, /images/articles/tealab/report-generation-progress.light.1536.webp 1536w",
   );
 });
 

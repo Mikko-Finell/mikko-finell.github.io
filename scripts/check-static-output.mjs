@@ -38,6 +38,10 @@ for (const page of pages) {
     violations.push(`${page.href} is missing its main landmark`);
   }
 
+  if (document.includes('type="speculationrules"')) {
+    violations.push(`${page.href} contains speculative prerender rules`);
+  }
+
   if (/id=(?:"root"|root)><\/div>/.test(document)) {
     violations.push(`${page.href} contains an empty application root`);
   }

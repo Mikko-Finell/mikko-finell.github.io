@@ -9,6 +9,22 @@ type ImageProps = Omit<
 
 type EffectiveTheme = "dark" | "light";
 
+type ResponsiveImage = {
+  height: number;
+  width: number;
+};
+
+const responsiveImages: Record<string, ResponsiveImage> = {
+  "/images/articles/tealab/report-generation-progress.light.png": {
+    height: 1390,
+    width: 2628,
+  },
+  "/images/articles/tealab/report-generation-progress.dark.png": {
+    height: 1390,
+    width: 2628,
+  },
+};
+
 function getEffectiveTheme(): EffectiveTheme {
   const mode = document.documentElement.dataset.mode;
 
@@ -59,13 +75,29 @@ export function Image({ alt, src, ...props }: ImageProps) {
     (): EffectiveTheme => "light",
   );
 
+  const imageSource = getThemedSource(src, theme);
+  const image = imageSource ? responsiveImages[imageSource] : undefined;
+  const { height, loading = "lazy", width, ...imageProps } = props;
+
   return (
-    <img
-      alt={alt}
-      className="ui-image"
-      decoding="async"
-      src={getThemedSource(src, theme)}
-      {...props}
-    />
+    <picture>
+      {imageSource && image ? (
+        <source
+          sizes="(max-width: 52rem) calc(100vw - 2.5rem), 43rem"
+          srcSet={`${imageSource.replace(".png", ".768.webp")} 768w, ${imageSource.replace(".png", ".1536.webp")} 1536w`}
+          type="image/webp"
+        />
+      ) : null}
+      <img
+        alt={alt}
+        className="ui-image"
+        decoding="async"
+        height={height ?? image?.height}
+        loading={loading}
+        src={imageSource}
+        width={width ?? image?.width}
+        {...imageProps}
+      />
+    </picture>
   );
 }
