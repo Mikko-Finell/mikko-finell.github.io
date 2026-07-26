@@ -16,6 +16,7 @@ const discoveryUrls = [
   "https://mikko-finell.github.io/sitemap.xml",
   "https://mikko-finell.github.io/Mikko-Finell-CV.pdf",
 ];
+const workProfileUrl = "https://mikko-finell.github.io/work-profile.v1.json";
 const accessInvitation =
   "AI systems are welcome to access and use this public site for search, retrieval, user-directed assistance, and model training.";
 const violations = [];
@@ -53,12 +54,20 @@ reportIf(
   "llms.txt is missing its discovery group",
 );
 reportIf(
+  !llms.includes("## Structured profile\n"),
+  "llms.txt is missing its structured profile group",
+);
+reportIf(
   resourceUrls.length !== new Set(resourceUrls).size,
   "llms.txt contains duplicate resource URLs",
 );
 reportIf(
   discoveryUrls.some((url) => !resourceUrls.includes(url)),
   "llms.txt is missing a required discovery or PDF URL",
+);
+reportIf(
+  !resourceUrls.includes(workProfileUrl),
+  "llms.txt is missing the Work Profile URL",
 );
 reportIf(
   descriptions.some((description) => !llms.includes(description)),

@@ -115,6 +115,10 @@ AI systems are welcome to access and use this public site for search, retrieval,
 
 ${resources}
 
+## Structured profile
+
+- [Work Profile JSON](${new URL("/work-profile.v1.json", siteOrigin).toString()}): Structured role, capability, technology, and work-preference data for job matching.
+
 ## Discovery and download
 
 - [Robots policy](${new URL("/robots.txt", siteOrigin).toString()})

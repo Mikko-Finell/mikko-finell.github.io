@@ -883,7 +883,7 @@ The root `robots.txt` permits every crawler through `User-agent: *` and `Allow: 
 
 The root `work-profile.v1.json` is a deterministic, current Work Profile artifact with schema `work-profile/v1`, a numeric profile revision, provenance, and a SHA-256 content digest. Consumers fetch and validate it, then store an exact snapshot together with the artifact URL, revision, and digest in their own workflow state. Resume work from that snapshot without re-fetching; the public artifact remains a current source rather than a mutable replacement for historical records.
 
-The root `llms.txt` is an experimental Markdown resource index generated from the canonical identity, route metadata, discovery URLs, and PDF path. It expresses the owner's public-access preference but does not guarantee crawler behavior, ranking, attribution, or training ingestion. It complements rather than replaces `robots.txt`, the sitemap, or the statically rendered pages; no `llms-full.txt`, `agents.txt`, or `ai.txt` artifact is published without an approved scope change.
+The root `llms.txt` is an experimental Markdown resource index generated from the canonical identity, route metadata, Work Profile URL, discovery URLs, and PDF path. It expresses the owner's public-access preference but does not guarantee crawler behavior, ranking, attribution, or training ingestion. It complements rather than replaces `robots.txt`, the sitemap, or the statically rendered pages; no `llms-full.txt`, `agents.txt`, or `ai.txt` artifact is published without an approved scope change.
 
 Repository configuration must account for the GitHub Pages base path used by the site. The user site at `mikko-finell.github.io` uses the root path.
 
