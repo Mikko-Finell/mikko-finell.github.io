@@ -85,37 +85,3 @@ matching agent, and add any approval conditions for them.
 | English | yes / no |  |
 | Finnish | yes / no |  |
 | other language or geography |  |  |
-
-## 6. Opportunity signals
-
-Define the signals that should move an opportunity toward or away from a
-recommendation. These are matching instructions, not claims about your past
-work.
-
-| Signal | Direction (positive/negative) | Strength | Explanation for the agent |
-| --- | --- | --- | --- |
-|  |  |  |  |
-|  |  |  |  |
-|  |  |  |  |
-
-## 7. Decision policy for agents
-
-Choose the default behavior for incomplete listings.
-
-| Question | Decision |
-| --- | --- |
-| What should happen when a hard constraint is explicitly violated? | reject / flag |
-| What should happen when a hard constraint is missing from the listing? | flag as unknown / reject |
-| Should a role with partial capability overlap be surfaced? | yes / no / only with explanation |
-| What evidence must accompany a recommended opportunity? |  |
-| What information must an agent never infer? |  |
-
-## 8. Review record
-
-Before implementation, confirm that every non-empty value is an approved
-current preference or factual claim. For each approved capability, retain an
-evidence reference to the relevant CV section or article.
-
-| Review date | Approved by | Notes |
-| --- | --- | --- |
-|  |  |  |
