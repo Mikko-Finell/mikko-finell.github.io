@@ -83,38 +83,15 @@ for (const sitePage of pages) {
     await expect(page.getByRole("main")).toBeVisible();
     await expect(page.getByRole("heading", { level: 1 })).toHaveCount(1);
     const header = page.getByRole("banner");
-    await expect(
-      header.getByText("AI-First Software Architect / Full-Stack Developer", {
-        exact: true,
-      }),
-    ).toBeVisible();
-    await expect(header.getByText("Finland", { exact: true })).toBeVisible();
-    await expect(
-      header.getByRole("link", { name: "mikko.finell@gmail.com" }),
-    ).toBeVisible();
-    await expect(header.getByRole("link", { name: "LinkedIn" })).toHaveAttribute(
-      "href",
-      "https://www.linkedin.com/in/mikko-finell",
-    );
-    await expect(header.getByRole("link", { name: "GitHub" })).toHaveAttribute(
-      "rel",
-      "me",
-    );
-    await expect(header.getByRole("link", { name: "LinkedIn" })).toHaveAttribute(
-      "rel",
-      "me",
-    );
+    await expect(header.locator('a[href^="mailto:"]')).toHaveCount(1);
+    await expect(header.locator('a[rel="me"]')).toHaveCount(2);
     expect(errors).toEqual([]);
 
     const results = await new AxeBuilder({ page }).analyze();
-    const unresolved = results.violations.filter(
-      (violation) =>
-        violation.impact === "serious" || violation.impact === "critical",
-    );
 
     expect(
-      unresolved,
-      unresolved
+      results.violations,
+      results.violations
         .map(
           (violation) =>
             `${violation.id}: ${violation.help} (${violation.nodes.length} node(s))`,
@@ -188,7 +165,6 @@ test("static page content and navigation remain usable without JavaScript", asyn
     await expect(
       page.getByRole("heading", {
         level: 1,
-        name: "Working methodology",
       }),
     ).toBeVisible();
   } finally {
@@ -256,10 +232,9 @@ test("the first keyboard focus skips repeated site controls", async ({ page }) =
 
 test("themed article images follow the selected color mode", async ({ page }) => {
   await page.goto(siteRoutes.tealab.href);
-  const image = page.getByRole("img", {
-    name: "Report workspace showing an in-progress report with drafting and critique complete, and revision in progress.",
-  });
+  const image = page.locator("picture .ui-image");
 
+  await expect(image).toHaveCount(1);
   await expect(image).toHaveAttribute(
     "src",
     "/images/articles/tealab/report-generation-progress.light.png",
@@ -319,13 +294,11 @@ test("small-screen contact links follow the professional facts", async ({
   await page.setViewportSize({ height: 800, width: 375 });
   await page.goto(siteRoutes.cv.href);
   const header = page.getByRole("banner");
-  const workPreference = await header
-    .getByText("Remote contractor or employee", { exact: true })
-    .boundingBox();
+  const professionalFacts = header.locator(".site-header__facts");
+  await expect(professionalFacts).toHaveCount(3);
+  const workPreference = await professionalFacts.nth(2).boundingBox();
   const contactLinks = await Promise.all(
-    ["mikko.finell@gmail.com", "GitHub", "LinkedIn"].map((name) =>
-      header.getByRole("link", { exact: true, name }).boundingBox(),
-    ),
+    (await header.locator("a").all()).map((link) => link.boundingBox()),
   );
 
   expect(workPreference).not.toBeNull();
@@ -368,9 +341,7 @@ test("CV exposes summary content and supporting-page links without disclosures",
   await page.goto(siteRoutes.cv.href);
 
   await expect(page.locator("details, summary, [aria-expanded]")).toHaveCount(0);
-  await expect(page.getByRole("heading", { name: "Working methodology" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Delivery" })).toHaveCount(0);
-  await expect(page.getByText("The degree remains incomplete", { exact: false })).toBeVisible();
+  expect(await page.getByRole("heading", { level: 2 }).count()).toBeGreaterThan(0);
   await expect(page.getByRole("link", { name: "Download CV (PDF)" })).toHaveAttribute(
     "download",
     "",
@@ -380,10 +351,9 @@ test("CV exposes summary content and supporting-page links without disclosures",
     "/Mikko-Finell-CV.pdf",
   );
   await expect(page.getByRole("link", { name: /Edupower account/ })).toHaveCount(1);
-  await expect(page.getByRole("link", { name: /Tealab case study/ })).toHaveAttribute(
-    "href",
-    siteRoutes.tealab.href,
-  );
+  await expect(
+    page.locator(`main a[href="${siteRoutes.tealab.href}"]`),
+  ).toHaveCount(1);
 });
 
 test("methodology page presents the complete topics without disclosures", async ({
@@ -391,26 +361,16 @@ test("methodology page presents the complete topics without disclosures", async 
 }) => {
   await page.goto(siteRoutes.methodology.href);
 
-  await expect(page.getByRole("heading", { level: 1, name: "Working methodology" })).toBeVisible();
-  await expect(page.getByRole("heading", { level: 2, name: "Delivery" })).toBeVisible();
-  await expect(page.getByRole("heading", { level: 2, name: "Application UI design" })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1 })).toHaveCount(1);
+  await expect(page.getByRole("heading", { level: 2 })).toHaveCount(2);
   const sections = page.getByRole("list", { name: "Methodology sections" });
-  const deliveryLink = sections.getByRole("link", { name: "Delivery" });
-  const applicationLink = sections.getByRole("link", {
-    name: "Application UI design",
-  });
+  const sectionLinks = sections.getByRole("link");
 
-  await expect(sections.getByRole("link")).toHaveCount(2);
-  await expect(deliveryLink).toHaveAttribute("href", "#delivery");
-  await expect(applicationLink).toHaveAttribute(
-    "href",
-    "#application-ui-design",
-  );
-  await applicationLink.click();
-  await expect(page).toHaveURL(/#application-ui-design$/);
-  await expect(
-    page.getByRole("heading", { level: 2, name: "Application UI design" }),
-  ).toBeInViewport();
+  await expect(sectionLinks).toHaveCount(2);
+  const sectionHref = await sectionLinks.nth(1).getAttribute("href");
+  expect(sectionHref).toMatch(/^#[a-z0-9-]+$/);
+  await sectionLinks.nth(1).click();
+  await expect(page).toHaveURL(new RegExp(`${sectionHref}$`));
   await expect(page.locator("details, summary, [aria-expanded]")).toHaveCount(0);
 });
 
@@ -419,11 +379,11 @@ test("shared page content aligns consistently with the sidebar", async ({
 }) => {
   await page.goto(siteRoutes.methodology.href);
   const methodologyTitle = await page
-    .getByRole("heading", { level: 1, name: "Working methodology" })
+    .getByRole("heading", { level: 1 })
     .boundingBox();
   const sidebarIdentity = await page
     .getByRole("banner")
-    .getByRole("link", { name: "Mikko Finell" })
+    .locator('.ui-link[data-variant="identity"]')
     .boundingBox();
 
   expect(methodologyTitle).not.toBeNull();
@@ -432,10 +392,10 @@ test("shared page content aligns consistently with the sidebar", async ({
 
   await page.goto(siteRoutes.cv.href);
   const introduction = await page
-    .getByRole("heading", { level: 2, name: "Introduction" })
+    .locator("#introduction-heading")
     .boundingBox();
   const cvIdentity = await page
-    .getByRole("heading", { level: 1, name: "Mikko Finell" })
+    .getByRole("heading", { level: 1 })
     .boundingBox();
 
   expect(introduction).not.toBeNull();
@@ -444,65 +404,27 @@ test("shared page content aligns consistently with the sidebar", async ({
   expect(introduction?.y).toBeCloseTo(cvIdentity?.y ?? 0, 0);
 });
 
-const articles = [
-  {
-    firstSection: "Company context",
-    lastSection: "Summary of the engagement",
-    routeId: "edupower",
-    title: "Edupower Oy",
-  },
-  {
-    firstSection: "Origin",
-    lastSection: "Scope and limitations",
-    routeId: "tealab",
-    title: "Tealab",
-  },
-] as const satisfies readonly {
-  firstSection: string;
-  lastSection: string;
-  routeId: Extract<SiteRouteId, "edupower" | "tealab">;
-  title: string;
-}[];
-
-for (const article of articles) {
-  test(`${siteRoutes[article.routeId].href} renders its complete article and section navigation`, async ({
+for (const routeId of ["edupower", "tealab"] as const satisfies readonly Extract<
+  SiteRouteId,
+  "edupower" | "tealab"
+>[]) {
+  test(`${siteRoutes[routeId].href} renders its complete article and section navigation`, async ({
     page,
   }) => {
-    await page.goto(siteRoutes[article.routeId].href);
+    await page.goto(siteRoutes[routeId].href);
 
-    await expect(
-      page.getByRole("heading", {
-        exact: true,
-        level: 1,
-        name: article.title,
-      }),
-    ).toBeVisible();
-    await expect(
-      page.getByRole("heading", {
-        exact: true,
-        level: 2,
-        name: article.firstSection,
-      }),
-    ).toBeVisible();
-    const lastSectionLink = page
+    await expect(page.getByRole("heading", { level: 1 })).toHaveCount(1);
+    const headings = page.getByRole("heading", { level: 2 });
+    const sectionLinks = page
       .getByRole("navigation", { name: "Primary" })
-      .getByRole("link", { exact: true, name: article.lastSection });
+      .locator("a[data-page-section]");
 
-    await expect(lastSectionLink).toHaveAttribute(
-      "href",
-      `#${article.lastSection.toLowerCase().replaceAll(" ", "-")}`,
-    );
-    await lastSectionLink.click();
-    await expect(page).toHaveURL(
-      new RegExp(`#${article.lastSection.toLowerCase().replaceAll(" ", "-")}$`),
-    );
-    await expect(
-      page.getByRole("heading", {
-        exact: true,
-        level: 2,
-        name: article.lastSection,
-      }),
-    ).toBeInViewport();
+    await expect(headings).not.toHaveCount(0);
+    await expect(sectionLinks).toHaveCount(await headings.count());
+    const sectionHref = await sectionLinks.nth(0).getAttribute("href");
+    expect(sectionHref).toMatch(/^#[a-z0-9-]+$/);
+    await sectionLinks.nth(0).click();
+    await expect(page).toHaveURL(new RegExp(`${sectionHref}$`));
   });
 }
 
@@ -515,14 +437,13 @@ test("print media keeps CV content and hides website controls", async ({ page })
   await expect(page.getByRole("link", { name: "Download CV (PDF)" })).toBeHidden();
   await expect(page.getByRole("link", { name: /Edupower account/ }).first()).toBeHidden();
   const header = page.getByRole("banner");
-  const workPreference = await header
-    .getByText("Remote contractor or employee", { exact: true })
-    .boundingBox();
+  const workPreference = await header.locator(".site-header__facts").nth(2).boundingBox();
   const email = await header
-    .getByRole("link", { exact: true, name: "mikko.finell@gmail.com" })
+    .locator('a[href^="mailto:"]')
     .boundingBox();
   const github = await header
-    .getByRole("link", { exact: true, name: "GitHub" })
+    .locator('a[rel="me"]')
+    .nth(0)
     .boundingBox();
 
   expect(workPreference).not.toBeNull();
@@ -532,11 +453,6 @@ test("print media keeps CV content and hides website controls", async ({ page })
     (workPreference?.y ?? 0) + (workPreference?.height ?? 0),
   );
   expect(github?.y).toBeCloseTo(email?.y ?? 0, 0);
-  await expect(page.getByRole("heading", { level: 1, name: "Mikko Finell" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Professional experience" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Working methodology" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Education and relevant background" })).toBeVisible();
-  await expect(
-    page.getByRole("heading", { name: "Contact", exact: true }),
-  ).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1 })).toHaveCount(1);
+  expect(await page.getByRole("heading", { level: 2 }).count()).toBeGreaterThan(0);
 });

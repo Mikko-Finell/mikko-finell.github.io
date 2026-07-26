@@ -823,6 +823,8 @@ Required automated validation includes:
 * absence of unexpected browser console errors;
 * automated accessibility scan.
 
+Run `npm run check` for the complete local validation flow. It builds, static-renders, generates, and validates `dist/`; CI uploads that exact validated artifact without a second build. Use `npm run build && npm run preview` only when manually serving the generated production artifact, such as when testing the PDF download path.
+
 Add unit tests only for genuine logic such as:
 
 * date formatting;
@@ -870,8 +872,8 @@ The production pipeline must:
 1. check out the repository;
 2. install dependencies from the lockfile;
 3. run the standard validation command;
-4. build the Vite application, static-render every canonical route, and generate the CV PDF;
-5. publish the generated `dist/` directory to GitHub Pages.
+4. use `npm run check` to build the Vite application, static-render every canonical route, generate the CV PDF, and validate the resulting `dist/` directory;
+5. publish that already-validated `dist/` directory to GitHub Pages.
 
 Deploy only from a passing build on the designated production branch.
 

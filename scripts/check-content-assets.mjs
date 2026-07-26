@@ -8,6 +8,23 @@ const themedImagePattern =
   /!\[[^\]]*\]\((\/images\/[^\s)]+\.light\.[^\s)]+)(?:\s+[^)]*)?\)/g;
 const missingVariants = [];
 const missingResponsiveVariants = [];
+const publicDotfiles = [];
+
+async function collectDotfiles(directory) {
+  for (const entry of await readdir(directory, { withFileTypes: true })) {
+    const entryPath = join(directory, entry.name);
+
+    if (entry.name.startsWith(".")) {
+      publicDotfiles.push(entryPath);
+    }
+
+    if (entry.isDirectory()) {
+      await collectDotfiles(entryPath);
+    }
+  }
+}
+
+await collectDotfiles(publicDirectory);
 
 for (const entry of await readdir(contentDirectory)) {
   if (!entry.endsWith(".md")) {
@@ -62,6 +79,11 @@ if (missingVariants.length > 0) {
 } else if (missingResponsiveVariants.length > 0) {
   console.error(
     `Missing responsive WebP image variant:\n${missingResponsiveVariants.map((item) => `- ${item}`).join("\n")}`,
+  );
+  process.exitCode = 1;
+} else if (publicDotfiles.length > 0) {
+  console.error(
+    `Public assets must not include dotfiles:\n${publicDotfiles.map((path) => `- ${path}`).join("\n")}`,
   );
   process.exitCode = 1;
 } else {
