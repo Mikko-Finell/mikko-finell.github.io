@@ -21,8 +21,7 @@ List the roles that an agent should actively search for and rank them.
 
 | Priority | Role title | Include only when | Notes |
 | --- | --- | --- | --- |
-| primary (provisional) | AI-First Software Architect / Full-Stack Developer |  | Current CV title. |
-| primary (provisional) | Software Developer / Project Engineer / Independent Contractor |  | Edupower role, 2020–2026. |
+| primary | AI-First Software Architect / Full-Stack Developer |  | Sole primary target role. |
 | secondary | Tech Lead |  |  |
 | secondary | AI Integration Specialist |  |  |
 | secondary | AI Consultant |  |  |
@@ -31,7 +30,8 @@ List role titles that should not be recommended, if any.
 
 | Role or role family | Reason or condition |
 | --- | --- |
-|  |  |
+| Mobile app development | Exclude. |
+| Roles requiring heavy Microsoft tooling or ecosystems | Exclude, including C# and VBA. |
 
 ## 2. Primary capabilities
 
@@ -43,7 +43,7 @@ existing evidence link for an agent to inspect.
 | --- | --- | --- | --- |
 | Operational software development from business requirements through design, implementation, deployment, and support. | primary | CV introduction; https://mikko-finell.github.io/work/edupower/ | Includes database and data-model design, backend and frontend development, UI and interaction design, data migration, integrations, deployment, production support, and incident handling. |
 | A multi-tenant SaaS platform for internal business applications and AI-assisted tools. | supporting | https://mikko-finell.github.io/work/tealab/ | Tealab was developed independently from November 2025 to May 2026; not presented as a SaaS product-building specialty. |
-| AI throughout planning, architecture, implementation, testing, and review. | primary (provisional) | CV introduction; https://mikko-finell.github.io/work/tealab/ | Current development process. |
+| AI/LLM integration in operational applications. | supporting | https://mikko-finell.github.io/work/edupower/; https://mikko-finell.github.io/work/tealab/ | Includes LLM-assisted CRM functions and an AI-assisted report writer; AI-first development is the current working method. |
 
 ## 3. Technology context
 
@@ -53,9 +53,10 @@ context. Do not treat this as a completeness inventory.
 
 | Technology or technology group | Classification (search/supporting/context) | Related capability | Qualification, if needed |
 | --- | --- | --- | --- |
-| Python, Django, JavaScript, Vue | context (provisional) | Operational software development | Used while maintaining and extending Edulog. |
-| Go, React, TypeScript, PostgreSQL, Docker Compose | context (provisional) | Multi-tenant SaaS platform | Tealab technical stack. |
-| GitHub Actions | context (provisional) | Deployment | Used for Tealab deployment and CI gating. |
+| Python | search | Operational software development |  |
+| JavaScript | search | Operational software development |  |
+| Django, Vue | context | Operational software development | Used while maintaining and extending Edulog. |
+| Go, React, TypeScript, PostgreSQL, Docker Compose | search | Multi-tenant SaaS platform | Tealab technical stack. |
 
 ## 4. Work and engagement conditions
 
@@ -65,14 +66,14 @@ only after approval.
 
 ### Hard constraints
 
-| Constraint | Exact condition | Can an agent ask for clarification? |
-| --- | --- | --- |
-| location and remote work | Hard requirement: remote only. |  |
-| working hours or time zone | Hard requirement: Finnish, Nordic and EU working hours. |  |
-| engagement or employment type | No limitations. |  |
-| minimum or maximum commitment |  | yes / no |
-| compensation, if public in the artifact |  | yes / no |
-| other |  | yes / no |
+| Constraint | Exact condition |
+| --- | --- |
+| location and remote work | Hard requirement: remote only. |
+| working hours or time zone | Hard requirement: Finnish, Nordic and EU working hours. |
+| engagement or employment type | No limitations. |
+| minimum or maximum commitment | No limitations. |
+| compensation, if public in the artifact | Omit. |
+| other |  |
 
 ### Preferences
 
@@ -87,9 +88,9 @@ matching agent, and add any approval conditions for them.
 
 | Item | Include? | Qualification |
 | --- | --- | --- |
-| location | yes (provisional) | Finland |
-| EU work eligibility | yes (provisional) | EU work eligibility |
-| Swedish | yes (provisional) | native |
-| English | yes (provisional) | full professional proficiency |
-| Finnish | yes (provisional) | basic |
+| location | yes | Finland |
+| EU work eligibility | yes | EU work eligibility |
+| Swedish | yes | native |
+| English | yes | full professional proficiency |
+| Finnish | yes | basic |
 | other language or geography |  |  |
