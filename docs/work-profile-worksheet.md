@@ -68,8 +68,8 @@ only after approval.
 
 | Constraint | Exact condition | Can an agent ask for clarification? |
 | --- | --- | --- |
-| location and remote work | Remote only. |  |
-| working hours or time zone | Finnish, Nordic and EU working hours. |  |
+| location and remote work | Hard requirement: remote only. |  |
+| working hours or time zone | Hard requirement: Finnish, Nordic and EU working hours. |  |
 | engagement or employment type |  | yes / no |
 | minimum or maximum commitment |  | yes / no |
 | compensation, if public in the artifact |  | yes / no |
