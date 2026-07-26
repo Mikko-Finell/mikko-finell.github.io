@@ -21,6 +21,7 @@ export function rehypeDocumentMetadata() {
     const titleNode = titleNodes[0];
     const titleIndex = topLevelElements.indexOf(titleNode);
     const summaryNode = topLevelElements[titleIndex + 1];
+    const openingHighlightsNode = topLevelElements[titleIndex + 2];
 
     if (titleIndex !== 0) {
       throw new Error(`${sourceName} must begin with its h1`);
@@ -31,6 +32,13 @@ export function rehypeDocumentMetadata() {
         `${sourceName} must use the first paragraph after its h1 as its summary`,
       );
     }
+
+    const openingHighlights =
+      openingHighlightsNode?.tagName === "ul"
+        ? openingHighlightsNode.children
+            .filter((node) => node.type === "element" && node.tagName === "li")
+            .map((node) => toText(node).trim())
+        : [];
 
     const headings = [];
 
@@ -57,6 +65,7 @@ export function rehypeDocumentMetadata() {
 
     file.data.documentMetadata = {
       headings,
+      openingHighlights,
       summary: toText(summaryNode).trim(),
       title: toText(titleNode).trim(),
     };

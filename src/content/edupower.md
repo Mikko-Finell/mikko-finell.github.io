@@ -1,6 +1,13 @@
 # Edupower Oy
 
-I worked with Edupower Oy from 2020 to 2026. I was an employee from 2020 to 2022 and continued as an independent contractor from 2022 to 2026. The contractual change did not substantially change my responsibilities.
+I worked with Edupower Oy from 2020 to 2026, first as an employee and then as an independent contractor. For most of the engagement, I worked independently as the company’s only software developer. I developed and operated its internal CRM, related business tools, customer applications and an AI-assisted due-diligence report writer.
+
+* Migrated Edupower’s shared Excel and VBA CRM into a database-backed Django web application and maintained it in operational use for several years.
+* Designed the CRM’s data model, sales workflows, and interfaces for companies, contacts, communications, tasks, follow-ups, and funnel management.
+* Handled backend and frontend development, UI design, integrations, deployment, database administration, backups, security maintenance, production support, and incident handling.
+* Built Phonelog, Maillog, a web replacement for another spreadsheet-based process, and several internal and customer-facing applications on the same platform.
+* Added LLM-assisted communication summaries, relationship overviews, and follow-up suggestions directly to the CRM workflows.
+* Designed and delivered a Python and Jupyter due-diligence report-writer pilot with source checking, revision, manual editing, targeted rewrites, and styled `.docx` export.
 
 ## Company context
 

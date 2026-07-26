@@ -6,5 +6,6 @@ export type PageSection = {
 export type MarkdownDocumentMetadata = {
   title: string;
   summary: string;
+  openingHighlights: readonly string[];
   headings: readonly PageSection[];
 };

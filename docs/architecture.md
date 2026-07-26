@@ -114,7 +114,7 @@ An article Markdown document follows three structural conventions:
 * its first paragraph is the deliberately written summary reused by compact surfaces such as the CV;
 * its level-two headings define the article sections and generate the page's section navigation.
 
-The summary is part of the complete article and is not duplicated in metadata. Build-time Markdown processing extracts the title, first paragraph and level-two heading labels and identifiers as typed metadata. Components consume that generated metadata; they do not scan the rendered DOM or maintain a parallel hand-authored table of contents.
+The summary is part of the complete article and is not duplicated in metadata. Build-time Markdown processing extracts the title, first paragraph, any unordered list immediately following that paragraph, and level-two heading labels and identifiers as typed metadata. Components consume that generated metadata; they do not scan the rendered DOM or maintain a parallel hand-authored table of contents.
 
 Article source remains plain Markdown. Do not require frontmatter, custom delimiters, embedded JSX, exports or a homegrown metadata syntax for ordinary article structure. GitHub-Flavored Markdown is supported. Build validation must reject documents that do not satisfy the title, summary and section conventions.
 

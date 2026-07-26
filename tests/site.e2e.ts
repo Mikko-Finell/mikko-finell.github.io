@@ -200,7 +200,7 @@ test("CV exposes summary content and supporting-page links without disclosures",
   await expect(page.getByRole("heading", { name: "Delivery" })).toHaveCount(0);
   await expect(page.getByText("The degree remains incomplete", { exact: false })).toBeVisible();
   await expect(page.getByRole("button", { name: "Print / Save as PDF" })).toHaveCount(1);
-  await expect(page.getByRole("link", { name: /Edupower account/ })).toHaveCount(2);
+  await expect(page.getByRole("link", { name: /Edupower account/ })).toHaveCount(1);
   await expect(page.getByRole("link", { name: /Tealab case study/ })).toHaveAttribute(
     "href",
     siteRoutes.tealab.href,

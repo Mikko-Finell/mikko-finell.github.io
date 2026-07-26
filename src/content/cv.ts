@@ -1,3 +1,5 @@
+import { documentMetadata as edupowerDocumentMetadata } from "./edupower.md";
+import { documentMetadata as tealabDocumentMetadata } from "./tealab.md";
 import type { CvContent } from "./types";
 import { siteRoutes } from "../site/routes";
 
@@ -52,47 +54,10 @@ export const cvContent = {
       summary: [
         "Long-term developer and primary technical owner for internal business software, customer-facing tools, data-processing utilities and AI-assisted systems.",
       ],
-      highlights: [
-        "Built and maintained an internal Django/Vue CRM which replaced a large Excel-based sales and customer-management process and remained in operational use for several years.",
-        "Designed the CRM UI and workflows around the company’s actual daily work. The interfaces were frequently praised for being logical, intuitive and compact while still exposing substantial functionality.",
-        "Built company and contact management, communication history, sales funnel tracking, task handling and shared operational data.",
-        "Maintained and extended the system over several years as the underlying business processes changed.",
-        "Built smaller customer-facing applications and tools connected to the same business-data system.",
-        "Built Jupyter-based data-processing and reporting utilities.",
-        "Built an Android application connected to the underlying system.",
-        "Added AI-assisted features for structured outputs, communication summaries, relationship overviews, follow-up extraction and drafting.",
-        "Mentored interns.",
-        "Helped colleagues use AI tools for practical software and business work.",
-      ],
+      highlights: edupowerDocumentMetadata.openingHighlights,
       links: [
         {
           label: "Read the full Edupower account →",
-          href: siteRoutes.edupower.href,
-        },
-      ],
-    },
-    {
-      id: "report-generation-system",
-      organization: "AI-assisted report-generation system",
-      context: "External customer project delivered through Edupower",
-      dates: {
-        start: { year: 2025, precision: "late-year" },
-        end: { year: 2026, precision: "early-year" },
-        label: "Late 2025 – early 2026",
-      },
-      summary: [
-        "Designed and built a system for producing expert report sections from structured inputs.",
-      ],
-      highlights: [
-        "Converted an existing expert reporting process into explicit inputs, processing stages and reviewable generated outputs.",
-        "Built Python libraries and Jupyter tooling using the OpenAI API.",
-        "Used structured generation instead of treating the problem as a general chatbot interface.",
-        "Worked out the requirements, processing model, generation workflow, prompt structure, API behaviour, testing and delivery process.",
-        "Later reused the same foundation in the web-based report writer built into Tealab.",
-      ],
-      links: [
-        {
-          label: "Read about this work in the Edupower account →",
           href: siteRoutes.edupower.href,
         },
       ],
@@ -110,20 +75,7 @@ export const cvContent = {
       summary: [
         "Designed and built a platform for hosting AI-enabled business applications and internal tools.",
       ],
-      highlights: [
-        "Go backend.",
-        "TypeScript/React frontend.",
-        "Python application and processing services.",
-        "User and tenant management.",
-        "Access control and application permissions.",
-        "Application hosting.",
-        "Usage and configuration mechanics.",
-        "Health, administration and operational views.",
-        "Background processing.",
-        "API-backed application structure.",
-        "Web-based report-writer application.",
-        "Dockerized Linux deployment.",
-      ],
+      highlights: tealabDocumentMetadata.openingHighlights,
       links: [
         {
           label: "Read the Tealab case study →",

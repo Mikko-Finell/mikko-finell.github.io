@@ -1,6 +1,13 @@
 # Tealab
 
-Tealab began from my work with Edupower’s Edulog platform.
+I developed Tealab independently from November 2025 to May 2026 as a multi-tenant SaaS platform for internal business applications and AI-assisted tools. It used a Go API and worker, a React and TypeScript SPA, PostgreSQL, Docker Compose and external application backends. Its first substantial application was a web-based report writer built from the earlier Edupower pilot.
+
+* Separated shared SaaS concerns from application-specific execution through a common adapter and durable job contract.
+* Developed shared platform mechanisms for identity, tenancy, permissions, entitlements, credits, asynchronous jobs, audit, analytics, and administration.
+* Integrated an evolved version of the report pipeline as a web application for managing source corpora, templates, prompts, generation stages, section editing, intermediate versions, and `.docx` export.
+* Directed all implementation through coding agents using specifications, staged roadmaps, bounded tasks, independent reviews, manual testing, and regression-first defect correction.
+* Used unit, PostgreSQL integration, service, API, contract, migration, smoke, and e2e tests according to the invariant being verified.
+* Deployed the system through GitHub Actions and Docker Compose to DigitalOcean, with CI gating, migrations, health checks, smoke tests, and later production hardening.
 
 ## Origin
 
