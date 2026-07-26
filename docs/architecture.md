@@ -255,7 +255,9 @@ src/
 
 scripts/
   check-ui-boundaries.mjs
+  check-pdf-output.mjs
   check-static-output.mjs
+  generate-pdf.mjs
   markdown-document.mjs
   markdown-document.d.mts
   static-render.mjs
@@ -776,6 +778,8 @@ Printed output must:
 
 The print layout does not need to reproduce the screen layout exactly.
 
+The production build generates `dist/Mikko-Finell-CV.pdf` from the static CV HTML through Playwright Chromium using the same central print stylesheet. The generated PDF uses A4 pages, exposes the full GitHub and LinkedIn URLs only in print, and enables Chromium's tagged-PDF output. Chromium uses the canonical HTML document title for the PDF title; its PDF API does not expose author or subject fields, so no unsupported metadata claim is made. The PDF must remain text-extractable in the same logical document order and contain the visible CV contact information.
+
 ## 18. Validation
 
 Provide one standard validation command:
@@ -798,6 +802,7 @@ Required automated validation includes:
 * Biome formatting and linting;
 * strict TypeScript checking;
 * successful Vite production build;
+* generated PDF presence, A4 page count, text extraction, title metadata, and tagged-PDF output;
 * UI boundary enforcement;
 * page-load smoke test;
 * primary navigation and current-page checks on every page;
@@ -852,7 +857,7 @@ The production pipeline must:
 1. check out the repository;
 2. install dependencies from the lockfile;
 3. run the standard validation command;
-4. build the Vite application and static-render every canonical route;
+4. build the Vite application, static-render every canonical route, and generate the CV PDF;
 5. publish the generated `dist/` directory to GitHub Pages.
 
 Deploy only from a passing build on the designated production branch.

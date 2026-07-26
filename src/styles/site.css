@@ -542,15 +542,29 @@
 
 @media print {
   @page {
-    margin: 14mm;
+    margin: 10mm;
   }
 
   :root,
   :root[data-mode="dark"],
   :root[data-mode="system"] {
+    --text-xs: 0.75rem;
+    --text-sm: 0.85rem;
+    --text-md: 1rem;
+    --text-lg: 1.5rem;
+    --text-title: 2.45rem;
+    --leading-body: 1.44;
+    --paragraph-gap: var(--space-3);
+    --space-2: 0.4rem;
+    --space-3: 0.6rem;
+    --space-4: 0.85rem;
+    --space-5: 1.1rem;
+    --space-6: 1.2rem;
+    --space-8: 1.5rem;
     color: #000;
     background: #fff;
     color-scheme: light;
+    font-size: 1.05rem;
   }
 
   #root {
@@ -561,7 +575,7 @@
     position: static;
     width: auto;
     height: auto;
-    padding: 0 0 var(--space-6);
+    padding: 0 0 var(--space-4);
     border-right: 0;
   }
 
@@ -578,20 +592,46 @@
   }
 
   main {
-    padding: var(--space-6) 0 0;
+    padding: var(--space-4) 0 0;
   }
 
   .ui-card {
+    padding-block: var(--space-4);
     background: transparent;
     box-shadow: none;
     break-inside: auto;
   }
 
-  .ui-heading {
+  .ui-heading,
+  .ui-card > .ui-stack > header {
     break-after: avoid;
   }
 
-  a::after {
-    content: none;
+  .ui-stack[data-gap="small"] {
+    gap: var(--space-2);
+  }
+
+  .ui-stack[data-gap="medium"] {
+    gap: var(--space-3);
+  }
+
+  .ui-stack[data-gap="large"] {
+    gap: var(--space-5);
+  }
+
+  .document-list {
+    gap: var(--space-1);
+  }
+
+  .document-list > li {
+    break-inside: avoid;
+  }
+
+  .site-header__contact-links a[href^="https://"]::after,
+  #contact a[href^="https://"]::after {
+    content: " (" attr(href) ")";
+    color: #000;
+    font-size: var(--text-xs);
+    overflow-wrap: anywhere;
   }
 }
