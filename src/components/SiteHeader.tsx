@@ -44,7 +44,11 @@ export function SiteHeader({ currentPage, pageSections }: SiteHeaderProps) {
             <div className="site-header__contact-links">
               <Inline gap="small">
                 {contact.links.map((link) => (
-                  <Link href={link.href} key={link.href}>
+                  <Link
+                    href={link.href}
+                    key={link.href}
+                    rel={"relationship" in link ? link.relationship : undefined}
+                  >
                     {link.label}
                   </Link>
                 ))}

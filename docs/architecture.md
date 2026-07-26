@@ -104,6 +104,8 @@ Content should remain grouped by subject rather than being decomposed into a glo
 
 The content modules are the authority for wording and factual data. Components control presentation, layout, and interaction. Components do not reinterpret or rewrite the supplied material.
 
+Static page metadata belongs in `src/site/metadata.ts`. It derives page titles, descriptions, canonical URLs, structured profile data, and social-preview values from the canonical CV and Markdown metadata. Public metadata assets are limited to `public/favicon.svg` and the generated `public/social-preview.png`, whose source is `public/social-preview.svg`.
+
 ## 4. Content allocation
 
 Content structures must match their actual rendered jobs. TypeScript remains appropriate for CV records and factual fields. Long-form articles use ordinary Markdown so their prose can be edited as documents rather than as TypeScript object literals.
@@ -217,6 +219,7 @@ src/
 
   site/
     markdown.ts
+    metadata.ts
     routes.ts
 
   content/
@@ -254,6 +257,7 @@ src/
     site.css
 
 scripts/
+  check-metadata-output.mjs
   check-ui-boundaries.mjs
   check-pdf-output.mjs
   check-static-output.mjs
@@ -280,14 +284,14 @@ This structure is provisional. Add files only when the implementation requires t
 The responsibilities are:
 
 * `content/` contains canonical content and its types;
-* `site/` contains canonical route identifiers, labels, order, and paths;
+* `site/` contains canonical route identifiers, labels, paths, and derived static metadata;
 * `app/` centralizes React mounting, theme initialization, and the CSS import;
 * `entries/` mount exactly one page each;
 * `pages/` are thin compositions of document components;
 * `ui/` contains standardized reusable interface primitives;
 * `components/` contains CV-specific document sections and assemblies;
 * `styles/site.css` contains the central visual system;
-* `scripts/` contains lightweight architectural policy checks;
+* `scripts/` contains lightweight architectural policy and static-output checks;
 * `tests/` contains browser tests and any justified integration tests.
 
 ## 8. Component system

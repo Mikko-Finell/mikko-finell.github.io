@@ -3,6 +3,7 @@ export type TextBlock = readonly string[];
 export type ContentLink = {
   label: string;
   href: string;
+  relationship?: "me";
 };
 
 export type DatePrecision = "year" | "early-year" | "late-year";

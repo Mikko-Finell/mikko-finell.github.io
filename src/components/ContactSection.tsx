@@ -41,7 +41,14 @@ export function ContactSection() {
               <ul aria-labelledby={linksHeadingId} className="document-list">
                 {cvContent.contact.links.map((link) => (
                   <li key={link.href}>
-                    <Link href={link.href}>{link.label}</Link>
+                    <Link
+                      href={link.href}
+                      rel={
+                        "relationship" in link ? link.relationship : undefined
+                      }
+                    >
+                      {link.label}
+                    </Link>
                   </li>
                 ))}
               </ul>

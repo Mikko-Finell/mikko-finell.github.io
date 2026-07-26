@@ -30,10 +30,15 @@ export const cvContent = {
         label: "mikko.finell@gmail.com",
         href: "mailto:mikko.finell@gmail.com",
       },
-      { label: "GitHub", href: "https://github.com/mikko-finell" },
+      {
+        label: "GitHub",
+        href: "https://github.com/mikko-finell",
+        relationship: "me",
+      },
       {
         label: "LinkedIn",
         href: "https://www.linkedin.com/in/mikko-finell",
+        relationship: "me",
       },
     ],
   },

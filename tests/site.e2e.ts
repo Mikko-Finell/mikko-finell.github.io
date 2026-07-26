@@ -47,6 +47,14 @@ for (const sitePage of pages) {
       "href",
       "https://www.linkedin.com/in/mikko-finell",
     );
+    await expect(header.getByRole("link", { name: "GitHub" })).toHaveAttribute(
+      "rel",
+      "me",
+    );
+    await expect(header.getByRole("link", { name: "LinkedIn" })).toHaveAttribute(
+      "rel",
+      "me",
+    );
     expect(errors).toEqual([]);
 
     const results = await new AxeBuilder({ page }).analyze();
