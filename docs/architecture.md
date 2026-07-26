@@ -74,6 +74,7 @@ src/content/cv.ts
 src/content/methodology.md
 src/content/edupower.md
 src/content/tealab.md
+src/content/work-profile.ts
 ```
 
 The CV content module contains:
@@ -105,6 +106,8 @@ Content should remain grouped by subject rather than being decomposed into a glo
 The content modules are the authority for wording and factual data. Components control presentation, layout, and interaction. Components do not reinterpret or rewrite the supplied material.
 
 Static page metadata belongs in `src/site/metadata.ts`. It derives page titles, descriptions, canonical URLs, structured profile data, and social-preview values from the canonical CV and Markdown metadata. Public metadata assets are limited to `public/favicon.svg` and the generated `public/social-preview.png`, whose source is `public/social-preview.svg`.
+
+The non-rendered Work Profile source belongs in `src/content/work-profile.ts`. It reuses existing CV facts and contains only approved compatibility fields. Its empty `primaryCapabilities` and `engagementConstraints` arrays deliberately indicate that no profile-specific values have been supplied; do not infer entries from the CV title, experience, or technology mentions.
 
 ## 4. Content allocation
 
@@ -228,6 +231,7 @@ src/
     methodology.md
     tealab.md
     types.ts
+    work-profile.ts
 
   ui/
     Button.tsx
@@ -262,6 +266,7 @@ scripts/
   check-ui-boundaries.mjs
   check-pdf-output.mjs
   check-static-output.mjs
+  check-work-profile-output.mjs
   generate-pdf.mjs
   markdown-document.mjs
   markdown-document.d.mts
@@ -654,7 +659,7 @@ The purpose of this check is to preserve centralized styling and behavior as age
 
 ## 13. Page composition and mounting
 
-Each HTML entry document links the central stylesheet in its head, so the page background and layout are available before the React module loads. A small inline bootstrap script applies the saved theme preference before that stylesheet can paint. Each entry also supplies browser-native prerender rules for the other three canonical routes. Prerendering is a progressive performance enhancement: the browser may decline it to preserve device resources or data, and unsupported browsers retain ordinary document navigation. After Vite writes the production entries, the static-render script loads the existing page compositions through Vite's SSR pipeline, writes their semantic output into each root element, and generates root `robots.txt` and `sitemap.xml` from the canonical route configuration. Every entry then loads one trivial TypeScript entry file, which calls `mountPage` to reconcile the theme preference, validate the root element, and hydrate the static markup under `StrictMode`. Development entries retain an empty root and use client rendering.
+Each HTML entry document links the central stylesheet in its head, so the page background and layout are available before the React module loads. A small inline bootstrap script applies the saved theme preference before that stylesheet can paint. Each entry also supplies browser-native prerender rules for the other three canonical routes. Prerendering is a progressive performance enhancement: the browser may decline it to preserve device resources or data, and unsupported browsers retain ordinary document navigation. After Vite writes the production entries, the static-render script loads the existing page compositions through Vite's SSR pipeline, writes their semantic output into each root element, and generates root `robots.txt`, `sitemap.xml`, and `work-profile.v1.json` from their canonical sources. Every entry then loads one trivial TypeScript entry file, which calls `mountPage` to reconcile the theme preference, validate the root element, and hydrate the static markup under `StrictMode`. Development entries retain an empty root and use client rendering.
 
 `SiteShell` and `SiteHeader` own shared page chrome. The full identity, professional facts, contact links, navigation, and theme controls remain present on every page for visual and informational continuity. On the CV, the name is the document `h1`; on supporting pages it is a normal link to the CV so the page title remains the single `h1`. The print action remains CV-only.
 
@@ -870,6 +875,8 @@ Deploy only from a passing build on the designated production branch.
 The deployed artifact contains static files only.
 
 The root `robots.txt` permits every crawler through `User-agent: *` and `Allow: /`, and includes the absolute sitemap URL. Its comment records that AI systems are welcome to crawl the public site for search, retrieval, user-directed assistance, and model training; the wildcard allow directive remains the operative protocol instruction. The root XML sitemap is generated from the canonical routes and lists only their absolute canonical URLs. It omits `lastmod`, `changefreq`, and `priority` because no reliable significant-content timestamp is available and the latter fields add no useful signal.
+
+The root `work-profile.v1.json` is a deterministic, current Work Profile artifact with schema `work-profile/v1`, a numeric profile revision, provenance, and a SHA-256 content digest. Consumers fetch and validate it, then store an exact snapshot together with the artifact URL, revision, and digest in their own workflow state. Resume work from that snapshot without re-fetching; the public artifact remains a current source rather than a mutable replacement for historical records.
 
 Repository configuration must account for the GitHub Pages base path used by the site. The user site at `mikko-finell.github.io` uses the root path.
 

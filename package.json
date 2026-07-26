@@ -25,7 +25,8 @@
     "check:production-output": "node scripts/check-production-output.mjs",
     "check:static-output": "node scripts/check-static-output.mjs",
     "check:ui": "node scripts/check-ui-boundaries.mjs",
-    "check": "npm run check:ui && npm run check:content && npm run format:check && npm run lint && npm run typecheck && npm run test && npm run build && npm run check:static-output && npm run check:metadata-output && npm run check:discovery-output && npm run check:production-output && npm run check:pdf-output && npm run test:browser"
+    "check:work-profile-output": "node scripts/check-work-profile-output.mjs",
+    "check": "npm run check:ui && npm run check:content && npm run format:check && npm run lint && npm run typecheck && npm run test && npm run build && npm run check:static-output && npm run check:metadata-output && npm run check:discovery-output && npm run check:work-profile-output && npm run check:production-output && npm run check:pdf-output && npm run test:browser"
   },
   "dependencies": {
     "react": "19.2.7",

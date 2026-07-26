@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -80,6 +81,21 @@ function robotsText(sitemapUrl) {
   ].join("\n");
 }
 
+function workProfileMarkup(content, { siteOrigin }) {
+  const profile = {
+    ...content,
+    artifactUrl: new URL("/work-profile.v1.json", siteOrigin).toString(),
+    evidenceReferences: content.evidenceReferences.map((reference) => ({
+      ...reference,
+      href: new URL(reference.href, siteOrigin).toString(),
+    })),
+  };
+  const canonicalProfile = JSON.stringify(profile);
+  const contentDigest = `sha256:${createHash("sha256").update(canonicalProfile).digest("hex")}`;
+
+  return `${JSON.stringify({ ...profile, contentDigest }, null, 2)}\n`;
+}
+
 function outputPath(href) {
   return href === "/"
     ? join(distDirectory, "index.html")
@@ -108,6 +124,8 @@ try {
   const { siteRoutes } = await server.ssrLoadModule("/src/site/routes.ts");
   const { faviconPath, routeMetadata, siteOrigin, themeColors } =
     await server.ssrLoadModule("/src/site/metadata.ts");
+  const { workProfileContent } =
+    await server.ssrLoadModule("/src/content/work-profile.ts");
   const canonicalUrls = Object.values(siteRoutes).map(({ href }) =>
     new URL(href, siteOrigin).toString(),
   );
@@ -141,6 +159,10 @@ try {
   await Promise.all([
     writeFile(join(distDirectory, "robots.txt"), robotsText(sitemapUrl)),
     writeFile(join(distDirectory, "sitemap.xml"), sitemapMarkup(canonicalUrls)),
+    writeFile(
+      join(distDirectory, "work-profile.v1.json"),
+      workProfileMarkup(workProfileContent, { siteOrigin }),
+    ),
   ]);
 } finally {
   await server.close();

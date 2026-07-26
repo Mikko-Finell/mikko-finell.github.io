@@ -48,6 +48,18 @@ test("crawler discovery files are served from the root", async ({ page }) => {
   );
 });
 
+test("Work Profile artifact is served from the root", async ({ page }) => {
+  const response = await page.request.get("/work-profile.v1.json");
+
+  expect(response.ok()).toBe(true);
+  expect(response.headers()["content-type"]).toContain("application/json");
+  const profile = JSON.parse(await response.text());
+  expect(profile.schema).toBe("work-profile/v1");
+  expect(profile.artifactUrl).toBe(
+    "https://mikko-finell.github.io/work-profile.v1.json",
+  );
+});
+
 for (const sitePage of pages) {
   test(`${sitePage.href} loads directly with valid document semantics`, async ({
     page,
