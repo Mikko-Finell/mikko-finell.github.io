@@ -23,7 +23,9 @@ List the roles that an agent should actively search for and rank them.
 | --- | --- | --- | --- |
 | primary (provisional) | AI-First Software Architect / Full-Stack Developer |  | Current CV title. |
 | primary (provisional) | Software Developer / Project Engineer / Independent Contractor |  | Edupower role, 2020–2026. |
-| secondary |  |  |  |
+| secondary | Tech Lead |  |  |
+| secondary | AI Integration Specialist |  |  |
+| secondary | AI Consultant |  |  |
 
 List role titles that should not be recommended, if any.
 
