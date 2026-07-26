@@ -34,7 +34,7 @@ for (const page of pages) {
     violations.push(`${page.href} is missing primary navigation`);
   }
 
-  if (!document.includes("<main>")) {
+  if (!/<main\b/.test(document)) {
     violations.push(`${page.href} is missing its main landmark`);
   }
 

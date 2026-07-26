@@ -5,7 +5,6 @@ import {
   siteRoutes,
   type SiteRouteId,
 } from "../site/routes";
-import { Button } from "../ui/Button";
 import { Heading } from "../ui/Heading";
 import { Inline } from "../ui/Inline";
 import { Link } from "../ui/Link";
@@ -100,9 +99,14 @@ export function SiteHeader({ currentPage, pageSections }: SiteHeaderProps) {
         <div className="site-header__controls" data-print-hidden>
           <ThemeControls />
           {isCv ? (
-            <Button data-print-hidden onClick={() => window.print()}>
-              Print / Save as PDF
-            </Button>
+            <Link
+              data-print-hidden
+              download
+              href="/Mikko-Finell-CV.pdf"
+              variant="document-action"
+            >
+              Download CV (PDF)
+            </Link>
           ) : null}
         </div>
       </Stack>

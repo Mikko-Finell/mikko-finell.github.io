@@ -15,7 +15,7 @@ const modeLabels: Record<ColorMode, string> = {
 };
 
 export function ThemeControls() {
-  const [mode, setMode] = useState<ColorMode>("system");
+  const [mode, setMode] = useState<ColorMode>(() => "system");
 
   useEffect(() => {
     setMode(readThemePreference());
@@ -29,7 +29,7 @@ export function ThemeControls() {
   return (
     <div className="theme-controls">
       <fieldset className="theme-controls__group">
-        <legend className="theme-controls__label">Mode</legend>
+        <legend className="theme-controls__label">Theme</legend>
         <Inline gap="small">
           {colorModes.map((option) => (
             <Button

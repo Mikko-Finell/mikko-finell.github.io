@@ -8,14 +8,18 @@ function isColorMode(value: string | null): value is ColorMode {
   return colorModes.some((mode) => mode === value);
 }
 
-export function readThemePreference() {
+export function readThemePreference(): ColorMode {
   if (typeof window === "undefined") {
     return "system";
   }
 
-  const storedMode = localStorage.getItem(modeStorageKey);
+  try {
+    const storedMode = window.localStorage.getItem(modeStorageKey);
 
-  return isColorMode(storedMode) ? storedMode : "system";
+    return isColorMode(storedMode) ? storedMode : "system";
+  } catch {
+    return "system";
+  }
 }
 
 export function applyThemePreference(mode: ColorMode) {
@@ -25,6 +29,9 @@ export function applyThemePreference(mode: ColorMode) {
 }
 
 export function storeThemePreference(mode: ColorMode) {
-  localStorage.setItem(modeStorageKey, mode);
+  try {
+    window.localStorage.setItem(modeStorageKey, mode);
+  } catch {}
+
   applyThemePreference(mode);
 }

@@ -218,6 +218,42 @@ test("theme preference persists across page navigation and reload", async ({
   expect(errors).toEqual([]);
 });
 
+test("theme controls tolerate unavailable local storage", async ({ page }) => {
+  await page.addInitScript(() => {
+    Object.defineProperties(Storage.prototype, {
+      getItem: {
+        value() {
+          throw new DOMException("Storage unavailable", "SecurityError");
+        },
+      },
+      setItem: {
+        value() {
+          throw new DOMException("Storage unavailable", "SecurityError");
+        },
+      },
+    });
+  });
+  const errors = collectUnexpectedBrowserErrors(page);
+
+  await page.goto(siteRoutes.cv.href);
+  await page.getByRole("button", { name: "Dark" }).click();
+
+  await expect(page.locator("html")).toHaveAttribute("data-mode", "dark");
+  expect(errors).toEqual([]);
+});
+
+test("the first keyboard focus skips repeated site controls", async ({ page }) => {
+  await page.goto(siteRoutes.cv.href);
+  const skipLink = page.getByRole("link", { name: "Skip to main content" });
+
+  await page.keyboard.press("Tab");
+  await expect(skipLink).toBeFocused();
+  await expect(skipLink).toBeVisible();
+  await page.keyboard.press("Enter");
+  await expect(page).toHaveURL(/#main-content$/);
+  await expect(page.getByRole("main")).toBeFocused();
+});
+
 test("themed article images follow the selected color mode", async ({ page }) => {
   await page.goto(siteRoutes.tealab.href);
   const image = page.getByRole("img", {
@@ -285,6 +321,31 @@ test("small-screen contact links follow the professional facts", async ({
   }
 });
 
+test("document tools use the available header width", async ({ page }) => {
+  await page.setViewportSize({ height: 800, width: 620 });
+  await page.goto(siteRoutes.cv.href);
+  const theme = page.getByRole("group", { name: "Theme" });
+  const download = page.getByRole("link", { name: "Download CV (PDF)" });
+  const [wideTheme, wideDownload] = await Promise.all([
+    theme.boundingBox(),
+    download.boundingBox(),
+  ]);
+
+  expect(wideTheme).not.toBeNull();
+  expect(wideDownload).not.toBeNull();
+  expect(wideDownload?.x ?? 0).toBeGreaterThan(wideTheme?.x ?? 0);
+
+  await page.setViewportSize({ height: 800, width: 375 });
+  const [narrowTheme, narrowDownload] = await Promise.all([
+    theme.boundingBox(),
+    download.boundingBox(),
+  ]);
+
+  expect(narrowTheme).not.toBeNull();
+  expect(narrowDownload).not.toBeNull();
+  expect(narrowDownload?.y ?? 0).toBeGreaterThan(narrowTheme?.y ?? 0);
+});
+
 test("CV exposes summary content and supporting-page links without disclosures", async ({
   page,
 }) => {
@@ -294,7 +355,14 @@ test("CV exposes summary content and supporting-page links without disclosures",
   await expect(page.getByRole("heading", { name: "Working methodology" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Delivery" })).toHaveCount(0);
   await expect(page.getByText("The degree remains incomplete", { exact: false })).toBeVisible();
-  await expect(page.getByRole("button", { name: "Print / Save as PDF" })).toHaveCount(1);
+  await expect(page.getByRole("link", { name: "Download CV (PDF)" })).toHaveAttribute(
+    "download",
+    "",
+  );
+  await expect(page.getByRole("link", { name: "Download CV (PDF)" })).toHaveAttribute(
+    "href",
+    "/Mikko-Finell-CV.pdf",
+  );
   await expect(page.getByRole("link", { name: /Edupower account/ })).toHaveCount(1);
   await expect(page.getByRole("link", { name: /Tealab case study/ })).toHaveAttribute(
     "href",
@@ -427,8 +495,8 @@ test("print media keeps CV content and hides website controls", async ({ page })
   await page.emulateMedia({ media: "print" });
 
   await expect(page.getByRole("navigation", { name: "Primary" })).toBeHidden();
-  await expect(page.getByRole("group", { name: "Mode" })).toBeHidden();
-  await expect(page.getByRole("button", { name: "Print / Save as PDF" })).toBeHidden();
+  await expect(page.getByRole("group", { name: "Theme" })).toBeHidden();
+  await expect(page.getByRole("link", { name: "Download CV (PDF)" })).toBeHidden();
   await expect(page.getByRole("link", { name: /Edupower account/ }).first()).toBeHidden();
   const header = page.getByRole("banner");
   const workPreference = await header
