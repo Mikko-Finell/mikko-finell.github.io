@@ -1,6 +1,6 @@
 # Working methodology
 
-My production methodology is AI-first. I use AI at every step from planning to implementation to testing and verification. I start by deeply planning the codebase architecture by having several frontier models adversarially duel about ideas to find the best, most robust and practical and radically innovative and accretive and cohesive ideas possible. We then iteratively refine those ideas over several rounds of critique and stress testing. The specifications which emerge from this process are then turned into roadmaps and plans which explain in detail how to convert the ideas into reality. We then turn those plans into concretely actionable implementation tasks which my agents start to work through.
+My production methodology is AI-first. I use AI at every step from planning to implementation to testing and verification. I start by deeply planning the codebase architecture by having several frontier models adversarially duel about ideas to find the best, most robust and practical and accretive and cohesive ideas possible. We then iteratively refine those ideas over several rounds of critique and stress testing. The specifications which emerge from this process are then turned into roadmaps and plans which explain in detail how to convert the ideas into reality. We then turn those plans into concretely actionable implementation tasks which my agents start to work through.
 
 ## Delivery
 
