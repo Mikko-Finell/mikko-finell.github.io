@@ -41,8 +41,7 @@ existing evidence link for an agent to inspect.
 
 | Capability | Priority (primary/supporting) | Evidence URL or CV section | Boundaries or qualifications |
 | --- | --- | --- | --- |
-| Operational software development from business requirements through design, implementation, deployment, and support. | primary | CV introduction |  |
-| Database and data-model design; backend and frontend development; UI and interaction design; data migration; integrations; deployment; production support; and incident handling. | primary (provisional) | https://mikko-finell.github.io/work/edupower/ | Edupower scope. |
+| Operational software development from business requirements through design, implementation, deployment, and support. | primary | CV introduction; https://mikko-finell.github.io/work/edupower/ | Includes database and data-model design, backend and frontend development, UI and interaction design, data migration, integrations, deployment, production support, and incident handling. |
 | A multi-tenant SaaS platform for internal business applications and AI-assisted tools. | supporting (provisional) | https://mikko-finell.github.io/work/tealab/ | Tealab was developed independently from November 2025 to May 2026. |
 | AI throughout planning, architecture, implementation, testing, and review. | primary (provisional) | CV introduction; https://mikko-finell.github.io/work/tealab/ | Current development process. |
 
