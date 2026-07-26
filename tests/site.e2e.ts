@@ -104,9 +104,46 @@ for (const sitePage of pages) {
   });
 }
 
+test("static page content and navigation remain usable without JavaScript", async ({
+  browser,
+}) => {
+  const context = await browser.newContext({ javaScriptEnabled: false });
+  const page = await context.newPage();
+
+  try {
+    for (const sitePage of pages) {
+      const response = await page.goto(sitePage.href);
+
+      expect(response?.ok()).toBe(true);
+      await expect(page.getByRole("main")).toBeVisible();
+      await expect(page.getByRole("heading", { level: 1 })).toHaveCount(1);
+      await expect(
+        page.getByRole("navigation", { name: "Primary" }),
+      ).toBeVisible();
+    }
+
+    await page.goto(siteRoutes.cv.href);
+    await page
+      .getByRole("navigation", { name: "Primary" })
+      .getByRole("link", { name: siteRoutes.methodology.label })
+      .click();
+    await expect(page).toHaveURL(new RegExp(`${siteRoutes.methodology.href}$`));
+    await expect(
+      page.getByRole("heading", {
+        level: 1,
+        name: "Working methodology",
+      }),
+    ).toBeVisible();
+  } finally {
+    await context.close();
+  }
+});
+
 test("theme preference persists across page navigation and reload", async ({
   page,
 }) => {
+  const errors = collectUnexpectedBrowserErrors(page);
+
   await page.goto(siteRoutes.cv.href);
   await page.getByRole("button", { name: "Dark" }).click();
   await page
@@ -121,6 +158,7 @@ test("theme preference persists across page navigation and reload", async ({
     "aria-pressed",
     "true",
   );
+  expect(errors).toEqual([]);
 });
 
 test("themed article images follow the selected color mode", async ({ page }) => {

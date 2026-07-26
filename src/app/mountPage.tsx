@@ -1,5 +1,5 @@
 import { StrictMode, type ReactNode } from "react";
-import { createRoot } from "react-dom/client";
+import { createRoot, hydrateRoot } from "react-dom/client";
 import { applyThemePreference, readThemePreference } from "../ui/theme";
 
 export function mountPage(page: ReactNode): void {
@@ -11,5 +11,11 @@ export function mountPage(page: ReactNode): void {
     throw new Error("Root element not found");
   }
 
-  createRoot(rootElement).render(<StrictMode>{page}</StrictMode>);
+  const application = <StrictMode>{page}</StrictMode>;
+
+  if (rootElement.hasChildNodes()) {
+    hydrateRoot(rootElement, application);
+  } else {
+    createRoot(rootElement).render(application);
+  }
 }

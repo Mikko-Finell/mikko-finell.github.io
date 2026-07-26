@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "./Button";
 import { Inline } from "./Inline";
 import {
@@ -15,8 +15,11 @@ const modeLabels: Record<ColorMode, string> = {
 };
 
 export function ThemeControls() {
-  const initialPreference = readThemePreference();
-  const [mode, setMode] = useState<ColorMode>(initialPreference);
+  const [mode, setMode] = useState<ColorMode>("system");
+
+  useEffect(() => {
+    setMode(readThemePreference());
+  }, []);
 
   function selectMode(nextMode: ColorMode) {
     setMode(nextMode);

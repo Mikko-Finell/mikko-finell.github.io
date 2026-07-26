@@ -1,11 +1,4 @@
 import { mountPage } from "../app/mountPage";
-import EdupowerContent, { documentMetadata } from "../content/edupower.md";
-import { ArticlePage } from "../pages/ArticlePage";
+import { EdupowerPage } from "../pages/EdupowerPage";
 
-mountPage(
-  <ArticlePage
-    content={EdupowerContent}
-    currentPage="edupower"
-    metadata={documentMetadata}
-  />,
-);
+mountPage(<EdupowerPage />);

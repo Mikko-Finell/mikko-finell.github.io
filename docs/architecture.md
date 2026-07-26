@@ -200,6 +200,7 @@ Use the following provisional source layout:
 src/
   app/
     mountPage.tsx
+    staticPages.tsx
 
   entries/
     cv.tsx
@@ -210,7 +211,9 @@ src/
   pages/
     ArticlePage.tsx
     CvPage.tsx
+    EdupowerPage.tsx
     MethodologyPage.tsx
+    TealabPage.tsx
 
   site/
     markdown.ts
@@ -252,8 +255,10 @@ src/
 
 scripts/
   check-ui-boundaries.mjs
+  check-static-output.mjs
   markdown-document.mjs
   markdown-document.d.mts
+  static-render.mjs
 
 tests/
   site.e2e.ts
@@ -642,7 +647,7 @@ The purpose of this check is to preserve centralized styling and behavior as age
 
 ## 13. Page composition and mounting
 
-Each HTML entry document links the central stylesheet in its head, so the page background and layout are available before the React module loads. A small inline bootstrap script applies the saved theme preference before that stylesheet can paint. Each entry also supplies browser-native prerender rules for the other three canonical routes. Prerendering is a progressive performance enhancement: the browser may decline it to preserve device resources or data, and unsupported browsers retain ordinary document navigation. Every entry then loads one trivial TypeScript entry file, which calls `mountPage` to reconcile the theme preference, validate the root element, and create one React root under `StrictMode`.
+Each HTML entry document links the central stylesheet in its head, so the page background and layout are available before the React module loads. A small inline bootstrap script applies the saved theme preference before that stylesheet can paint. Each entry also supplies browser-native prerender rules for the other three canonical routes. Prerendering is a progressive performance enhancement: the browser may decline it to preserve device resources or data, and unsupported browsers retain ordinary document navigation. After Vite writes the production entries, the static-render script loads the existing page compositions through Vite's SSR pipeline and writes their semantic output into each root element. Every entry then loads one trivial TypeScript entry file, which calls `mountPage` to reconcile the theme preference, validate the root element, and hydrate the static markup under `StrictMode`. Development entries retain an empty root and use client rendering.
 
 `SiteShell` and `SiteHeader` own shared page chrome. The full identity, professional facts, contact links, navigation, and theme controls remain present on every page for visual and informational continuity. On the CV, the name is the document `h1`; on supporting pages it is a normal link to the CV so the page title remains the single `h1`. The print action remains CV-only.
 
@@ -847,7 +852,7 @@ The production pipeline must:
 1. check out the repository;
 2. install dependencies from the lockfile;
 3. run the standard validation command;
-4. build the Vite application;
+4. build the Vite application and static-render every canonical route;
 5. publish the generated `dist/` directory to GitHub Pages.
 
 Deploy only from a passing build on the designated production branch.

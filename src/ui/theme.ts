@@ -9,6 +9,10 @@ function isColorMode(value: string | null): value is ColorMode {
 }
 
 export function readThemePreference() {
+  if (typeof window === "undefined") {
+    return "system";
+  }
+
   const storedMode = localStorage.getItem(modeStorageKey);
 
   return isColorMode(storedMode) ? storedMode : "system";
